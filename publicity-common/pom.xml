@@ -19,12 +19,6 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
@@ -119,16 +113,6 @@
             <artifactId>log4j-api</artifactId>
         </dependency>
 
-        <!-- 添加jstl标准标签库 -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-        </dependency>
-
         <!-- ######### 连接池相关 ########## -->
         <dependency>
             <groupId>mysql</groupId>
@@ -185,11 +169,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jaxb-annotations</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
         <dependency>
@@ -253,5 +232,5 @@
         </dependency>
 
     </dependencies>
-    
+
 </project>
