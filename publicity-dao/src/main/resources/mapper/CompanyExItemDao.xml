@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.CompanyExItemDao">
+  <resultMap id="BaseResultMap" type="com.bbd.domain.CompanyExItem">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="nbxh" jdbcType="VARCHAR" property="nbxh" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="company_property" jdbcType="TINYINT" property="companyProperty" />
+    <result column="annual_num" jdbcType="INTEGER" property="annualNum" />
+    <result column="instantly_num" jdbcType="INTEGER" property="instantlyNum" />
+    <result column="annual_ex_types" jdbcType="INTEGER" property="annualExTypes" />
+    <result column="ins_ex_types" jdbcType="INTEGER" property="insExTypes" />
+    <result column="annual_ex_modules" jdbcType="INTEGER" property="annualExModules" />
+    <result column="ins_ex_modules" jdbcType="INTEGER" property="insExModules" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="annual_cmp_time" jdbcType="TIMESTAMP" property="annualCmpTime" />
+    <result column="instantly_cmp_time" jdbcType="TIMESTAMP" property="instantlyCmpTime" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="primary_industry" jdbcType="VARCHAR" property="primaryIndustry" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, nbxh, company_name, company_property, annual_num, instantly_num, annual_ex_types, 
+    ins_ex_types, annual_ex_modules, ins_ex_modules, num, annual_cmp_time, instantly_cmp_time, 
+    gmt_create, gmt_modified, region, primary_industry
+  </sql>
+  <select id="selectByExample" parameterType="com.bbd.domain.CompanyExItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bbd_pub_company_ex_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bbd_pub_company_ex_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bbd_pub_company_ex_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bbd.domain.CompanyExItem">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bbd_pub_company_ex_item (nbxh, company_name, company_property, 
+      annual_num, instantly_num, annual_ex_types, 
+      ins_ex_types, annual_ex_modules, ins_ex_modules, 
+      num, annual_cmp_time, instantly_cmp_time, 
+      gmt_create, gmt_modified, region, 
+      primary_industry)
+    values (#{nbxh,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{companyProperty,jdbcType=TINYINT}, 
+      #{annualNum,jdbcType=INTEGER}, #{instantlyNum,jdbcType=INTEGER}, #{annualExTypes,jdbcType=INTEGER}, 
+      #{insExTypes,jdbcType=INTEGER}, #{annualExModules,jdbcType=INTEGER}, #{insExModules,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{annualCmpTime,jdbcType=TIMESTAMP}, #{instantlyCmpTime,jdbcType=TIMESTAMP}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{region,jdbcType=VARCHAR}, 
+      #{primaryIndustry,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbd.domain.CompanyExItem">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bbd_pub_company_ex_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nbxh != null">
+        nbxh,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="companyProperty != null">
+        company_property,
+      </if>
+      <if test="annualNum != null">
+        annual_num,
+      </if>
+      <if test="instantlyNum != null">
+        instantly_num,
+      </if>
+      <if test="annualExTypes != null">
+        annual_ex_types,
+      </if>
+      <if test="insExTypes != null">
+        ins_ex_types,
+      </if>
+      <if test="annualExModules != null">
+        annual_ex_modules,
+      </if>
+      <if test="insExModules != null">
+        ins_ex_modules,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="annualCmpTime != null">
+        annual_cmp_time,
+      </if>
+      <if test="instantlyCmpTime != null">
+        instantly_cmp_time,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="primaryIndustry != null">
+        primary_industry,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nbxh != null">
+        #{nbxh,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyProperty != null">
+        #{companyProperty,jdbcType=TINYINT},
+      </if>
+      <if test="annualNum != null">
+        #{annualNum,jdbcType=INTEGER},
+      </if>
+      <if test="instantlyNum != null">
+        #{instantlyNum,jdbcType=INTEGER},
+      </if>
+      <if test="annualExTypes != null">
+        #{annualExTypes,jdbcType=INTEGER},
+      </if>
+      <if test="insExTypes != null">
+        #{insExTypes,jdbcType=INTEGER},
+      </if>
+      <if test="annualExModules != null">
+        #{annualExModules,jdbcType=INTEGER},
+      </if>
+      <if test="insExModules != null">
+        #{insExModules,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="annualCmpTime != null">
+        #{annualCmpTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="instantlyCmpTime != null">
+        #{instantlyCmpTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryIndustry != null">
+        #{primaryIndustry,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bbd_pub_company_ex_item
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.nbxh != null">
+        nbxh = #{record.nbxh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyName != null">
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyProperty != null">
+        company_property = #{record.companyProperty,jdbcType=TINYINT},
+      </if>
+      <if test="record.annualNum != null">
+        annual_num = #{record.annualNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.instantlyNum != null">
+        instantly_num = #{record.instantlyNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.annualExTypes != null">
+        annual_ex_types = #{record.annualExTypes,jdbcType=INTEGER},
+      </if>
+      <if test="record.insExTypes != null">
+        ins_ex_types = #{record.insExTypes,jdbcType=INTEGER},
+      </if>
+      <if test="record.annualExModules != null">
+        annual_ex_modules = #{record.annualExModules,jdbcType=INTEGER},
+      </if>
+      <if test="record.insExModules != null">
+        ins_ex_modules = #{record.insExModules,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.annualCmpTime != null">
+        annual_cmp_time = #{record.annualCmpTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.instantlyCmpTime != null">
+        instantly_cmp_time = #{record.instantlyCmpTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModified != null">
+        gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.region != null">
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.primaryIndustry != null">
+        primary_industry = #{record.primaryIndustry,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bbd_pub_company_ex_item
+    set id = #{record.id,jdbcType=BIGINT},
+      nbxh = #{record.nbxh,jdbcType=VARCHAR},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      company_property = #{record.companyProperty,jdbcType=TINYINT},
+      annual_num = #{record.annualNum,jdbcType=INTEGER},
+      instantly_num = #{record.instantlyNum,jdbcType=INTEGER},
+      annual_ex_types = #{record.annualExTypes,jdbcType=INTEGER},
+      ins_ex_types = #{record.insExTypes,jdbcType=INTEGER},
+      annual_ex_modules = #{record.annualExModules,jdbcType=INTEGER},
+      ins_ex_modules = #{record.insExModules,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      annual_cmp_time = #{record.annualCmpTime,jdbcType=TIMESTAMP},
+      instantly_cmp_time = #{record.instantlyCmpTime,jdbcType=TIMESTAMP},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      region = #{record.region,jdbcType=VARCHAR},
+      primary_industry = #{record.primaryIndustry,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbd.domain.CompanyExItem">
+    update bbd_pub_company_ex_item
+    <set>
+      <if test="nbxh != null">
+        nbxh = #{nbxh,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyProperty != null">
+        company_property = #{companyProperty,jdbcType=TINYINT},
+      </if>
+      <if test="annualNum != null">
+        annual_num = #{annualNum,jdbcType=INTEGER},
+      </if>
+      <if test="instantlyNum != null">
+        instantly_num = #{instantlyNum,jdbcType=INTEGER},
+      </if>
+      <if test="annualExTypes != null">
+        annual_ex_types = #{annualExTypes,jdbcType=INTEGER},
+      </if>
+      <if test="insExTypes != null">
+        ins_ex_types = #{insExTypes,jdbcType=INTEGER},
+      </if>
+      <if test="annualExModules != null">
+        annual_ex_modules = #{annualExModules,jdbcType=INTEGER},
+      </if>
+      <if test="insExModules != null">
+        ins_ex_modules = #{insExModules,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="annualCmpTime != null">
+        annual_cmp_time = #{annualCmpTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="instantlyCmpTime != null">
+        instantly_cmp_time = #{instantlyCmpTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryIndustry != null">
+        primary_industry = #{primaryIndustry,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbd.domain.CompanyExItem">
+    update bbd_pub_company_ex_item
+    set nbxh = #{nbxh,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_property = #{companyProperty,jdbcType=TINYINT},
+      annual_num = #{annualNum,jdbcType=INTEGER},
+      instantly_num = #{instantlyNum,jdbcType=INTEGER},
+      annual_ex_types = #{annualExTypes,jdbcType=INTEGER},
+      ins_ex_types = #{insExTypes,jdbcType=INTEGER},
+      annual_ex_modules = #{annualExModules,jdbcType=INTEGER},
+      ins_ex_modules = #{insExModules,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      annual_cmp_time = #{annualCmpTime,jdbcType=TIMESTAMP},
+      instantly_cmp_time = #{instantlyCmpTime,jdbcType=TIMESTAMP},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      region = #{region,jdbcType=VARCHAR},
+      primary_industry = #{primaryIndustry,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByExampleWithPageBounds" parameterType="com.bbd.domain.CompanyExItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bbd_pub_company_ex_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.ExDetailExtDao">
+
+    <update id="copyAnnualExToPre">
+      insert into bbd_pub_annual_ex_prev_detail select * from bbd_pub_annual_ex_detail
+    </update>
+
+    <delete id="deleteAnnualExDetail">
+        delete from bbd_pub_annual_ex_detail
+    </delete>
+
+    <delete id="deleteAnnualExDetailPrev">
+        delete from bbd_pub_annual_ex_prev_detail
+    </delete>
+
+    <update id="copyInstantlyExToPre">
+        insert into bbd_pub_instantly_ex_prev_detail select * from bbd_pub_instantly_ex_detail
+    </update>
+
+    <delete id="deleteInstantlyExDetail">
+        delete from bbd_pub_instantly_ex_detail
+    </delete>
+
+    <delete id="deleteInstantlyExDetailPrev">
+        delete from bbd_pub_instantly_ex_prev_detail
+    </delete>
+
+    <select id="selectAnnualExTypes" resultType="java.lang.Integer">
+        select ex_type from bbd_pub_annual_ex_detail where nbxh=#{nbxh} group by ex_type
+    </select>
+
+    <select id="selectInstantlyExTypes" resultType="java.lang.Integer">
+        select ex_type from bbd_pub_instantly_ex_detail where nbxh=#{nbxh} group by ex_type
+    </select>
+
+    <select id="selectAnnualExModules" resultType="java.lang.Integer">
+        select submodule from bbd_pub_annual_ex_detail where nbxh=#{nbxh} group by submodule
+    </select>
+
+    <select id="selectInstantlyExModules" resultType="java.lang.Integer">
+        select submodule from bbd_pub_instantly_ex_detail where nbxh=#{nbxh} group by submodule
+    </select>
+
+
+</mapper>

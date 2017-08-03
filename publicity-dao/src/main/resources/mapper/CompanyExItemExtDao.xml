@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.CompanyExItemExtDao">
+
+    <update id="updateAnnualInfo">
+        update bbd_pub_company_ex_item
+        set annual_num=#{num}, num=instantly_num+#{num}, annual_ex_types = #{exTypes}, annual_ex_modules = #{exModules}, annual_cmp_time = now()
+        where nbxh = #{nbxh}
+    </update>
+
+    <update id="updateInstantlyInfo">
+        update bbd_pub_company_ex_item
+        set instantly_num=#{num}, num=annual_num+#{num}, ins_ex_types = #{exTypes}, ins_ex_modules = #{exModules}, instantly_cmp_time=now()
+        where nbxh = #{nbxh}
+    </update>
+
+    <select id="queryAnnualByParam" resultType="java.lang.String">
+        select nbxh
+        from bbd_pub_company_ex_item
+        where annual_num &gt; 0
+        <if test="region != null">
+            and region = #{region}
+        </if>
+        <if test="primaryIndustry != null">
+            and primary_industry = #{primaryIndustry}
+        </if>
+        <if test="moduleType != 0">
+            and (annual_ex_modules div #{moduleType}) mod 2 = 1
+        </if>
+        <if test="exType != 0">
+            and (annual_ex_types div #{exType} mod 2 = 1)
+        </if>
+    </select>
+
+    <select id="queryInstantlyByParam" resultType="java.lang.String">
+        select nbxh
+        from bbd_pub_company_ex_item
+        where instantly_num &gt; 0
+        <if test="region != null">
+            and region = #{region}
+        </if>
+        <if test="primaryIndustry != null">
+            and primary_industry = #{primaryIndustry}
+        </if>
+        <if test="moduleType != 0">
+            and (ins_ex_modules div #{moduleType}) mod 2 = 1
+        </if>
+        <if test="exType != 0">
+            and (ins_ex_types div #{exType} mod 2 = 1)
+        </if>
+
+    </select>
+
+    <select id="queryAllByParam" resultType="java.lang.String">
+        select nbxh
+        from bbd_pub_company_ex_item
+        where 1 = 1
+        <if test="region != null">
+            and region = #{region}
+        </if>
+        <if test="primaryIndustry != null">
+            and primary_industry = #{primaryIndustry}
+        </if>
+        <if test="exType != 0">
+            and ((annual_ex_types div #{exType} mod 2 = 1) or (ins_ex_types div #{exType} mod 2 = 1))
+        </if>
+    </select>
+
+</mapper>

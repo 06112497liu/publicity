@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.ReportDao">
+
+    <!-- 按区域统计地图数据 -->
+    <select id="queryDistrictExStatistics" resultType="java.util.Map">
+		SELECT
+			region AS item,
+			count(1) AS total
+		FROM
+			bbd_pub_company_ex_item
+		WHERE 
+			(annual_num > 0 OR instantly_num > 0)
+		GROUP BY
+			region
+    </select>
+
+    <!-- 按区域统计年报信息异常企业数量 -->
+    <select id="queryDistrictAnnualExStatistics" resultType="java.util.Map">
+    	SELECT
+			region AS item,
+			count(1) AS total
+		FROM
+			bbd_pub_company_ex_item
+		WHERE
+			annual_num > 0
+		GROUP BY
+			region
+    </select>
+
+    <!-- 按区域统计年报信息异常企业数量 -->
+    <select id="queryDistrictInsExStatistics" resultType="java.util.Map">
+    	SELECT
+			region AS item,
+			count(1) AS total
+		FROM
+			bbd_pub_company_ex_item
+		WHERE
+			instantly_num > 0
+		GROUP BY
+			region
+    </select>
+
+    <!-- 按行业统计地图数据 -->
+    <select id="queryIndustryExStatistics" resultType="java.util.Map">
+        SELECT
+        primary_industry AS item,
+        count(1) AS total
+        FROM
+        bbd_pub_company_ex_item
+        WHERE
+        (annual_num > 0 OR instantly_num > 0)
+        GROUP BY
+        primary_industry
+    </select>
+
+    <!-- 按行业统计年报信息异常企业数量 -->
+    <select id="queryIndustryAnnualExStatistics" resultType="java.util.Map">
+        SELECT
+        primary_industry AS item,
+        count(1) AS total
+        FROM
+        bbd_pub_company_ex_item
+        WHERE
+        annual_num > 0
+        GROUP BY
+        primary_industry
+    </select>
+
+    <!-- 按行业统计年报信息异常企业数量 -->
+    <select id="queryIndustryInsExStatistics" resultType="java.util.Map">
+        SELECT
+        primary_industry AS item,
+        count(1) AS total
+        FROM
+        bbd_pub_company_ex_item
+        WHERE
+        instantly_num > 0
+        GROUP BY
+        primary_industry
+    </select>
+
+
+    <!-- 按企业性质统计地图数据 -->
+    <select id="queryCompanyPropertyExStatistics" resultType="java.util.Map">
+        SELECT
+        CONCAT(company_property) AS item,
+        count(1) AS total
+        FROM
+        bbd_pub_company_ex_item
+        WHERE
+        (annual_num > 0 OR instantly_num > 0)
+        GROUP BY
+        company_property
+    </select>
+
+    <!-- 按企业性质统计年报信息异常企业数量 -->
+    <select id="queryCompanyPropertyAnnualExStatistics" resultType="java.util.Map">
+        SELECT
+        CONCAT(company_property) AS item,
+        count(1) AS total
+        FROM
+        bbd_pub_company_ex_item
+        WHERE
+        annual_num > 0
+        GROUP BY
+        company_property
+    </select>
+
+    <!-- 按企业性质统计年报信息异常企业数量 -->
+    <select id="queryCompanyPropertyInsExStatistics" resultType="java.util.Map">
+        SELECT
+        CONCAT(company_property) AS item,
+        count(1) AS total
+        FROM
+        bbd_pub_company_ex_item
+        WHERE
+        instantly_num > 0
+        GROUP BY
+        company_property
+    </select>
+    
+    <!-- 查询各个区域的企业数量 -->
+    <select id="queryCompanyCountGroupDistrict" resultType="java.util.Map">
+		SELECT
+			region item,
+			count(1) total
+		FROM
+			bbd_pub_company_info
+		GROUP BY
+			region
+    </select>
+	
+	<!-- 查询各个行业的企业数量 -->
+	<select id="queryCompanyCountGroupIndustry" resultType="java.util.Map">
+		SELECT
+			primary_industry item,
+			count(1) total
+		FROM
+			bbd_pub_company_info
+		GROUP BY
+			primary_industry		
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

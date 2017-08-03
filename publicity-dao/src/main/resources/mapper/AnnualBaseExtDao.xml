@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.AnnualBaseExtDao">
+    <resultMap id="BaseResultMap" type="com.bbd.domain.AnnualBase">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="nbxh" jdbcType="VARCHAR" property="nbxh"/>
+        <result column="regno" jdbcType="VARCHAR" property="regno"/>
+        <result column="serial_no" jdbcType="VARCHAR" property="serialNo"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="annual_date" jdbcType="TIMESTAMP" property="annualDate"/>
+        <result column="annual_year" jdbcType="VARCHAR" property="annualYear"/>
+        <result column="addr" jdbcType="VARCHAR" property="addr"/>
+        <result column="postal_code" jdbcType="CHAR" property="postalCode"/>
+        <result column="phones" jdbcType="VARCHAR" property="phones"/>
+        <result column="emails" jdbcType="VARCHAR" property="emails"/>
+        <result column="empnum" jdbcType="INTEGER" property="empnum"/>
+        <result column="opstate" jdbcType="CHAR" property="opstate"/>
+        <result column="op_name" jdbcType="VARCHAR" property="opName"/>
+        <result column="amount_mon" jdbcType="DECIMAL" property="amountMon"/>
+        <result column="holdings" jdbcType="VARCHAR" property="holdings"/>
+        <result column="op_activity" jdbcType="VARCHAR" property="opActivity"/>
+        <result column="women_num" jdbcType="INTEGER" property="womenNum"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+
+    <!-- 查询企业最近一条年报数据（根据nbxh） -->
+    <select id="selectRecentlyAnnualInfoByNbxh" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			bbd_pub_annual_base
+		WHERE
+			nbxh = #{nbxh}
+		ORDER BY
+			annual_year DESC
+		LIMIT 1
+  	</select>
+  
+    <!-- 查询企业最近一条年报数据（根据nbxh） -->
+    <select id="selectRecentlyAnnualInfoByRegno" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			bbd_pub_annual_base
+		WHERE
+			regno = #{regno}
+		ORDER BY
+			annual_year DESC
+		LIMIT 1
+  	</select>
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.CompareTaskExtDao">
+
+    <update id="updateCount">
+        update bbd_pub_cmp_task set total=total+#{total}, total_item=total_item+#{totalItem} where id = #{id}
+    </update>
+
+    <update id="updateExIncreased">
+        update bbd_pub_cmp_task set ex_increased = ex_increased + 1 where id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.AnnualEnterpriseAssetsDao">
+  <resultMap id="BaseResultMap" type="com.bbd.domain.AnnualEnterpriseAssets">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="nbxh" jdbcType="VARCHAR" property="nbxh" />
+    <result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
+    <result column="ass_total" jdbcType="DECIMAL" property="assTotal" />
+    <result column="gross_revenue" jdbcType="DECIMAL" property="grossRevenue" />
+    <result column="main_gross_revenue" jdbcType="DECIMAL" property="mainGrossRevenue" />
+    <result column="tax_total" jdbcType="DECIMAL" property="taxTotal" />
+    <result column="own_equity" jdbcType="DECIMAL" property="ownEquity" />
+    <result column="pro_total" jdbcType="DECIMAL" property="proTotal" />
+    <result column="pro_net" jdbcType="DECIMAL" property="proNet" />
+    <result column="liab_total" jdbcType="DECIMAL" property="liabTotal" />
+    <result column="pro_total_net" jdbcType="DECIMAL" property="proTotalNet" />
+    <result column="sup_fund" jdbcType="DECIMAL" property="supFund" />
+    <result column="loan" jdbcType="DECIMAL" property="loan" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, nbxh, serial_no, ass_total, gross_revenue, main_gross_revenue, tax_total, own_equity, 
+    pro_total, pro_net, liab_total, pro_total_net, sup_fund, loan, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByExample" parameterType="com.bbd.domain.AnnualEnterpriseAssetsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bbd_pub_annual_enterprise_assets
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bbd_pub_annual_enterprise_assets
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bbd_pub_annual_enterprise_assets
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bbd.domain.AnnualEnterpriseAssets">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bbd_pub_annual_enterprise_assets (nbxh, serial_no, ass_total, 
+      gross_revenue, main_gross_revenue, tax_total, 
+      own_equity, pro_total, pro_net, 
+      liab_total, pro_total_net, sup_fund, 
+      loan, gmt_create, gmt_modified
+      )
+    values (#{nbxh,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR}, #{assTotal,jdbcType=DECIMAL}, 
+      #{grossRevenue,jdbcType=DECIMAL}, #{mainGrossRevenue,jdbcType=DECIMAL}, #{taxTotal,jdbcType=DECIMAL}, 
+      #{ownEquity,jdbcType=DECIMAL}, #{proTotal,jdbcType=DECIMAL}, #{proNet,jdbcType=DECIMAL}, 
+      #{liabTotal,jdbcType=DECIMAL}, #{proTotalNet,jdbcType=DECIMAL}, #{supFund,jdbcType=DECIMAL}, 
+      #{loan,jdbcType=DECIMAL}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbd.domain.AnnualEnterpriseAssets">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bbd_pub_annual_enterprise_assets
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nbxh != null">
+        nbxh,
+      </if>
+      <if test="serialNo != null">
+        serial_no,
+      </if>
+      <if test="assTotal != null">
+        ass_total,
+      </if>
+      <if test="grossRevenue != null">
+        gross_revenue,
+      </if>
+      <if test="mainGrossRevenue != null">
+        main_gross_revenue,
+      </if>
+      <if test="taxTotal != null">
+        tax_total,
+      </if>
+      <if test="ownEquity != null">
+        own_equity,
+      </if>
+      <if test="proTotal != null">
+        pro_total,
+      </if>
+      <if test="proNet != null">
+        pro_net,
+      </if>
+      <if test="liabTotal != null">
+        liab_total,
+      </if>
+      <if test="proTotalNet != null">
+        pro_total_net,
+      </if>
+      <if test="supFund != null">
+        sup_fund,
+      </if>
+      <if test="loan != null">
+        loan,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nbxh != null">
+        #{nbxh,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null">
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="assTotal != null">
+        #{assTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="grossRevenue != null">
+        #{grossRevenue,jdbcType=DECIMAL},
+      </if>
+      <if test="mainGrossRevenue != null">
+        #{mainGrossRevenue,jdbcType=DECIMAL},
+      </if>
+      <if test="taxTotal != null">
+        #{taxTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="ownEquity != null">
+        #{ownEquity,jdbcType=DECIMAL},
+      </if>
+      <if test="proTotal != null">
+        #{proTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="proNet != null">
+        #{proNet,jdbcType=DECIMAL},
+      </if>
+      <if test="liabTotal != null">
+        #{liabTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="proTotalNet != null">
+        #{proTotalNet,jdbcType=DECIMAL},
+      </if>
+      <if test="supFund != null">
+        #{supFund,jdbcType=DECIMAL},
+      </if>
+      <if test="loan != null">
+        #{loan,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bbd_pub_annual_enterprise_assets
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.nbxh != null">
+        nbxh = #{record.nbxh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialNo != null">
+        serial_no = #{record.serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assTotal != null">
+        ass_total = #{record.assTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.grossRevenue != null">
+        gross_revenue = #{record.grossRevenue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mainGrossRevenue != null">
+        main_gross_revenue = #{record.mainGrossRevenue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.taxTotal != null">
+        tax_total = #{record.taxTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ownEquity != null">
+        own_equity = #{record.ownEquity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.proTotal != null">
+        pro_total = #{record.proTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.proNet != null">
+        pro_net = #{record.proNet,jdbcType=DECIMAL},
+      </if>
+      <if test="record.liabTotal != null">
+        liab_total = #{record.liabTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.proTotalNet != null">
+        pro_total_net = #{record.proTotalNet,jdbcType=DECIMAL},
+      </if>
+      <if test="record.supFund != null">
+        sup_fund = #{record.supFund,jdbcType=DECIMAL},
+      </if>
+      <if test="record.loan != null">
+        loan = #{record.loan,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModified != null">
+        gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bbd_pub_annual_enterprise_assets
+    set id = #{record.id,jdbcType=BIGINT},
+      nbxh = #{record.nbxh,jdbcType=VARCHAR},
+      serial_no = #{record.serialNo,jdbcType=VARCHAR},
+      ass_total = #{record.assTotal,jdbcType=DECIMAL},
+      gross_revenue = #{record.grossRevenue,jdbcType=DECIMAL},
+      main_gross_revenue = #{record.mainGrossRevenue,jdbcType=DECIMAL},
+      tax_total = #{record.taxTotal,jdbcType=DECIMAL},
+      own_equity = #{record.ownEquity,jdbcType=DECIMAL},
+      pro_total = #{record.proTotal,jdbcType=DECIMAL},
+      pro_net = #{record.proNet,jdbcType=DECIMAL},
+      liab_total = #{record.liabTotal,jdbcType=DECIMAL},
+      pro_total_net = #{record.proTotalNet,jdbcType=DECIMAL},
+      sup_fund = #{record.supFund,jdbcType=DECIMAL},
+      loan = #{record.loan,jdbcType=DECIMAL},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbd.domain.AnnualEnterpriseAssets">
+    update bbd_pub_annual_enterprise_assets
+    <set>
+      <if test="nbxh != null">
+        nbxh = #{nbxh,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null">
+        serial_no = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="assTotal != null">
+        ass_total = #{assTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="grossRevenue != null">
+        gross_revenue = #{grossRevenue,jdbcType=DECIMAL},
+      </if>
+      <if test="mainGrossRevenue != null">
+        main_gross_revenue = #{mainGrossRevenue,jdbcType=DECIMAL},
+      </if>
+      <if test="taxTotal != null">
+        tax_total = #{taxTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="ownEquity != null">
+        own_equity = #{ownEquity,jdbcType=DECIMAL},
+      </if>
+      <if test="proTotal != null">
+        pro_total = #{proTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="proNet != null">
+        pro_net = #{proNet,jdbcType=DECIMAL},
+      </if>
+      <if test="liabTotal != null">
+        liab_total = #{liabTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="proTotalNet != null">
+        pro_total_net = #{proTotalNet,jdbcType=DECIMAL},
+      </if>
+      <if test="supFund != null">
+        sup_fund = #{supFund,jdbcType=DECIMAL},
+      </if>
+      <if test="loan != null">
+        loan = #{loan,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbd.domain.AnnualEnterpriseAssets">
+    update bbd_pub_annual_enterprise_assets
+    set nbxh = #{nbxh,jdbcType=VARCHAR},
+      serial_no = #{serialNo,jdbcType=VARCHAR},
+      ass_total = #{assTotal,jdbcType=DECIMAL},
+      gross_revenue = #{grossRevenue,jdbcType=DECIMAL},
+      main_gross_revenue = #{mainGrossRevenue,jdbcType=DECIMAL},
+      tax_total = #{taxTotal,jdbcType=DECIMAL},
+      own_equity = #{ownEquity,jdbcType=DECIMAL},
+      pro_total = #{proTotal,jdbcType=DECIMAL},
+      pro_net = #{proNet,jdbcType=DECIMAL},
+      liab_total = #{liabTotal,jdbcType=DECIMAL},
+      pro_total_net = #{proTotalNet,jdbcType=DECIMAL},
+      sup_fund = #{supFund,jdbcType=DECIMAL},
+      loan = #{loan,jdbcType=DECIMAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByExampleWithPageBounds" parameterType="com.bbd.domain.AnnualEnterpriseAssetsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bbd_pub_annual_enterprise_assets
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

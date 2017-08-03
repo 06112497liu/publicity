@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.CompareStatisticExtDao">
+
+    <update id="updateAnnualCount">
+        update bbd_pub_cmp_statistic
+        set annual_total = annual_total + 1,
+        annual_item_total = annual_item_total + #{itemNum},
+        total= total + 1,
+        total_item = total_item + #{itemNum}
+        <if test="flag == true">
+        	, annual_ex_total = annual_ex_total + 1 ,
+        	ex_total = ex_total + 1
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="updateInstantlyCount">
+        update bbd_pub_cmp_statistic
+        set instantly_total = instantly_total + 1,
+        instantly_item_total = instantly_item_total + #{itemNum},
+        total= total + 1,
+        total_item = total_item + #{itemNum}
+        <if test="flag == true">
+        	, instantly_ex_total = instantly_ex_total + 1 ,
+        	ex_total = ex_total + 1
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="updateFullTaskNum">
+        update bbd_pub_cmp_statistic set full_task_num = full_task_num + 1 where id = 1
+    </update>
+
+</mapper>
