@@ -80,7 +80,10 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         List<String> rs = Lists.newArrayList();
 
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.createCriteria().andAnnualNumGreaterThanOrEqualTo(count);
+        if(count > 0)
+            exam.createCriteria().andAnnualNumGreaterThanOrEqualTo(count);
+        else 
+            exam.createCriteria().andAnnualNumGreaterThan(count);
 
         List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
@@ -134,7 +137,10 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         List<String> rs = Lists.newArrayList();
 
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.createCriteria().andInstantlyNumGreaterThanOrEqualTo(count);
+        if(count > 0)
+            exam.createCriteria().andInstantlyNumGreaterThanOrEqualTo(count);
+        else 
+            exam.createCriteria().andAnnualNumGreaterThan(count);
 
         List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
@@ -189,7 +195,10 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         List<String> rs = Lists.newArrayList();
 
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.createCriteria().andNumGreaterThanOrEqualTo(count);
+        if(count > 0)
+            exam.createCriteria().andNumGreaterThanOrEqualTo(count);
+        else 
+            exam.createCriteria().andNumGreaterThan(count);
 
         List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {

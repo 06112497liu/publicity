@@ -55,6 +55,7 @@
         select nbxh
         from bbd_pub_company_ex_item
         where 1 = 1
+        and num > 0
         <if test="region != null">
             and region = #{region}
         </if>
