@@ -7,6 +7,7 @@
         <artifactId>publicity-parent</artifactId>
         <groupId>com.bbdservice</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../publicity-parent/pom.xml</relativePath>
     </parent>
     <artifactId>publicity-common</artifactId>
 
