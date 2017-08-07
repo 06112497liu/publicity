@@ -10,6 +10,8 @@ import com.mybatis.pagination.OffsetLimitInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,8 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
 
     @Autowired
     private JDBCProperties jdbcProperties;
+    
+    public static final Logger logger       = LoggerFactory.getLogger(MyBatisConfig.class);
 
     @Bean
     public static OffsetLimitInterceptor offsetLimitInterceptor() {
@@ -71,7 +75,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         try {
             return new DataSourceTransactionManager(dataSource());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
         throw new RuntimeException("annotationDrivenTransactionManager 异常");
     }
