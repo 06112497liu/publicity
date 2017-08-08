@@ -45,6 +45,9 @@ public class AnnualCompareJob extends QuartzJobBean {
             if (opt.isPresent()) {
                 task = opt.get();
             } else {
+                if (!needExecuteAnnualJob()) {
+                    return;
+                }
                 Long taskId = compareTaskService.createNextCompareTask(Constants.TASK_ANNUAL_TYPE);
                 task = compareTaskService.getById(taskId);
             }
@@ -53,4 +56,34 @@ public class AnnualCompareJob extends QuartzJobBean {
             logger.error(e.getMessage(), e);
         }
     }
+    
+    // 判断是否需要尽心年报对比
+    private boolean needExecuteAnnualJob() {
+        // 1. 获取上次年报对比任务
+        Optional<CompareTask> task = compareTaskService.getLastAnnualTask();
+        if(task.isPresent()) {
+            return false;
+        }
+        return true;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
