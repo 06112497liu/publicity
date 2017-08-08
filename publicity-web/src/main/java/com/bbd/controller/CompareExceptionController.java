@@ -14,7 +14,7 @@ import com.bbd.service.ICompareExceptionService;
 import com.bbd.service.compare.PropertyEnum;
 import com.bbd.service.param.ExDetailVo;
 import com.bbd.service.param.ExceptionSearchParam;
-import com.bbd.util.DateUtils;
+import com.bbd.util.DateUtil;
 import com.bbd.util.ValidateUtil;
 import com.bean.RestResult;
 import com.exception.CommonErrorCode;
@@ -262,11 +262,11 @@ public class CompareExceptionController extends AbstractController {
             vo.setCount(ex.getInstantlyNum());
             vo.setCompareTime(ex.getInstantlyCmpTime());
         } else if (type == 3) {
-            LocalDateTime annualCmpTime = DateUtils.convertDateToLocalDateTime(ex.getAnnualCmpTime());
-            LocalDateTime instantlyCmpTime = DateUtils.convertDateToLocalDateTime(ex.getInstantlyCmpTime());
+            LocalDateTime annualCmpTime = DateUtil.convertDateToLocalDateTime(ex.getAnnualCmpTime());
+            LocalDateTime instantlyCmpTime = DateUtil.convertDateToLocalDateTime(ex.getInstantlyCmpTime());
             vo.setCount(ex.getNum());
-            LocalDateTime allCmpTime = DateUtils.getMaxDate(annualCmpTime, instantlyCmpTime);
-            vo.setCompareTime(DateUtils.convertLocalDateTimeToDate(allCmpTime));
+            LocalDateTime allCmpTime = DateUtil.getMaxDate(annualCmpTime, instantlyCmpTime);
+            vo.setCompareTime(DateUtil.convertLocalDateTimeToDate(allCmpTime));
         }
 
         return vo;
