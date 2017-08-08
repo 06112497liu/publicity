@@ -11,6 +11,7 @@ import com.bbd.domain.CompanyExItemExample;
 import com.bbd.domain.PubCompanyInfo;
 import com.bbd.service.compare.CompareProperty;
 import com.bbd.service.compare.collector.AnnualPropertyCollector;
+import com.bbd.util.DateUtil;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -154,8 +155,18 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
         annualExDetail.setPrimaryIndustry(c.getPrimaryIndustry());
         annualExDetail.setExType(0);
         annualExDetail.setCompareTime(now);
-        annualExDetail.setBase(String.valueOf(prop.getBase()));
-        annualExDetail.setOther(String.valueOf(prop.getOther()));
+        if(prop.getBase() instanceof Date) {
+            String base = DateUtil.formatDateByPatten((Date)prop.getBase(), "yyyy-MM-dd HH:mm:ss");
+            annualExDetail.setBase(base);
+        } else {
+            annualExDetail.setBase(String.valueOf(prop.getBase()));            
+        }
+        if(prop.getOther() instanceof Date) {
+            String other = DateUtil.formatDateByPatten((Date)prop.getOther(), "yyyy-MM-dd HH:mm:ss");
+            annualExDetail.setOther(other);
+        } else {
+            annualExDetail.setOther(String.valueOf(prop.getOther()));            
+        }
         annualExDetail.setGmtCreate(now);
 
         return annualExDetail;
