@@ -34,7 +34,7 @@ public interface ICompareExceptionService {
      * @param pb
      * @return
      */
-    List<String> searchAnnualByExCount(int count, PageBounds pb);
+    List<String> searchAnnualByExCount(int count, String sort, PageBounds pb);
 
     /**
      * 通过企业名称查询年报异常
@@ -43,7 +43,7 @@ public interface ICompareExceptionService {
      * @param pb
      * @return
      */
-    List<String> searchAnnualByCompanyName(String companyName, PageBounds pb);
+    List<String> searchAnnualByCompanyName(String companyName, String sort, PageBounds pb);
 
     /**
      * 通过多项查询条件查询
@@ -60,7 +60,7 @@ public interface ICompareExceptionService {
      * @param pb
      * @return
      */
-    List<String> searchInstantlyByExCount(int count, PageBounds pb);
+    List<String> searchInstantlyByExCount(int count, String sort, PageBounds pb);
 
     /**
      * 通过企业名称查询年报异常
@@ -69,7 +69,7 @@ public interface ICompareExceptionService {
      * @param pb
      * @return
      */
-    List<String> searchInstantlyByCompanyName(String companyName, PageBounds pb);
+    List<String> searchInstantlyByCompanyName(String companyName, String sort, PageBounds pb);
 
     /**
      * 通过多项查询条件查询
@@ -86,7 +86,7 @@ public interface ICompareExceptionService {
      * @param pb
      * @return
      */
-    List<String> searchAllByExCount(int count, PageBounds pb);
+    List<String> searchAllByExCount(int count, String sort, PageBounds pb);
 
     /**
      * 通过企业名称查询年报异常
@@ -95,7 +95,7 @@ public interface ICompareExceptionService {
      * @param pb
      * @return
      */
-    List<String> searchAllByCompanyName(String companyName, PageBounds pb);
+    List<String> searchAllByCompanyName(String companyName, String sort, PageBounds pb);
 
     /**
      * 获取企业年报异常项

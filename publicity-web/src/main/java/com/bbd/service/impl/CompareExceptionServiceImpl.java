@@ -64,8 +64,9 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String primaryIndustry = param.getPrimaryIndustry();
         int moduleType = param.getModuleType();
         int exType = param.getExType();
+        String sort = param.getSort();
 
-        List<String> ds = companyExItemExtDao.queryAnnualByParam(region, primaryIndustry, moduleType, exType, pb);
+        List<String> ds = companyExItemExtDao.queryAnnualByParam(region, primaryIndustry, moduleType, exType, sort, pb);
 
         if (ds.size() == 0) {
             return rs;
@@ -76,10 +77,12 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchAnnualByExCount(int count, PageBounds pb) {
+    public List<String> searchAnnualByExCount(int count, String sort, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
-
+        String str = (sort == null ? "desc" : sort);
+        
         CompanyExItemExample exam = new CompanyExItemExample();
+        exam.setOrderByClause("annual_num " + str);
         if(count > 0)
             exam.createCriteria().andAnnualNumGreaterThanOrEqualTo(count);
         else 
@@ -96,12 +99,17 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchAnnualByCompanyName(String companyName, PageBounds pb) {
+    public List<String> searchAnnualByCompanyName(String companyName, String sort, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
+        String str = (sort == null ? "desc" : sort);
+        
         CompanyExItemExample exam = new CompanyExItemExample();
-
+        exam.setOrderByClause("annual_num " + str);
+        CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andAnnualNumGreaterThan(0);
+        
         if (!StringUtils.isEmpty(companyName)) {
-            exam.createCriteria().andAnnualNumGreaterThan(0).andCompanyNameLike("%" + companyName + "%");
+            criteria.andCompanyNameLike("%" + companyName + "%");
         }
         List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
@@ -121,8 +129,9 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String primaryIndustry = param.getPrimaryIndustry();
         int moduleType = param.getModuleType();
         int exType = param.getExType();
+        String sort = param.getSort();
 
-        List<String> ds = companyExItemExtDao.queryInstantlyByParam(region, primaryIndustry, moduleType, exType, pb);
+        List<String> ds = companyExItemExtDao.queryInstantlyByParam(region, primaryIndustry, moduleType, exType, sort, pb);
 
         if (ds.size() == 0) {
             return rs;
@@ -133,42 +142,44 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchInstantlyByExCount(int count, PageBounds pb) {
+    public List<String> searchInstantlyByExCount(int count, String sort, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
-
+        String str = (sort == null ? "desc" : sort);
+        
         CompanyExItemExample exam = new CompanyExItemExample();
+        exam.setOrderByClause("instantly_num " + str);
+        
         if(count > 0)
             exam.createCriteria().andInstantlyNumGreaterThanOrEqualTo(count);
         else 
-            exam.createCriteria().andAnnualNumGreaterThan(count);
+            exam.createCriteria().andInstantlyNumGreaterThan(count);
 
         List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
             return rs;
         }
-
         ds.forEach(p -> rs.add(p.getNbxh()));
-
         return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
     }
 
     @Override
-    public List<String> searchInstantlyByCompanyName(String companyName, PageBounds pb) {
+    public List<String> searchInstantlyByCompanyName(String companyName, String sort, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
-        if (StringUtils.isBlank(companyName)) {
-            return rs;
-        }
-
+        String str = (sort == null ? "desc" : sort);
+        
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.createCriteria().andInstantlyNumGreaterThan(0).andCompanyNameLike("%" + companyName + "%");
-
+        exam.setOrderByClause("instantly_num " + str);
+        CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andInstantlyNumGreaterThan(0);
+        
+        if(!StringUtils.isEmpty(companyName)) {
+            criteria.andCompanyNameLike("%" + companyName + "%");            
+        }
         List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
             return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
         }
-
         ds.forEach(p -> rs.add(p.getNbxh()));
-
         return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
     }
 
@@ -179,8 +190,9 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String region = param.getRegion();
         String primaryIndustry = param.getPrimaryIndustry();
         int exType = param.getExType();
+        String sort = param.getSort();
 
-        List<String> ds = companyExItemExtDao.queryAllByParam(region, primaryIndustry, exType, pb);
+        List<String> ds = companyExItemExtDao.queryAllByParam(region, primaryIndustry, exType, sort, pb);
 
         if (ds.size() == 0) {
             return rs;
@@ -191,10 +203,12 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchAllByExCount(int count, PageBounds pb) {
+    public List<String> searchAllByExCount(int count, String sort, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
-
+        String str = (sort == null ? "desc" : sort);
+        
         CompanyExItemExample exam = new CompanyExItemExample();
+        exam.setOrderByClause("num " + str);
         if(count > 0)
             exam.createCriteria().andNumGreaterThanOrEqualTo(count);
         else 
@@ -211,14 +225,17 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchAllByCompanyName(String companyName, PageBounds pb) {
+    public List<String> searchAllByCompanyName(String companyName, String sort, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
-        if (StringUtils.isBlank(companyName)) {
-            return rs;
-        }
-
+        String str = (sort == null ? "desc" : sort);
+        
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.createCriteria().andNumGreaterThan(0).andCompanyNameLike("%" + companyName + "%");
+        exam.setOrderByClause("num " + str);
+        CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andNumGreaterThan(0);
+        if(!StringUtils.isEmpty(companyName)) {
+            criteria.andCompanyNameLike("%" + companyName + "%");          
+        }
 
         List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {

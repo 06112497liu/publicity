@@ -29,6 +29,11 @@ public class ExceptionSearchParam {
      * 异常类型
      */
     private int exType;
+    
+    /**
+     * 排序
+     */
+    private String sort;
 
     public String getRegion() {
         return region;
@@ -61,4 +66,12 @@ public class ExceptionSearchParam {
     public void setExType(int exType) {
         this.exType = exType;
     }
+
+    public String getSort() {
+        return sort == null ? "desc" : sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }      
 }
