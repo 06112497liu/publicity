@@ -11,9 +11,12 @@ import com.bbd.domain.*;
 import com.bbd.service.compare.*;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,17 +43,31 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
         if (cp == null || !cp.equals(Constants.COMPANY_PROPERTY_ENTERPISE)) {
             return false;
         }
-        return needCompareStockHolder(c.getNbxh());
+        return true;
     }
 
     /**
      * 是否需要对比股东情况信息
      *
-     * @param nbxh
+     * @param stdOpt
      * @return
      */
-    private boolean needCompareStockHolder(String nbxh) {
-        return true;
+    private boolean needCompareStockHolder(Optional<InsStockholderStd> stdOpt) {
+        if (!stdOpt.isPresent()) {
+            return false;
+        }
+        InsStockholderStd std = stdOpt.get();
+        Date createTime = std.getGmtCreate();
+        if (createTime == null) {
+            return true;
+        }
+        DateTime begin = new DateTime(createTime);
+        DateTime now = new DateTime();
+        int days = Days.daysBetween(begin, now).getDays();
+        if (days > 20) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -61,13 +78,18 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
     @Override
     protected List<CompareProperty> getProperties(PubCompanyInfo c, Optional<InsStockholderStd> stdOpt, Optional<InsStockholderCmp> cmpOpt) {
         List<CompareProperty> result = Lists.newArrayList();
+
+        if (!needCompareStockHolder(stdOpt)) {
+            return result;
+        }
+
         int stockHolderModule = InstantlyModule.STOCKHOLDER.getCode();
         InsStockholderStd std = stdOpt.get();
         InsStockholderCmp cmp = cmpOpt.isPresent() ? cmpOpt.get() : null;
 
         // 股东名称对比项
         StringCompareProperty shareholderProp = StringCompareProperty
-            .build(PropertyEnum.INS_STOCK_HOLDER.getCode(), stockHolderModule, std.getShareholder(), cmp != null ? cmp.getShareholder() : null);
+                .build(PropertyEnum.INS_STOCK_HOLDER.getCode(), stockHolderModule, std.getShareholder(), cmp != null ? cmp.getShareholder() : null);
         result.add(shareholderProp);
 
         // 认缴出资额对比项
@@ -80,7 +102,7 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
 
         // 认缴出资方式对比项
         StringCompareProperty subCronFromProp = StringCompareProperty.build(PropertyEnum.INS_SUB_CRON_FROM.getCode(), stockHolderModule, std.getSubCronFrom(), cmp != null ? cmp.getSubCronFrom()
-            : null);
+                : null);
         result.add(subCronFromProp);
 
         // 实缴出资额对比项

@@ -36,8 +36,8 @@ public class AnnualOutboundCollector extends AnnualPropertyCollector<AnnualOutbo
     private AnnualOutboundInvestmentCmpDao annualOutboundInvestmentCmpDao;
 
     /**
-    * 前置校验
-    */
+     * 前置校验
+     */
     @Override
     protected boolean precheck(PubCompanyInfo c) {
         Integer cp = c.getCompanyProperty();
@@ -119,7 +119,7 @@ public class AnnualOutboundCollector extends AnnualPropertyCollector<AnnualOutbo
 
         // 投资公司名称对比项
         StringCompareProperty companyNameProp = StringCompareProperty.build(PropertyEnum.ANNUAL_INV_COMPANY_NAME.getCode(), outInvestModule, outInvestStd.getCompanyName(),
-            outInvestCmp != null ? outInvestCmp.getCompanyName() : null);
+                outInvestCmp != null ? outInvestCmp.getCompanyName() : null);
         result.add(companyNameProp);
 
         return result;
