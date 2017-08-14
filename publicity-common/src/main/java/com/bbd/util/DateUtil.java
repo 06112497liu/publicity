@@ -5,26 +5,25 @@
  */
 package com.bbd.util;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Lists;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Lists;
 
 /**
  * 时间工具类.
@@ -40,6 +39,9 @@ public class DateUtil {
     
     // 将Date转换为LocalDateTime
     public static LocalDateTime convertDateToLocalDateTime(Date date) {
+        if(date == null) {
+            return null;
+        }
         Instant instant = date.toInstant();
         ZoneId zone = ZoneId.systemDefault();
         return LocalDateTime.ofInstant(instant, zone);
@@ -47,6 +49,9 @@ public class DateUtil {
 
     // 将Date转换为LocalDate
     public static LocalDate convertDateToLocalDate(Date date) {
+        if(date == null) {
+            return null;
+        }
         Instant instant = date.toInstant();
         ZoneId zone = ZoneId.systemDefault();
         return LocalDateTime.ofInstant(instant, zone).toLocalDate();
@@ -54,6 +59,9 @@ public class DateUtil {
 
     // 将LocalDateTime转换为Date
     public static Date convertLocalDateTimeToDate(LocalDateTime date) {
+        if(date == null) {
+            return null;
+        }
         ZoneId zone = ZoneId.systemDefault();
         Instant instant = date.atZone(zone).toInstant();
         return Date.from(instant);

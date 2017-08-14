@@ -103,6 +103,9 @@ public class ExDetailVo {
     }
 
     public String getBase() {
+        if("null".equals(base)) {
+            return "无数据";
+        }
         return base;
     }
 
@@ -111,6 +114,9 @@ public class ExDetailVo {
     }
 
     public String getOther() {
+        if("null".equals(other)) {
+            return "无数据";
+        }
         return other;
     }
 

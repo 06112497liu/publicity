@@ -4,6 +4,15 @@
  */
 package com.bbd.controller;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.bbd.controller.vo.ExceptionCompanyVo;
 import com.bbd.domain.CompanyExItem;
 import com.bbd.domain.PubCompanyInfo;
@@ -20,18 +29,11 @@ import com.bean.RestResult;
 import com.exception.CommonErrorCode;
 import com.google.common.collect.Lists;
 import com.mybatis.domain.PageList;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 对比异常控制器
@@ -280,13 +282,22 @@ public class CompareExceptionController extends AbstractController {
             vo.setCount(ex.getInstantlyNum());
             vo.setCompareTime(ex.getInstantlyCmpTime());
         } else if (type == 3) {
+            
             LocalDateTime annualCmpTime = DateUtil.convertDateToLocalDateTime(ex.getAnnualCmpTime());
             LocalDateTime instantlyCmpTime = DateUtil.convertDateToLocalDateTime(ex.getInstantlyCmpTime());
             vo.setCount(ex.getNum());
-            LocalDateTime allCmpTime = DateUtil.getMaxDate(annualCmpTime, instantlyCmpTime);
-            vo.setCompareTime(DateUtil.convertLocalDateTimeToDate(allCmpTime));
+            
+            if(annualCmpTime != null && instantlyCmpTime != null) {
+                LocalDateTime allCmpTime = DateUtil.getMaxDate(annualCmpTime, instantlyCmpTime);
+                vo.setCompareTime(DateUtil.convertLocalDateTimeToDate(allCmpTime));
+            } else if(annualCmpTime == null && instantlyCmpTime != null) {
+                vo.setCompareTime(DateUtil.convertLocalDateTimeToDate(instantlyCmpTime));
+            } else if(annualCmpTime != null && instantlyCmpTime == null) {
+                vo.setCompareTime(DateUtil.convertLocalDateTimeToDate(annualCmpTime));
+            } else {  
+                vo.setCompareTime(null);
+            }            
         }
-
         return vo;
     }
 
