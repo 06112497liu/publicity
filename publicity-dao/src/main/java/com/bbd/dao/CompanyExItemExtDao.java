@@ -39,7 +39,7 @@ public interface CompanyExItemExtDao {
      * @return
      */
     List<String> queryAnnualByParam(@Param("region") String region, @Param("primaryIndustry") String primaryIndustry,
-                                    @Param("moduleType") int moduleType, @Param("exType") int exType, PageBounds pb);
+                                    @Param("moduleType") int moduleType, @Param("exType") int exType, @Param("sort")String sort, PageBounds pb);
 
     /**
      * 查询即时信息异常企业
@@ -51,7 +51,7 @@ public interface CompanyExItemExtDao {
      * @return
      */
     List<String> queryInstantlyByParam(@Param("region") String region, @Param("primaryIndustry") String primaryIndustry,
-                                       @Param("moduleType") int moduleType, @Param("exType") int exType, PageBounds pb);
+                                       @Param("moduleType") int moduleType, @Param("exType") int exType, @Param("sort") String sort, PageBounds pb);
 
     /**
      * 查询所有异常企业
@@ -63,5 +63,5 @@ public interface CompanyExItemExtDao {
      * @return
      */
     List<String> queryAllByParam(@Param("region") String region, @Param("primaryIndustry") String primaryIndustry,
-                                 @Param("exType") int exType, PageBounds pb);
+                                 @Param("exType") int exType, @Param("sort") String sort, PageBounds pb);
 }

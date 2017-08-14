@@ -30,6 +30,7 @@
         <if test="exType != 0">
             and (annual_ex_types div #{exType} mod 2 = 1)
         </if>
+        order by annual_num ${sort}
     </select>
 
     <select id="queryInstantlyByParam" resultType="java.lang.String">
@@ -48,13 +49,14 @@
         <if test="exType != 0">
             and (ins_ex_types div #{exType} mod 2 = 1)
         </if>
-
+		order by instantly_num ${sort}
     </select>
 
     <select id="queryAllByParam" resultType="java.lang.String">
         select nbxh
         from bbd_pub_company_ex_item
         where 1 = 1
+        and num > 0
         <if test="region != null">
             and region = #{region}
         </if>
@@ -64,6 +66,7 @@
         <if test="exType != 0">
             and ((annual_ex_types div #{exType} mod 2 = 1) or (ins_ex_types div #{exType} mod 2 = 1))
         </if>
+        order by num ${sort}
     </select>
 
 </mapper>

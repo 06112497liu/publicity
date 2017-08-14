@@ -8,6 +8,7 @@ import com.bbd.common.Constants;
 import com.bbd.domain.CompareTask;
 import com.bbd.service.ICompareTaskService;
 import com.bbd.service.ITaskExecuteService;
+import com.bbd.util.DateUtil;
 import com.google.common.base.Optional;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
@@ -16,6 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 import javax.annotation.Resource;
 
@@ -45,6 +49,9 @@ public class AnnualCompareJob extends QuartzJobBean {
             if (opt.isPresent()) {
                 task = opt.get();
             } else {
+                if (!needExecuteAnnualJob()) {
+                    return;
+                }
                 Long taskId = compareTaskService.createNextCompareTask(Constants.TASK_ANNUAL_TYPE);
                 task = compareTaskService.getById(taskId);
             }
@@ -53,4 +60,44 @@ public class AnnualCompareJob extends QuartzJobBean {
             logger.error(e.getMessage(), e);
         }
     }
+    
+    // 判断是否需要尽心年报对比
+    private boolean needExecuteAnnualJob() {
+        boolean flag = true;
+        // 1. 获取上次年报对比任务
+        Optional<CompareTask> task = compareTaskService.getLastAnnualTask();
+        if(task.isPresent()) {
+            CompareTask taskInfo = task.get();
+            LocalDate d = LocalDate.of(LocalDate.now().getYear(), 8, 1);
+            int baseDay = d.getDayOfYear();
+            Date compareTime = taskInfo.getEndTime();
+            LocalDate temp = DateUtil.convertDateToLocalDate(compareTime);
+            int year = temp.getYear();
+            int day = temp.getDayOfYear();
+            if(year == LocalDate.now().getYear()) {
+                flag = (day < baseDay);
+            }
+        }
+        return flag;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
