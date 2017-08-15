@@ -7,6 +7,7 @@
 
 import java.util.Date;
 
+import com.bbd.enums.InvestWayEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModel;
@@ -38,6 +39,9 @@ public class StockholderInfosVo {
 
     @ApiModelProperty(value = "认缴出资方式", required = false)
     private String subCronFrom;
+    
+    @ApiModelProperty(value = "认缴出资方式描述", required = false)
+    private String subCroFromDesc;
 
     @ApiModelProperty(value = "实缴出资额（万元）", required = false)
     private Double acCronCap;
@@ -48,6 +52,9 @@ public class StockholderInfosVo {
 
     @ApiModelProperty(value = "实缴出资方式", required = false)
     private String acCronFrom;
+    
+    @ApiModelProperty(value = "实缴出资方式描述", required = false)
+    private String acCronFromDesc;
 
     public String getNbxh() {
         return nbxh;
@@ -119,14 +126,38 @@ public class StockholderInfosVo {
 
     public void setAcCronFrom(String acCronFrom) {
         this.acCronFrom = acCronFrom;
+    }   
+    
+    public String getSubCroFromDesc() {
+        if(subCronFrom != null) {
+            int code = Integer.parseInt(subCronFrom);
+            return InvestWayEnum.getDescByCode(code);
+        }
+        return subCroFromDesc;
+    }
+
+    public void setSubCroFromDesc(String subCroFromDesc) {
+        this.subCroFromDesc = subCroFromDesc;
+    }
+
+    public String getAcCronFromDesc() {
+        if(acCronFrom != null) {
+            int code = Integer.parseInt(acCronFrom);
+            return InvestWayEnum.getDescByCode(code);
+        }
+        return acCronFromDesc;
+    }
+
+    public void setAcCronFromDesc(String acCronFromDesc) {
+        this.acCronFromDesc = acCronFromDesc;
     }
 
     @Override
     public String toString() {
         return "StockholderInfosVo [nbxh=" + nbxh + ", serialNo=" + serialNo + ", shareholder=" + shareholder + ", subCronCap=" + subCronCap + ", subCronDate=" + subCronDate + ", subCronFrom="
-               + subCronFrom + ", acCronCap=" + acCronCap + ", acCronDate=" + acCronDate + ", acCronFrom=" + acCronFrom + "]";
-    }
-    
+               + subCronFrom + ", subCroFromDesc=" + subCroFromDesc + ", acCronCap=" + acCronCap + ", acCronDate=" + acCronDate + ", acCronFrom=" + acCronFrom + ", acCronFromDesc=" + acCronFromDesc
+               + "]";
+    } 
     
 }
 
