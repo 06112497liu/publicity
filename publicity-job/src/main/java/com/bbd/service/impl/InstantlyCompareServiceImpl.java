@@ -11,6 +11,7 @@ import com.bbd.domain.InstantlyExDetail;
 import com.bbd.domain.PubCompanyInfo;
 import com.bbd.service.compare.CompareProperty;
 import com.bbd.service.compare.collector.InstantlyPropertyCollector;
+import com.bbd.util.DateUtil;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,8 +74,18 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
         ex.setPrimaryIndustry(c.getPrimaryIndustry());
         ex.setExType(0);
         ex.setCompareTime(now);
-        ex.setBase(String.valueOf(prop.getBase()));
-        ex.setOther(String.valueOf(prop.getOther()));
+        if(prop.getBase() instanceof Date) {
+            String base = DateUtil.formatDateByPatten((Date)prop.getBase(), "yyyy-MM-dd HH:mm:ss");
+            ex.setBase(base);
+        } else {
+            ex.setBase(String.valueOf(prop.getBase()));            
+        }
+        if(prop.getOther() instanceof Date) {
+            String other = DateUtil.formatDateByPatten((Date)prop.getOther(), "yyyy-MM-dd HH:mm:ss");
+            ex.setOther(other);
+        } else {
+            ex.setOther(String.valueOf(prop.getOther()));            
+        }
         ex.setGmtCreate(now);
 
         return ex;
