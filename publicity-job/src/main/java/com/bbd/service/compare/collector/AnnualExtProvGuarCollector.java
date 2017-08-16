@@ -7,6 +7,7 @@ package com.bbd.service.compare.collector;
 import com.bbd.dao.AnnualExtProvGuarInfoCmpDao;
 import com.bbd.dao.AnnualExtProvGuarInfoStdDao;
 import com.bbd.domain.*;
+import com.bbd.enums.PriClaTypeEnum;
 import com.bbd.service.compare.*;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -119,8 +120,12 @@ public class AnnualExtProvGuarCollector extends AnnualPropertyCollector<AnnualEx
         result.add(debitorProp);
 
         // 主债权种类对比项
-        StringCompareProperty priCalSecKindProp = StringCompareProperty.build(PropertyEnum.ANNUAL_EXT_PROV_PRI_CAL_SEC_KIND.getCode(), extProvMoudle, extProvStd.getPriCalSecKind(),
-            extProvCmp != null ? extProvCmp.getPriCalSecKind() : null);
+        String stdCode = (extProvStd == null ? null : extProvStd.getPriCalSecKind());
+        String cmpCode = (extProvCmp == null ? null : extProvCmp.getPriCalSecKind());
+        String stdDesc = (stdCode == null ? null : PriClaTypeEnum.getDescByCode(Integer.parseInt(stdCode)));
+        String cmpDesc = (cmpCode == null ? null : PriClaTypeEnum.getDescByCode(Integer.parseInt(cmpCode)));
+        StringCompareProperty priCalSecKindProp = StringCompareProperty.build(PropertyEnum.ANNUAL_EXT_PROV_PRI_CAL_SEC_KIND.getCode(), extProvMoudle, stdDesc,
+            extProvCmp != null ? cmpDesc : null);
         result.add(priCalSecKindProp);
 
         // 主债权数额

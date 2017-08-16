@@ -8,6 +8,7 @@
 import java.time.LocalDate;
 import java.util.Date;
 
+import com.bbd.enums.OpStateEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModel;
@@ -70,6 +71,9 @@ public class AnnualBaseInfoVo {
     @ApiModelProperty(value = "经营状态", required = false)
     private String opstate;
     
+    @ApiModelProperty(value = "经营状态描述", required = false)
+    private String opstateDesc;
+    
     @ApiModelProperty(value = "经营者姓名", required = false)
     private String opName;
     
@@ -100,12 +104,20 @@ public class AnnualBaseInfoVo {
     public Integer getAnnualState() {
         LocalDate date = LocalDate.now();
         String currentYear = String.valueOf(date.getYear());
-        if(currentYear.equals(currentYear)) {
+        if(currentYear.equals(annualYear)) {
             return 1;
         }
-        return 2;
-    }    
-    
+        return 0;
+    }
+
+    public String getOpstateDesc() {
+        if(opstate != null) {
+            int code = Integer.parseInt(opstate);
+            return OpStateEnum.getDescByCode(code);
+        }
+        return opstateDesc;
+    }
+
     public String getLegalPerson() {
         return legalPerson;
     }

@@ -8,6 +8,7 @@ import com.bbd.common.Constants;
 import com.bbd.dao.AnnualBaseCmpDao;
 import com.bbd.dao.AnnualBaseStdDao;
 import com.bbd.domain.*;
+import com.bbd.enums.OpStateEnum;
 import com.bbd.service.compare.*;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -86,7 +87,12 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
             PostalCodeCompareProperty postalCodeProp = PostalCodeCompareProperty.build(PropertyEnum.ANNUAL_POSTAL_CODE.getCode(), baseModule, cmp != null ? cmp.getPostalCode() : null);
             result.add(postalCodeProp);
 
-            StringCompareProperty opstateProp = StringCompareProperty.build(PropertyEnum.ANNUAL_OPSTATE.getCode(), baseModule, std.getOpstate(), cmp != null ? cmp.getOpstate() : null);
+            //将经营状态编码转换成中文
+            String stdState = (std == null ? null : std.getOpstate());
+            String cmpState = (cmp == null ? null : cmp.getOpstate());
+            String stdStateDesc = (stdState == null ? null : OpStateEnum.getDescByCode(Integer.parseInt(stdState)));
+            String cmpStateDesc = (cmpState == null ? null : OpStateEnum.getDescByCode(Integer.parseInt(cmpState)));;
+            StringCompareProperty opstateProp = StringCompareProperty.build(PropertyEnum.ANNUAL_OPSTATE.getCode(), baseModule, stdStateDesc, cmp != null ? cmpStateDesc : null);
             result.add(opstateProp);
         }
 

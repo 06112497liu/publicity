@@ -8,6 +8,7 @@ import com.bbd.common.Constants;
 import com.bbd.dao.InsStockholderCmpDao;
 import com.bbd.dao.InsStockholderStdDao;
 import com.bbd.domain.*;
+import com.bbd.enums.InvestWayEnum;
 import com.bbd.service.compare.*;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -101,8 +102,11 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
         result.add(subCronDateProp);
 
         // 认缴出资方式对比项
-        StringCompareProperty subCronFromProp = StringCompareProperty.build(PropertyEnum.INS_SUB_CRON_FROM.getCode(), stockHolderModule, std.getSubCronFrom(), cmp != null ? cmp.getSubCronFrom()
-                : null);
+        String subStdCode = (std == null ? null : std.getSubCronFrom());
+        String subCmpCode = (cmp == null ? null : cmp.getSubCronFrom());
+        String subStdDesc = (subStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subStdCode)));
+        String subCmpDesc = (subCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subCmpCode)));
+        StringCompareProperty subCronFromProp = StringCompareProperty.build(PropertyEnum.INS_SUB_CRON_FROM.getCode(), stockHolderModule, subStdDesc, cmp != null ? subCmpDesc : null);
         result.add(subCronFromProp);
 
         // 实缴出资额对比项
@@ -110,7 +114,11 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
         result.add(acCronCapProp);
 
         // 实缴出资方式对比项
-        StringCompareProperty acCronFrom = StringCompareProperty.build(PropertyEnum.INS_AC_CRON_FROM.getCode(), stockHolderModule, std.getAcCronFrom(), cmp != null ? cmp.getAcCronFrom() : null);
+        String acStdCode = (std == null ? null : std.getSubCronFrom());
+        String acCmpCode = (cmp == null ? null : cmp.getSubCronFrom());
+        String acStdDesc = (acStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(acStdCode)));
+        String acCmpDesc = (acCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(acCmpCode)));
+        StringCompareProperty acCronFrom = StringCompareProperty.build(PropertyEnum.INS_AC_CRON_FROM.getCode(), stockHolderModule, acStdDesc, cmp != null ? acCmpDesc : null);
         result.add(acCronFrom);
 
         return result;

@@ -7,6 +7,7 @@ package com.bbd.service.compare.collector;
 import com.bbd.dao.AnnualStockholderCmpDao;
 import com.bbd.dao.AnnualStockholderStdDao;
 import com.bbd.domain.*;
+import com.bbd.enums.InvestWayEnum;
 import com.bbd.service.compare.*;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -125,8 +126,12 @@ public class AnnualStockholderCollector extends AnnualPropertyCollector<AnnualSt
         result.add(subCronDateProp);
 
         // 认缴出资方式对比项
-        StringCompareProperty subCronFromProp = StringCompareProperty.build(PropertyEnum.ANNUAL_SUB_CRON_FROM.getCode(), stockHolderModule, stockholderStd.getSubCronFrom(),
-            stockholderCmp != null ? stockholderCmp.getSubCronFrom() : null);
+        String subStdCode = (stockholderStd == null ? null : stockholderStd.getSubCronFrom());
+        String subCmpCode = (stockholderCmp == null ? null : stockholderCmp.getSubCronFrom());
+        String subStdDesc = (subStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subStdCode)));
+        String subCmpDesc = (subCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subCmpCode)));
+        StringCompareProperty subCronFromProp = StringCompareProperty.build(PropertyEnum.ANNUAL_SUB_CRON_FROM.getCode(), stockHolderModule, subStdDesc,
+            stockholderCmp != null ? subCmpDesc : null);
         result.add(subCronFromProp);
 
         // 实缴出资额对比项
@@ -135,8 +140,12 @@ public class AnnualStockholderCollector extends AnnualPropertyCollector<AnnualSt
         result.add(acCronCapProp);
 
         // 实缴出资方式对比项
-        StringCompareProperty acCronFromProp = StringCompareProperty.build(PropertyEnum.ANNUAL_AC_CRON_FROM.getCode(), stockHolderModule, stockholderStd.getAcCronFrom(),
-            stockholderCmp != null ? stockholderCmp.getAcCronFrom() : null);
+        String acStdCode = (stockholderStd == null ? null : stockholderStd.getSubCronFrom());
+        String acCmpCode = (stockholderCmp == null ? null : stockholderCmp.getSubCronFrom());
+        String acStdDesc = (acStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(acStdCode)));
+        String acCmpDesc = (acCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(acCmpCode)));
+        StringCompareProperty acCronFromProp = StringCompareProperty.build(PropertyEnum.ANNUAL_AC_CRON_FROM.getCode(), stockHolderModule, acStdDesc,
+            stockholderCmp != null ? acCmpDesc : null);
         result.add(acCronFromProp);
 
         return result;
