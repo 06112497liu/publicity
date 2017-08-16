@@ -9,11 +9,11 @@ public enum AnnualModule {
     STOCKHOLDER(2, "股东及出资信息"),
     OUT_INVEST(4, "对外投资信息"),
     EXT_PROV(8, "对外提供保证担保信息"),
-    BRANCH(16, "分支机构信息"),
-    WEB(32, "网站或网店信息"),
+    BRANCH(16, "分支机构信息");
+/*    WEB(32, "网站或网店信息"),
     ASSET_STATUS(64, "资产状况信息"),
     EQUITY_CHANGE(128, "股权变更信息"),
-    SOCIAL_SECURITY(256, "社保信息"),;
+    SOCIAL_SECURITY(256, "社保信息"),;*/
 
     private int code;
 

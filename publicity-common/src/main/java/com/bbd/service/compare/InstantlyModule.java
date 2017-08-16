@@ -14,10 +14,10 @@ public enum InstantlyModule {
 
     STOCKHOLDER(1, "股东及出资信息"),
     ADMIN_LICENSE(2, "行政许可信息"),
-    ADMIN_PUBLISH(4, "行政处罚信息"),
-    EQUITY_CHANGE(8, "股权变更信息"),
+    ADMIN_PUBLISH(4, "行政处罚信息");
+/*    EQUITY_CHANGE(8, "股权变更信息"),
     KNOWLEDGE_EQUITY(16, "知识产权出质登记信息"),
-    CANCELLATION_NOTICE(32, "企业简易注销公告");
+    CANCELLATION_NOTICE(32, "企业简易注销公告");*/
     
     private int code;
 
