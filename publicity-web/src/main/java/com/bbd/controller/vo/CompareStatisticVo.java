@@ -10,16 +10,16 @@ public class CompareStatisticVo {
     private Integer annualExTotal;
 
     @ApiModelProperty(value = "即时信息异常企业数量", required = false)
-    private Integer instantlyExTotal;
+    private Long instantlyExTotal;
 
     @ApiModelProperty(value = "异常企业总数", required = false)
-    private Integer exTotal;
+    private Long exTotal;
 
     @ApiModelProperty(value = "比对企业户数", required = false)
-    private Integer total;
+    private Long total;
 
     @ApiModelProperty(value = "比对数据条数", required = false)
-    private Integer totalItem;
+    private Long totalItem;
 
     @ApiModelProperty(value = "全量比对次数", required = false)
     private Integer fullTaskNum;
@@ -33,37 +33,37 @@ public class CompareStatisticVo {
 
     public void setAnnualExTotal(Integer annualExTotal) {
         this.annualExTotal = annualExTotal;
-    }
+    }     
 
-    public Integer getInstantlyExTotal() {
+    public Long getInstantlyExTotal() {
         return instantlyExTotal;
     }
 
-    public void setInstantlyExTotal(Integer instantlyExTotal) {
+    public void setInstantlyExTotal(Long instantlyExTotal) {
         this.instantlyExTotal = instantlyExTotal;
     }
 
-    public Integer getExTotal() {
+    public Long getExTotal() {
         return exTotal;
     }
 
-    public void setExTotal(Integer exTotal) {
+    public void setExTotal(Long exTotal) {
         this.exTotal = exTotal;
     }
 
-    public Integer getTotal() {
+    public Long getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Long total) {
         this.total = total;
     }
 
-    public Integer getTotalItem() {
+    public Long getTotalItem() {
         return totalItem;
     }
 
-    public void setTotalItem(Integer totalItem) {
+    public void setTotalItem(Long totalItem) {
         this.totalItem = totalItem;
     }
 
