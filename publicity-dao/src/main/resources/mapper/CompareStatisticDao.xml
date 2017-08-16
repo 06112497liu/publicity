@@ -3,16 +3,16 @@
 <mapper namespace="com.bbd.dao.CompareStatisticDao">
   <resultMap id="BaseResultMap" type="com.bbd.domain.CompareStatistic">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="annual_total" jdbcType="INTEGER" property="annualTotal" />
-    <result column="annual_item_total" jdbcType="INTEGER" property="annualItemTotal" />
-    <result column="instantly_total" jdbcType="INTEGER" property="instantlyTotal" />
-    <result column="instantly_item_total" jdbcType="INTEGER" property="instantlyItemTotal" />
-    <result column="annual_ex_total" jdbcType="INTEGER" property="annualExTotal" />
-    <result column="instantly_ex_total" jdbcType="INTEGER" property="instantlyExTotal" />
-    <result column="ex_total" jdbcType="INTEGER" property="exTotal" />
-    <result column="total" jdbcType="INTEGER" property="total" />
-    <result column="total_item" jdbcType="INTEGER" property="totalItem" />
-    <result column="start_time" jdbcType="INTEGER" property="startTime" />
+    <result column="annual_total" jdbcType="BIGINT" property="annualTotal" />
+    <result column="annual_item_total" jdbcType="BIGINT" property="annualItemTotal" />
+    <result column="instantly_total" jdbcType="BIGINT" property="instantlyTotal" />
+    <result column="instantly_item_total" jdbcType="BIGINT" property="instantlyItemTotal" />
+    <result column="annual_ex_total" jdbcType="BIGINT" property="annualExTotal" />
+    <result column="instantly_ex_total" jdbcType="BIGINT" property="instantlyExTotal" />
+    <result column="ex_total" jdbcType="BIGINT" property="exTotal" />
+    <result column="total" jdbcType="BIGINT" property="total" />
+    <result column="total_item" jdbcType="BIGINT" property="totalItem" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="full_task_num" jdbcType="INTEGER" property="fullTaskNum" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
@@ -114,10 +114,10 @@
       ex_total, total, total_item, 
       start_time, full_task_num, gmt_create, 
       gmt_modified)
-    values (#{annualTotal,jdbcType=INTEGER}, #{annualItemTotal,jdbcType=INTEGER}, #{instantlyTotal,jdbcType=INTEGER}, 
-      #{instantlyItemTotal,jdbcType=INTEGER}, #{annualExTotal,jdbcType=INTEGER}, #{instantlyExTotal,jdbcType=INTEGER}, 
-      #{exTotal,jdbcType=INTEGER}, #{total,jdbcType=INTEGER}, #{totalItem,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=INTEGER}, #{fullTaskNum,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+    values (#{annualTotal,jdbcType=BIGINT}, #{annualItemTotal,jdbcType=BIGINT}, #{instantlyTotal,jdbcType=BIGINT}, 
+      #{instantlyItemTotal,jdbcType=BIGINT}, #{annualExTotal,jdbcType=BIGINT}, #{instantlyExTotal,jdbcType=BIGINT}, 
+      #{exTotal,jdbcType=BIGINT}, #{total,jdbcType=BIGINT}, #{totalItem,jdbcType=BIGINT}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{fullTaskNum,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.bbd.domain.CompareStatistic">
@@ -168,34 +168,34 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="annualTotal != null">
-        #{annualTotal,jdbcType=INTEGER},
+        #{annualTotal,jdbcType=BIGINT},
       </if>
       <if test="annualItemTotal != null">
-        #{annualItemTotal,jdbcType=INTEGER},
+        #{annualItemTotal,jdbcType=BIGINT},
       </if>
       <if test="instantlyTotal != null">
-        #{instantlyTotal,jdbcType=INTEGER},
+        #{instantlyTotal,jdbcType=BIGINT},
       </if>
       <if test="instantlyItemTotal != null">
-        #{instantlyItemTotal,jdbcType=INTEGER},
+        #{instantlyItemTotal,jdbcType=BIGINT},
       </if>
       <if test="annualExTotal != null">
-        #{annualExTotal,jdbcType=INTEGER},
+        #{annualExTotal,jdbcType=BIGINT},
       </if>
       <if test="instantlyExTotal != null">
-        #{instantlyExTotal,jdbcType=INTEGER},
+        #{instantlyExTotal,jdbcType=BIGINT},
       </if>
       <if test="exTotal != null">
-        #{exTotal,jdbcType=INTEGER},
+        #{exTotal,jdbcType=BIGINT},
       </if>
       <if test="total != null">
-        #{total,jdbcType=INTEGER},
+        #{total,jdbcType=BIGINT},
       </if>
       <if test="totalItem != null">
-        #{totalItem,jdbcType=INTEGER},
+        #{totalItem,jdbcType=BIGINT},
       </if>
       <if test="startTime != null">
-        #{startTime,jdbcType=INTEGER},
+        #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="fullTaskNum != null">
         #{fullTaskNum,jdbcType=INTEGER},
@@ -215,34 +215,34 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.annualTotal != null">
-        annual_total = #{record.annualTotal,jdbcType=INTEGER},
+        annual_total = #{record.annualTotal,jdbcType=BIGINT},
       </if>
       <if test="record.annualItemTotal != null">
-        annual_item_total = #{record.annualItemTotal,jdbcType=INTEGER},
+        annual_item_total = #{record.annualItemTotal,jdbcType=BIGINT},
       </if>
       <if test="record.instantlyTotal != null">
-        instantly_total = #{record.instantlyTotal,jdbcType=INTEGER},
+        instantly_total = #{record.instantlyTotal,jdbcType=BIGINT},
       </if>
       <if test="record.instantlyItemTotal != null">
-        instantly_item_total = #{record.instantlyItemTotal,jdbcType=INTEGER},
+        instantly_item_total = #{record.instantlyItemTotal,jdbcType=BIGINT},
       </if>
       <if test="record.annualExTotal != null">
-        annual_ex_total = #{record.annualExTotal,jdbcType=INTEGER},
+        annual_ex_total = #{record.annualExTotal,jdbcType=BIGINT},
       </if>
       <if test="record.instantlyExTotal != null">
-        instantly_ex_total = #{record.instantlyExTotal,jdbcType=INTEGER},
+        instantly_ex_total = #{record.instantlyExTotal,jdbcType=BIGINT},
       </if>
       <if test="record.exTotal != null">
-        ex_total = #{record.exTotal,jdbcType=INTEGER},
+        ex_total = #{record.exTotal,jdbcType=BIGINT},
       </if>
       <if test="record.total != null">
-        total = #{record.total,jdbcType=INTEGER},
+        total = #{record.total,jdbcType=BIGINT},
       </if>
       <if test="record.totalItem != null">
-        total_item = #{record.totalItem,jdbcType=INTEGER},
+        total_item = #{record.totalItem,jdbcType=BIGINT},
       </if>
       <if test="record.startTime != null">
-        start_time = #{record.startTime,jdbcType=INTEGER},
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.fullTaskNum != null">
         full_task_num = #{record.fullTaskNum,jdbcType=INTEGER},
@@ -261,16 +261,16 @@
   <update id="updateByExample" parameterType="map">
     update bbd_pub_cmp_statistic
     set id = #{record.id,jdbcType=BIGINT},
-      annual_total = #{record.annualTotal,jdbcType=INTEGER},
-      annual_item_total = #{record.annualItemTotal,jdbcType=INTEGER},
-      instantly_total = #{record.instantlyTotal,jdbcType=INTEGER},
-      instantly_item_total = #{record.instantlyItemTotal,jdbcType=INTEGER},
-      annual_ex_total = #{record.annualExTotal,jdbcType=INTEGER},
-      instantly_ex_total = #{record.instantlyExTotal,jdbcType=INTEGER},
-      ex_total = #{record.exTotal,jdbcType=INTEGER},
-      total = #{record.total,jdbcType=INTEGER},
-      total_item = #{record.totalItem,jdbcType=INTEGER},
-      start_time = #{record.startTime,jdbcType=INTEGER},
+      annual_total = #{record.annualTotal,jdbcType=BIGINT},
+      annual_item_total = #{record.annualItemTotal,jdbcType=BIGINT},
+      instantly_total = #{record.instantlyTotal,jdbcType=BIGINT},
+      instantly_item_total = #{record.instantlyItemTotal,jdbcType=BIGINT},
+      annual_ex_total = #{record.annualExTotal,jdbcType=BIGINT},
+      instantly_ex_total = #{record.instantlyExTotal,jdbcType=BIGINT},
+      ex_total = #{record.exTotal,jdbcType=BIGINT},
+      total = #{record.total,jdbcType=BIGINT},
+      total_item = #{record.totalItem,jdbcType=BIGINT},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
       full_task_num = #{record.fullTaskNum,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
@@ -282,34 +282,34 @@
     update bbd_pub_cmp_statistic
     <set>
       <if test="annualTotal != null">
-        annual_total = #{annualTotal,jdbcType=INTEGER},
+        annual_total = #{annualTotal,jdbcType=BIGINT},
       </if>
       <if test="annualItemTotal != null">
-        annual_item_total = #{annualItemTotal,jdbcType=INTEGER},
+        annual_item_total = #{annualItemTotal,jdbcType=BIGINT},
       </if>
       <if test="instantlyTotal != null">
-        instantly_total = #{instantlyTotal,jdbcType=INTEGER},
+        instantly_total = #{instantlyTotal,jdbcType=BIGINT},
       </if>
       <if test="instantlyItemTotal != null">
-        instantly_item_total = #{instantlyItemTotal,jdbcType=INTEGER},
+        instantly_item_total = #{instantlyItemTotal,jdbcType=BIGINT},
       </if>
       <if test="annualExTotal != null">
-        annual_ex_total = #{annualExTotal,jdbcType=INTEGER},
+        annual_ex_total = #{annualExTotal,jdbcType=BIGINT},
       </if>
       <if test="instantlyExTotal != null">
-        instantly_ex_total = #{instantlyExTotal,jdbcType=INTEGER},
+        instantly_ex_total = #{instantlyExTotal,jdbcType=BIGINT},
       </if>
       <if test="exTotal != null">
-        ex_total = #{exTotal,jdbcType=INTEGER},
+        ex_total = #{exTotal,jdbcType=BIGINT},
       </if>
       <if test="total != null">
-        total = #{total,jdbcType=INTEGER},
+        total = #{total,jdbcType=BIGINT},
       </if>
       <if test="totalItem != null">
-        total_item = #{totalItem,jdbcType=INTEGER},
+        total_item = #{totalItem,jdbcType=BIGINT},
       </if>
       <if test="startTime != null">
-        start_time = #{startTime,jdbcType=INTEGER},
+        start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="fullTaskNum != null">
         full_task_num = #{fullTaskNum,jdbcType=INTEGER},
@@ -325,16 +325,16 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bbd.domain.CompareStatistic">
     update bbd_pub_cmp_statistic
-    set annual_total = #{annualTotal,jdbcType=INTEGER},
-      annual_item_total = #{annualItemTotal,jdbcType=INTEGER},
-      instantly_total = #{instantlyTotal,jdbcType=INTEGER},
-      instantly_item_total = #{instantlyItemTotal,jdbcType=INTEGER},
-      annual_ex_total = #{annualExTotal,jdbcType=INTEGER},
-      instantly_ex_total = #{instantlyExTotal,jdbcType=INTEGER},
-      ex_total = #{exTotal,jdbcType=INTEGER},
-      total = #{total,jdbcType=INTEGER},
-      total_item = #{totalItem,jdbcType=INTEGER},
-      start_time = #{startTime,jdbcType=INTEGER},
+    set annual_total = #{annualTotal,jdbcType=BIGINT},
+      annual_item_total = #{annualItemTotal,jdbcType=BIGINT},
+      instantly_total = #{instantlyTotal,jdbcType=BIGINT},
+      instantly_item_total = #{instantlyItemTotal,jdbcType=BIGINT},
+      annual_ex_total = #{annualExTotal,jdbcType=BIGINT},
+      instantly_ex_total = #{instantlyExTotal,jdbcType=BIGINT},
+      ex_total = #{exTotal,jdbcType=BIGINT},
+      total = #{total,jdbcType=BIGINT},
+      total_item = #{totalItem,jdbcType=BIGINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
       full_task_num = #{fullTaskNum,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}

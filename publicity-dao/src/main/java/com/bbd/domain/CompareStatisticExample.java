@@ -175,52 +175,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalEqualTo(Integer value) {
+        public Criteria andAnnualTotalEqualTo(Long value) {
             addCriterion("annual_total =", value, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalNotEqualTo(Integer value) {
+        public Criteria andAnnualTotalNotEqualTo(Long value) {
             addCriterion("annual_total <>", value, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalGreaterThan(Integer value) {
+        public Criteria andAnnualTotalGreaterThan(Long value) {
             addCriterion("annual_total >", value, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAnnualTotalGreaterThanOrEqualTo(Long value) {
             addCriterion("annual_total >=", value, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalLessThan(Integer value) {
+        public Criteria andAnnualTotalLessThan(Long value) {
             addCriterion("annual_total <", value, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalLessThanOrEqualTo(Integer value) {
+        public Criteria andAnnualTotalLessThanOrEqualTo(Long value) {
             addCriterion("annual_total <=", value, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalIn(List<Integer> values) {
+        public Criteria andAnnualTotalIn(List<Long> values) {
             addCriterion("annual_total in", values, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalNotIn(List<Integer> values) {
+        public Criteria andAnnualTotalNotIn(List<Long> values) {
             addCriterion("annual_total not in", values, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalBetween(Integer value1, Integer value2) {
+        public Criteria andAnnualTotalBetween(Long value1, Long value2) {
             addCriterion("annual_total between", value1, value2, "annualTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualTotalNotBetween(Integer value1, Integer value2) {
+        public Criteria andAnnualTotalNotBetween(Long value1, Long value2) {
             addCriterion("annual_total not between", value1, value2, "annualTotal");
             return (Criteria) this;
         }
@@ -235,52 +235,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalEqualTo(Integer value) {
+        public Criteria andAnnualItemTotalEqualTo(Long value) {
             addCriterion("annual_item_total =", value, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalNotEqualTo(Integer value) {
+        public Criteria andAnnualItemTotalNotEqualTo(Long value) {
             addCriterion("annual_item_total <>", value, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalGreaterThan(Integer value) {
+        public Criteria andAnnualItemTotalGreaterThan(Long value) {
             addCriterion("annual_item_total >", value, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAnnualItemTotalGreaterThanOrEqualTo(Long value) {
             addCriterion("annual_item_total >=", value, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalLessThan(Integer value) {
+        public Criteria andAnnualItemTotalLessThan(Long value) {
             addCriterion("annual_item_total <", value, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalLessThanOrEqualTo(Integer value) {
+        public Criteria andAnnualItemTotalLessThanOrEqualTo(Long value) {
             addCriterion("annual_item_total <=", value, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalIn(List<Integer> values) {
+        public Criteria andAnnualItemTotalIn(List<Long> values) {
             addCriterion("annual_item_total in", values, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalNotIn(List<Integer> values) {
+        public Criteria andAnnualItemTotalNotIn(List<Long> values) {
             addCriterion("annual_item_total not in", values, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalBetween(Integer value1, Integer value2) {
+        public Criteria andAnnualItemTotalBetween(Long value1, Long value2) {
             addCriterion("annual_item_total between", value1, value2, "annualItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualItemTotalNotBetween(Integer value1, Integer value2) {
+        public Criteria andAnnualItemTotalNotBetween(Long value1, Long value2) {
             addCriterion("annual_item_total not between", value1, value2, "annualItemTotal");
             return (Criteria) this;
         }
@@ -295,52 +295,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalEqualTo(Integer value) {
+        public Criteria andInstantlyTotalEqualTo(Long value) {
             addCriterion("instantly_total =", value, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalNotEqualTo(Integer value) {
+        public Criteria andInstantlyTotalNotEqualTo(Long value) {
             addCriterion("instantly_total <>", value, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalGreaterThan(Integer value) {
+        public Criteria andInstantlyTotalGreaterThan(Long value) {
             addCriterion("instantly_total >", value, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andInstantlyTotalGreaterThanOrEqualTo(Long value) {
             addCriterion("instantly_total >=", value, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalLessThan(Integer value) {
+        public Criteria andInstantlyTotalLessThan(Long value) {
             addCriterion("instantly_total <", value, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalLessThanOrEqualTo(Integer value) {
+        public Criteria andInstantlyTotalLessThanOrEqualTo(Long value) {
             addCriterion("instantly_total <=", value, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalIn(List<Integer> values) {
+        public Criteria andInstantlyTotalIn(List<Long> values) {
             addCriterion("instantly_total in", values, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalNotIn(List<Integer> values) {
+        public Criteria andInstantlyTotalNotIn(List<Long> values) {
             addCriterion("instantly_total not in", values, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalBetween(Integer value1, Integer value2) {
+        public Criteria andInstantlyTotalBetween(Long value1, Long value2) {
             addCriterion("instantly_total between", value1, value2, "instantlyTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyTotalNotBetween(Integer value1, Integer value2) {
+        public Criteria andInstantlyTotalNotBetween(Long value1, Long value2) {
             addCriterion("instantly_total not between", value1, value2, "instantlyTotal");
             return (Criteria) this;
         }
@@ -355,52 +355,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalEqualTo(Integer value) {
+        public Criteria andInstantlyItemTotalEqualTo(Long value) {
             addCriterion("instantly_item_total =", value, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalNotEqualTo(Integer value) {
+        public Criteria andInstantlyItemTotalNotEqualTo(Long value) {
             addCriterion("instantly_item_total <>", value, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalGreaterThan(Integer value) {
+        public Criteria andInstantlyItemTotalGreaterThan(Long value) {
             addCriterion("instantly_item_total >", value, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andInstantlyItemTotalGreaterThanOrEqualTo(Long value) {
             addCriterion("instantly_item_total >=", value, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalLessThan(Integer value) {
+        public Criteria andInstantlyItemTotalLessThan(Long value) {
             addCriterion("instantly_item_total <", value, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalLessThanOrEqualTo(Integer value) {
+        public Criteria andInstantlyItemTotalLessThanOrEqualTo(Long value) {
             addCriterion("instantly_item_total <=", value, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalIn(List<Integer> values) {
+        public Criteria andInstantlyItemTotalIn(List<Long> values) {
             addCriterion("instantly_item_total in", values, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalNotIn(List<Integer> values) {
+        public Criteria andInstantlyItemTotalNotIn(List<Long> values) {
             addCriterion("instantly_item_total not in", values, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalBetween(Integer value1, Integer value2) {
+        public Criteria andInstantlyItemTotalBetween(Long value1, Long value2) {
             addCriterion("instantly_item_total between", value1, value2, "instantlyItemTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyItemTotalNotBetween(Integer value1, Integer value2) {
+        public Criteria andInstantlyItemTotalNotBetween(Long value1, Long value2) {
             addCriterion("instantly_item_total not between", value1, value2, "instantlyItemTotal");
             return (Criteria) this;
         }
@@ -415,52 +415,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalEqualTo(Integer value) {
+        public Criteria andAnnualExTotalEqualTo(Long value) {
             addCriterion("annual_ex_total =", value, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalNotEqualTo(Integer value) {
+        public Criteria andAnnualExTotalNotEqualTo(Long value) {
             addCriterion("annual_ex_total <>", value, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalGreaterThan(Integer value) {
+        public Criteria andAnnualExTotalGreaterThan(Long value) {
             addCriterion("annual_ex_total >", value, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAnnualExTotalGreaterThanOrEqualTo(Long value) {
             addCriterion("annual_ex_total >=", value, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalLessThan(Integer value) {
+        public Criteria andAnnualExTotalLessThan(Long value) {
             addCriterion("annual_ex_total <", value, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalLessThanOrEqualTo(Integer value) {
+        public Criteria andAnnualExTotalLessThanOrEqualTo(Long value) {
             addCriterion("annual_ex_total <=", value, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalIn(List<Integer> values) {
+        public Criteria andAnnualExTotalIn(List<Long> values) {
             addCriterion("annual_ex_total in", values, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalNotIn(List<Integer> values) {
+        public Criteria andAnnualExTotalNotIn(List<Long> values) {
             addCriterion("annual_ex_total not in", values, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalBetween(Integer value1, Integer value2) {
+        public Criteria andAnnualExTotalBetween(Long value1, Long value2) {
             addCriterion("annual_ex_total between", value1, value2, "annualExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andAnnualExTotalNotBetween(Integer value1, Integer value2) {
+        public Criteria andAnnualExTotalNotBetween(Long value1, Long value2) {
             addCriterion("annual_ex_total not between", value1, value2, "annualExTotal");
             return (Criteria) this;
         }
@@ -475,52 +475,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalEqualTo(Integer value) {
+        public Criteria andInstantlyExTotalEqualTo(Long value) {
             addCriterion("instantly_ex_total =", value, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalNotEqualTo(Integer value) {
+        public Criteria andInstantlyExTotalNotEqualTo(Long value) {
             addCriterion("instantly_ex_total <>", value, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalGreaterThan(Integer value) {
+        public Criteria andInstantlyExTotalGreaterThan(Long value) {
             addCriterion("instantly_ex_total >", value, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andInstantlyExTotalGreaterThanOrEqualTo(Long value) {
             addCriterion("instantly_ex_total >=", value, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalLessThan(Integer value) {
+        public Criteria andInstantlyExTotalLessThan(Long value) {
             addCriterion("instantly_ex_total <", value, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalLessThanOrEqualTo(Integer value) {
+        public Criteria andInstantlyExTotalLessThanOrEqualTo(Long value) {
             addCriterion("instantly_ex_total <=", value, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalIn(List<Integer> values) {
+        public Criteria andInstantlyExTotalIn(List<Long> values) {
             addCriterion("instantly_ex_total in", values, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalNotIn(List<Integer> values) {
+        public Criteria andInstantlyExTotalNotIn(List<Long> values) {
             addCriterion("instantly_ex_total not in", values, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalBetween(Integer value1, Integer value2) {
+        public Criteria andInstantlyExTotalBetween(Long value1, Long value2) {
             addCriterion("instantly_ex_total between", value1, value2, "instantlyExTotal");
             return (Criteria) this;
         }
 
-        public Criteria andInstantlyExTotalNotBetween(Integer value1, Integer value2) {
+        public Criteria andInstantlyExTotalNotBetween(Long value1, Long value2) {
             addCriterion("instantly_ex_total not between", value1, value2, "instantlyExTotal");
             return (Criteria) this;
         }
@@ -535,52 +535,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andExTotalEqualTo(Integer value) {
+        public Criteria andExTotalEqualTo(Long value) {
             addCriterion("ex_total =", value, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalNotEqualTo(Integer value) {
+        public Criteria andExTotalNotEqualTo(Long value) {
             addCriterion("ex_total <>", value, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalGreaterThan(Integer value) {
+        public Criteria andExTotalGreaterThan(Long value) {
             addCriterion("ex_total >", value, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andExTotalGreaterThanOrEqualTo(Long value) {
             addCriterion("ex_total >=", value, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalLessThan(Integer value) {
+        public Criteria andExTotalLessThan(Long value) {
             addCriterion("ex_total <", value, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalLessThanOrEqualTo(Integer value) {
+        public Criteria andExTotalLessThanOrEqualTo(Long value) {
             addCriterion("ex_total <=", value, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalIn(List<Integer> values) {
+        public Criteria andExTotalIn(List<Long> values) {
             addCriterion("ex_total in", values, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalNotIn(List<Integer> values) {
+        public Criteria andExTotalNotIn(List<Long> values) {
             addCriterion("ex_total not in", values, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalBetween(Integer value1, Integer value2) {
+        public Criteria andExTotalBetween(Long value1, Long value2) {
             addCriterion("ex_total between", value1, value2, "exTotal");
             return (Criteria) this;
         }
 
-        public Criteria andExTotalNotBetween(Integer value1, Integer value2) {
+        public Criteria andExTotalNotBetween(Long value1, Long value2) {
             addCriterion("ex_total not between", value1, value2, "exTotal");
             return (Criteria) this;
         }
@@ -595,52 +595,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andTotalEqualTo(Integer value) {
+        public Criteria andTotalEqualTo(Long value) {
             addCriterion("total =", value, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNotEqualTo(Integer value) {
+        public Criteria andTotalNotEqualTo(Long value) {
             addCriterion("total <>", value, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalGreaterThan(Integer value) {
+        public Criteria andTotalGreaterThan(Long value) {
             addCriterion("total >", value, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andTotalGreaterThanOrEqualTo(Long value) {
             addCriterion("total >=", value, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalLessThan(Integer value) {
+        public Criteria andTotalLessThan(Long value) {
             addCriterion("total <", value, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalLessThanOrEqualTo(Integer value) {
+        public Criteria andTotalLessThanOrEqualTo(Long value) {
             addCriterion("total <=", value, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalIn(List<Integer> values) {
+        public Criteria andTotalIn(List<Long> values) {
             addCriterion("total in", values, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNotIn(List<Integer> values) {
+        public Criteria andTotalNotIn(List<Long> values) {
             addCriterion("total not in", values, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalBetween(Integer value1, Integer value2) {
+        public Criteria andTotalBetween(Long value1, Long value2) {
             addCriterion("total between", value1, value2, "total");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNotBetween(Integer value1, Integer value2) {
+        public Criteria andTotalNotBetween(Long value1, Long value2) {
             addCriterion("total not between", value1, value2, "total");
             return (Criteria) this;
         }
@@ -655,52 +655,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemEqualTo(Integer value) {
+        public Criteria andTotalItemEqualTo(Long value) {
             addCriterion("total_item =", value, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemNotEqualTo(Integer value) {
+        public Criteria andTotalItemNotEqualTo(Long value) {
             addCriterion("total_item <>", value, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemGreaterThan(Integer value) {
+        public Criteria andTotalItemGreaterThan(Long value) {
             addCriterion("total_item >", value, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemGreaterThanOrEqualTo(Integer value) {
+        public Criteria andTotalItemGreaterThanOrEqualTo(Long value) {
             addCriterion("total_item >=", value, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemLessThan(Integer value) {
+        public Criteria andTotalItemLessThan(Long value) {
             addCriterion("total_item <", value, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemLessThanOrEqualTo(Integer value) {
+        public Criteria andTotalItemLessThanOrEqualTo(Long value) {
             addCriterion("total_item <=", value, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemIn(List<Integer> values) {
+        public Criteria andTotalItemIn(List<Long> values) {
             addCriterion("total_item in", values, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemNotIn(List<Integer> values) {
+        public Criteria andTotalItemNotIn(List<Long> values) {
             addCriterion("total_item not in", values, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemBetween(Integer value1, Integer value2) {
+        public Criteria andTotalItemBetween(Long value1, Long value2) {
             addCriterion("total_item between", value1, value2, "totalItem");
             return (Criteria) this;
         }
 
-        public Criteria andTotalItemNotBetween(Integer value1, Integer value2) {
+        public Criteria andTotalItemNotBetween(Long value1, Long value2) {
             addCriterion("total_item not between", value1, value2, "totalItem");
             return (Criteria) this;
         }
@@ -715,52 +715,52 @@ public class CompareStatisticExample {
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeEqualTo(Integer value) {
+        public Criteria andStartTimeEqualTo(Date value) {
             addCriterion("start_time =", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeNotEqualTo(Integer value) {
+        public Criteria andStartTimeNotEqualTo(Date value) {
             addCriterion("start_time <>", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeGreaterThan(Integer value) {
+        public Criteria andStartTimeGreaterThan(Date value) {
             addCriterion("start_time >", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeGreaterThanOrEqualTo(Integer value) {
+        public Criteria andStartTimeGreaterThanOrEqualTo(Date value) {
             addCriterion("start_time >=", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeLessThan(Integer value) {
+        public Criteria andStartTimeLessThan(Date value) {
             addCriterion("start_time <", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeLessThanOrEqualTo(Integer value) {
+        public Criteria andStartTimeLessThanOrEqualTo(Date value) {
             addCriterion("start_time <=", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeIn(List<Integer> values) {
+        public Criteria andStartTimeIn(List<Date> values) {
             addCriterion("start_time in", values, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeNotIn(List<Integer> values) {
+        public Criteria andStartTimeNotIn(List<Date> values) {
             addCriterion("start_time not in", values, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeBetween(Integer value1, Integer value2) {
+        public Criteria andStartTimeBetween(Date value1, Date value2) {
             addCriterion("start_time between", value1, value2, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeNotBetween(Integer value1, Integer value2) {
+        public Criteria andStartTimeNotBetween(Date value1, Date value2) {
             addCriterion("start_time not between", value1, value2, "startTime");
             return (Criteria) this;
         }

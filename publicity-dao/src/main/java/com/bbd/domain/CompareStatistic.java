@@ -5,25 +5,25 @@ import java.util.Date;
 public class CompareStatistic {
     private Long id;
 
-    private Integer annualTotal;
+    private Long annualTotal;
 
-    private Integer annualItemTotal;
+    private Long annualItemTotal;
 
-    private Integer instantlyTotal;
+    private Long instantlyTotal;
 
-    private Integer instantlyItemTotal;
+    private Long instantlyItemTotal;
 
-    private Integer annualExTotal;
+    private Long annualExTotal;
 
-    private Integer instantlyExTotal;
+    private Long instantlyExTotal;
 
-    private Integer exTotal;
+    private Long exTotal;
 
-    private Integer total;
+    private Long total;
 
-    private Integer totalItem;
+    private Long totalItem;
 
-    private Integer startTime;
+    private Date startTime;
 
     private Integer fullTaskNum;
 
@@ -39,83 +39,83 @@ public class CompareStatistic {
         this.id = id;
     }
 
-    public Integer getAnnualTotal() {
+    public Long getAnnualTotal() {
         return annualTotal;
     }
 
-    public void setAnnualTotal(Integer annualTotal) {
+    public void setAnnualTotal(Long annualTotal) {
         this.annualTotal = annualTotal;
     }
 
-    public Integer getAnnualItemTotal() {
+    public Long getAnnualItemTotal() {
         return annualItemTotal;
     }
 
-    public void setAnnualItemTotal(Integer annualItemTotal) {
+    public void setAnnualItemTotal(Long annualItemTotal) {
         this.annualItemTotal = annualItemTotal;
     }
 
-    public Integer getInstantlyTotal() {
+    public Long getInstantlyTotal() {
         return instantlyTotal;
     }
 
-    public void setInstantlyTotal(Integer instantlyTotal) {
+    public void setInstantlyTotal(Long instantlyTotal) {
         this.instantlyTotal = instantlyTotal;
     }
 
-    public Integer getInstantlyItemTotal() {
+    public Long getInstantlyItemTotal() {
         return instantlyItemTotal;
     }
 
-    public void setInstantlyItemTotal(Integer instantlyItemTotal) {
+    public void setInstantlyItemTotal(Long instantlyItemTotal) {
         this.instantlyItemTotal = instantlyItemTotal;
     }
 
-    public Integer getAnnualExTotal() {
+    public Long getAnnualExTotal() {
         return annualExTotal;
     }
 
-    public void setAnnualExTotal(Integer annualExTotal) {
+    public void setAnnualExTotal(Long annualExTotal) {
         this.annualExTotal = annualExTotal;
     }
 
-    public Integer getInstantlyExTotal() {
+    public Long getInstantlyExTotal() {
         return instantlyExTotal;
     }
 
-    public void setInstantlyExTotal(Integer instantlyExTotal) {
+    public void setInstantlyExTotal(Long instantlyExTotal) {
         this.instantlyExTotal = instantlyExTotal;
     }
 
-    public Integer getExTotal() {
+    public Long getExTotal() {
         return exTotal;
     }
 
-    public void setExTotal(Integer exTotal) {
+    public void setExTotal(Long exTotal) {
         this.exTotal = exTotal;
     }
 
-    public Integer getTotal() {
+    public Long getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Long total) {
         this.total = total;
     }
 
-    public Integer getTotalItem() {
+    public Long getTotalItem() {
         return totalItem;
     }
 
-    public void setTotalItem(Integer totalItem) {
+    public void setTotalItem(Long totalItem) {
         this.totalItem = totalItem;
     }
 
-    public Integer getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Integer startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
