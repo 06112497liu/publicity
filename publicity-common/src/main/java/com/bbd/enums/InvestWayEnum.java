@@ -38,7 +38,7 @@ public enum InvestWayEnum {
                 return vals[i].getDesc();
             }
         }
-        return "--";
+        return null;
     }
     
     public void setCode(int code) {

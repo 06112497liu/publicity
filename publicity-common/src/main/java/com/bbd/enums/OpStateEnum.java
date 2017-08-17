@@ -43,7 +43,7 @@ public enum OpStateEnum {
     }
     
     public static String getDescByCode(int code) {
-        InvestWayEnum[] vals = InvestWayEnum.values();
+        OpStateEnum[] vals = OpStateEnum.values();
         for (int i = 0; i < vals.length; i++) {
             if (vals[i].getCode() == code) {
                 return vals[i].getDesc();
