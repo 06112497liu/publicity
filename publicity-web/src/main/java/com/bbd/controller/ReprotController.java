@@ -8,6 +8,7 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,13 +43,24 @@ public class ReprotController extends AbstractController {
      @ApiOperation(value = "企业信息比对详情报告导出", httpMethod = "GET")
      @ApiImplicitParams({ @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, paramType = "query", dataType = "String") })
      @RequestMapping(value = "/exception/detail/download.do")
-     public void exportExDetail(String nbxh) throws IOException {
+     public void exportExDetailByNbxh(String nbxh) throws IOException {
          ValidateUtil.checkNull(nbxh, CommonErrorCode.PARAM_NULL);
          HttpServletRequest request = SessionContext.getRequest();
          HttpServletResponse response = SessionContext.getResponse();
          String fileName = "企业信息对比详情报告.xlsx";
          OutputStream out = buildResponse(fileName, request, response);
          reportService.exDetailByNbxh(nbxh, out);
+     }
+     
+     @ApiOperation(value = "企业信息比对详情报告批量导出", httpMethod = "GET")
+     @ApiImplicitParams({ 
+         @ApiImplicitParam(name = "nbxhs", value = "企业nbxh数组", required = false, paramType = "query", dataType = "String"),
+         @ApiImplicitParam(name = "exType", value = "异常类型", required = false, paramType = "query", dataType = "String")
+     })
+     @RequestMapping(value = "/exception/detail/batch/download.do")
+     public void exportExDetailByNbhxs(List<String> nbxhs, Integer exType) {
+         ValidateUtil.checkNull(exType, CommonErrorCode.PARAM_NULL);
+         ValidateUtil.checkListEmpty(nbxhs, CommonErrorCode.PARAM_NULL);
      }
      
      // 处理下载文件问题

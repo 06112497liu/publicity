@@ -120,7 +120,7 @@ public class AnnualExtProvGuarCollector extends AnnualPropertyCollector<AnnualEx
         result.add(debitorProp);
 
         // 主债权种类对比项
-        String stdCode = (extProvStd == null ? null : extProvStd.getPriCalSecKind());
+        String stdCode = extProvStd.getPriCalSecKind();
         String cmpCode = (extProvCmp == null ? null : extProvCmp.getPriCalSecKind());
         String stdDesc = (stdCode == null ? null : PriClaTypeEnum.getDescByCode(Integer.parseInt(stdCode)));
         String cmpDesc = (cmpCode == null ? null : PriClaTypeEnum.getDescByCode(Integer.parseInt(cmpCode)));

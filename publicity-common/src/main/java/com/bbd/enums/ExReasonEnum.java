@@ -23,16 +23,8 @@ public enum ExReasonEnum {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public String getDesc() {
         return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
     
     public static String getDescByCode(int code) {

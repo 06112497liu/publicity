@@ -102,7 +102,7 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
         result.add(subCronDateProp);
 
         // 认缴出资方式对比项
-        String subStdCode = (std == null ? null : std.getSubCronFrom());
+        String subStdCode = std.getSubCronFrom();
         String subCmpCode = (cmp == null ? null : cmp.getSubCronFrom());
         String subStdDesc = (subStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subStdCode)));
         String subCmpDesc = (subCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subCmpCode)));
@@ -114,7 +114,7 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
         result.add(acCronCapProp);
 
         // 实缴出资方式对比项
-        String acStdCode = (std == null ? null : std.getSubCronFrom());
+        String acStdCode = std.getSubCronFrom();
         String acCmpCode = (cmp == null ? null : cmp.getSubCronFrom());
         String acStdDesc = (acStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(acStdCode)));
         String acCmpDesc = (acCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(acCmpCode)));

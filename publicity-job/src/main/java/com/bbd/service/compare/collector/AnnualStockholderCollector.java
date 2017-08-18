@@ -126,7 +126,7 @@ public class AnnualStockholderCollector extends AnnualPropertyCollector<AnnualSt
         result.add(subCronDateProp);
 
         // 认缴出资方式对比项
-        String subStdCode = (stockholderStd == null ? null : stockholderStd.getSubCronFrom());
+        String subStdCode = stockholderStd.getSubCronFrom();
         String subCmpCode = (stockholderCmp == null ? null : stockholderCmp.getSubCronFrom());
         String subStdDesc = (subStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subStdCode)));
         String subCmpDesc = (subCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subCmpCode)));
@@ -140,7 +140,7 @@ public class AnnualStockholderCollector extends AnnualPropertyCollector<AnnualSt
         result.add(acCronCapProp);
 
         // 实缴出资方式对比项
-        String acStdCode = (stockholderStd == null ? null : stockholderStd.getSubCronFrom());
+        String acStdCode = stockholderStd.getSubCronFrom();
         String acCmpCode = (stockholderCmp == null ? null : stockholderCmp.getSubCronFrom());
         String acStdDesc = (acStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(acStdCode)));
         String acCmpDesc = (acCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(acCmpCode)));

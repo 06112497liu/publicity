@@ -40,14 +40,6 @@ public enum InvestWayEnum {
         }
         return null;
     }
-    
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
 
     public int getCode() {
         return code;

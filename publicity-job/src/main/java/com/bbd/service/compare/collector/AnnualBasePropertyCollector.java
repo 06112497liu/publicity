@@ -88,7 +88,7 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
             result.add(postalCodeProp);
 
             //将经营状态编码转换成中文
-            String stdState = (std == null ? null : std.getOpstate());
+            String stdState = std.getOpstate();
             String cmpState = (cmp == null ? null : cmp.getOpstate());
             String stdStateDesc = (stdState == null ? null : OpStateEnum.getDescByCode(Integer.parseInt(stdState)));
             String cmpStateDesc = (cmpState == null ? null : OpStateEnum.getDescByCode(Integer.parseInt(cmpState)));;
