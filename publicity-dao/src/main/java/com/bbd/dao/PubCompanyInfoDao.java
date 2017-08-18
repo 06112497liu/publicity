@@ -3,9 +3,8 @@ package com.bbd.dao;
 import com.bbd.domain.PubCompanyInfo;
 import com.bbd.domain.PubCompanyInfoExample;
 import com.mybatis.domain.PageBounds;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface PubCompanyInfoDao {
     long countByExample(PubCompanyInfoExample example);

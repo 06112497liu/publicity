@@ -11,19 +11,27 @@ public class PubCompanyInfo {
 
     private String legalPerson;
 
+    private String phones;
+
+    private String emails;
+
     private String regno;
 
     private String region;
 
-    private String primaryIndustry;
+    private String addr;
 
     private Integer companyProperty;
+
+    private String primaryIndustry;
 
     private Integer annualed;
 
     private Date gmtCreate;
 
     private Date gmtModified;
+
+    private String companyType;
 
     public Long getId() {
         return id;
@@ -57,6 +65,22 @@ public class PubCompanyInfo {
         this.legalPerson = legalPerson;
     }
 
+    public String getPhones() {
+        return phones;
+    }
+
+    public void setPhones(String phones) {
+        this.phones = phones;
+    }
+
+    public String getEmails() {
+        return emails;
+    }
+
+    public void setEmails(String emails) {
+        this.emails = emails;
+    }
+
     public String getRegno() {
         return regno;
     }
@@ -73,12 +97,12 @@ public class PubCompanyInfo {
         this.region = region;
     }
 
-    public String getPrimaryIndustry() {
-        return primaryIndustry;
+    public String getAddr() {
+        return addr;
     }
 
-    public void setPrimaryIndustry(String primaryIndustry) {
-        this.primaryIndustry = primaryIndustry;
+    public void setAddr(String addr) {
+        this.addr = addr;
     }
 
     public Integer getCompanyProperty() {
@@ -87,6 +111,14 @@ public class PubCompanyInfo {
 
     public void setCompanyProperty(Integer companyProperty) {
         this.companyProperty = companyProperty;
+    }
+
+    public String getPrimaryIndustry() {
+        return primaryIndustry;
+    }
+
+    public void setPrimaryIndustry(String primaryIndustry) {
+        this.primaryIndustry = primaryIndustry;
     }
 
     public Integer getAnnualed() {
@@ -111,5 +143,13 @@ public class PubCompanyInfo {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public String getCompanyType() {
+        return companyType;
+    }
+
+    public void setCompanyType(String companyType) {
+        this.companyType = companyType;
     }
 }

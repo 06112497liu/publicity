@@ -6,13 +6,17 @@
     <result column="nbxh" jdbcType="VARCHAR" property="nbxh" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
     <result column="legal_person" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="phones" jdbcType="VARCHAR" property="phones" />
+    <result column="emails" jdbcType="VARCHAR" property="emails" />
     <result column="regno" jdbcType="VARCHAR" property="regno" />
     <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="addr" jdbcType="VARCHAR" property="addr" />
+    <result column="company_property" jdbcType="BIT" property="companyProperty" />
     <result column="primary_industry" jdbcType="VARCHAR" property="primaryIndustry" />
-    <result column="company_property" jdbcType="TINYINT" property="companyProperty" />
     <result column="annualed" jdbcType="BIT" property="annualed" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="company_type" jdbcType="VARCHAR" property="companyType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, nbxh, company_name, legal_person, regno, region, primary_industry, company_property, 
-    annualed, gmt_create, gmt_modified
+    id, nbxh, company_name, legal_person, phones, emails, regno, region, addr, company_property, 
+    primary_industry, annualed, gmt_create, gmt_modified, company_type
   </sql>
   <select id="selectByExample" parameterType="com.bbd.domain.PubCompanyInfoExample" resultMap="BaseResultMap">
     select
@@ -106,13 +110,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into bbd_pub_company_info (nbxh, company_name, legal_person, 
-      regno, region, primary_industry, 
-      company_property, annualed, gmt_create, 
-      gmt_modified)
+      phones, emails, regno, 
+      region, addr, company_property, 
+      primary_industry, annualed, gmt_create, 
+      gmt_modified, company_type)
     values (#{nbxh,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, 
-      #{regno,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{primaryIndustry,jdbcType=VARCHAR}, 
-      #{companyProperty,jdbcType=TINYINT}, #{annualed,jdbcType=BIT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP})
+      #{phones,jdbcType=VARCHAR}, #{emails,jdbcType=VARCHAR}, #{regno,jdbcType=VARCHAR}, 
+      #{region,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{companyProperty,jdbcType=BIT}, 
+      #{primaryIndustry,jdbcType=VARCHAR}, #{annualed,jdbcType=BIT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{companyType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bbd.domain.PubCompanyInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -129,17 +135,26 @@
       <if test="legalPerson != null">
         legal_person,
       </if>
+      <if test="phones != null">
+        phones,
+      </if>
+      <if test="emails != null">
+        emails,
+      </if>
       <if test="regno != null">
         regno,
       </if>
       <if test="region != null">
         region,
       </if>
-      <if test="primaryIndustry != null">
-        primary_industry,
+      <if test="addr != null">
+        addr,
       </if>
       <if test="companyProperty != null">
         company_property,
+      </if>
+      <if test="primaryIndustry != null">
+        primary_industry,
       </if>
       <if test="annualed != null">
         annualed,
@@ -149,6 +164,9 @@
       </if>
       <if test="gmtModified != null">
         gmt_modified,
+      </if>
+      <if test="companyType != null">
+        company_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -161,17 +179,26 @@
       <if test="legalPerson != null">
         #{legalPerson,jdbcType=VARCHAR},
       </if>
+      <if test="phones != null">
+        #{phones,jdbcType=VARCHAR},
+      </if>
+      <if test="emails != null">
+        #{emails,jdbcType=VARCHAR},
+      </if>
       <if test="regno != null">
         #{regno,jdbcType=VARCHAR},
       </if>
       <if test="region != null">
         #{region,jdbcType=VARCHAR},
       </if>
-      <if test="primaryIndustry != null">
-        #{primaryIndustry,jdbcType=VARCHAR},
+      <if test="addr != null">
+        #{addr,jdbcType=VARCHAR},
       </if>
       <if test="companyProperty != null">
-        #{companyProperty,jdbcType=TINYINT},
+        #{companyProperty,jdbcType=BIT},
+      </if>
+      <if test="primaryIndustry != null">
+        #{primaryIndustry,jdbcType=VARCHAR},
       </if>
       <if test="annualed != null">
         #{annualed,jdbcType=BIT},
@@ -181,6 +208,9 @@
       </if>
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyType != null">
+        #{companyType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -205,17 +235,26 @@
       <if test="record.legalPerson != null">
         legal_person = #{record.legalPerson,jdbcType=VARCHAR},
       </if>
+      <if test="record.phones != null">
+        phones = #{record.phones,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emails != null">
+        emails = #{record.emails,jdbcType=VARCHAR},
+      </if>
       <if test="record.regno != null">
         regno = #{record.regno,jdbcType=VARCHAR},
       </if>
       <if test="record.region != null">
         region = #{record.region,jdbcType=VARCHAR},
       </if>
-      <if test="record.primaryIndustry != null">
-        primary_industry = #{record.primaryIndustry,jdbcType=VARCHAR},
+      <if test="record.addr != null">
+        addr = #{record.addr,jdbcType=VARCHAR},
       </if>
       <if test="record.companyProperty != null">
-        company_property = #{record.companyProperty,jdbcType=TINYINT},
+        company_property = #{record.companyProperty,jdbcType=BIT},
+      </if>
+      <if test="record.primaryIndustry != null">
+        primary_industry = #{record.primaryIndustry,jdbcType=VARCHAR},
       </if>
       <if test="record.annualed != null">
         annualed = #{record.annualed,jdbcType=BIT},
@@ -225,6 +264,9 @@
       </if>
       <if test="record.gmtModified != null">
         gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.companyType != null">
+        company_type = #{record.companyType,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -237,13 +279,17 @@
       nbxh = #{record.nbxh,jdbcType=VARCHAR},
       company_name = #{record.companyName,jdbcType=VARCHAR},
       legal_person = #{record.legalPerson,jdbcType=VARCHAR},
+      phones = #{record.phones,jdbcType=VARCHAR},
+      emails = #{record.emails,jdbcType=VARCHAR},
       regno = #{record.regno,jdbcType=VARCHAR},
       region = #{record.region,jdbcType=VARCHAR},
+      addr = #{record.addr,jdbcType=VARCHAR},
+      company_property = #{record.companyProperty,jdbcType=BIT},
       primary_industry = #{record.primaryIndustry,jdbcType=VARCHAR},
-      company_property = #{record.companyProperty,jdbcType=TINYINT},
       annualed = #{record.annualed,jdbcType=BIT},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      company_type = #{record.companyType,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -260,17 +306,26 @@
       <if test="legalPerson != null">
         legal_person = #{legalPerson,jdbcType=VARCHAR},
       </if>
+      <if test="phones != null">
+        phones = #{phones,jdbcType=VARCHAR},
+      </if>
+      <if test="emails != null">
+        emails = #{emails,jdbcType=VARCHAR},
+      </if>
       <if test="regno != null">
         regno = #{regno,jdbcType=VARCHAR},
       </if>
       <if test="region != null">
         region = #{region,jdbcType=VARCHAR},
       </if>
-      <if test="primaryIndustry != null">
-        primary_industry = #{primaryIndustry,jdbcType=VARCHAR},
+      <if test="addr != null">
+        addr = #{addr,jdbcType=VARCHAR},
       </if>
       <if test="companyProperty != null">
-        company_property = #{companyProperty,jdbcType=TINYINT},
+        company_property = #{companyProperty,jdbcType=BIT},
+      </if>
+      <if test="primaryIndustry != null">
+        primary_industry = #{primaryIndustry,jdbcType=VARCHAR},
       </if>
       <if test="annualed != null">
         annualed = #{annualed,jdbcType=BIT},
@@ -281,6 +336,9 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="companyType != null">
+        company_type = #{companyType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -289,13 +347,17 @@
     set nbxh = #{nbxh,jdbcType=VARCHAR},
       company_name = #{companyName,jdbcType=VARCHAR},
       legal_person = #{legalPerson,jdbcType=VARCHAR},
+      phones = #{phones,jdbcType=VARCHAR},
+      emails = #{emails,jdbcType=VARCHAR},
       regno = #{regno,jdbcType=VARCHAR},
       region = #{region,jdbcType=VARCHAR},
+      addr = #{addr,jdbcType=VARCHAR},
+      company_property = #{companyProperty,jdbcType=BIT},
       primary_industry = #{primaryIndustry,jdbcType=VARCHAR},
-      company_property = #{companyProperty,jdbcType=TINYINT},
       annualed = #{annualed,jdbcType=BIT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      company_type = #{companyType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByExampleWithPageBounds" parameterType="com.bbd.domain.PubCompanyInfoExample" resultMap="BaseResultMap">

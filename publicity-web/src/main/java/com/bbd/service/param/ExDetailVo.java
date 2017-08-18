@@ -30,7 +30,7 @@ public class ExDetailVo {
     @ApiModelProperty(value = "对比属性名称描述", required = false)
     private String propNameDesc;
 
-    @ApiModelProperty(value = "所属模块（1. 基本信息；2. 网站或网店信息；3. 股东及出资信息；4. 对外投资信息；5. 资产状况信息；6. 对外提供保证担保信息；7. 股权变更信息；8. 社保信息；）", required = false)
+    @ApiModelProperty(value = "所属模块", required = false)
     private Integer submodule;
 
     @ApiModelProperty(value = "异常原因（1. 隐瞒未报；2. 登记不一致；4. 格式错误）", required = false)
