@@ -31,6 +31,11 @@ public abstract class CompareProperty<T> {
      * 对比数据
      */
     private T other;
+    
+    /**
+     * 单位
+     */
+    private String unit;
 
     /**
      * 对比信息。0. 正常；1. 隐瞒未报；2. 登记不一致；4. 格式错误
@@ -70,4 +75,13 @@ public abstract class CompareProperty<T> {
     public void setOther(T other) {
         this.other = other;
     }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }    
+    
 }

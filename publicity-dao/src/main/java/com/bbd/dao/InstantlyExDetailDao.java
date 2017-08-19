@@ -3,11 +3,12 @@ package com.bbd.dao;
 import com.bbd.domain.InstantlyExDetail;
 import com.bbd.domain.InstantlyExDetailExample;
 import com.mybatis.domain.PageBounds;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface InstantlyExDetailDao {
+    long countByExample(InstantlyExDetailExample example);
+
     int deleteByPrimaryKey(Long id);
 
     int insert(InstantlyExDetail record);

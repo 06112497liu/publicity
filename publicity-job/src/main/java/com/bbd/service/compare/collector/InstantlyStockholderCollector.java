@@ -94,7 +94,7 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
         result.add(shareholderProp);
 
         // 认缴出资额对比项
-        NumberCompareProperty subCronCapProp = NumberCompareProperty.build(PropertyEnum.INS_SUB_CRON_CAP.getCode(), stockHolderModule, std.getSubCronCap(), cmp != null ? cmp.getSubCronCap() : null);
+        NumberCompareProperty subCronCapProp = NumberCompareProperty.build(PropertyEnum.INS_SUB_CRON_CAP.getCode(), stockHolderModule, std.getSubCronCap(), cmp != null ? cmp.getSubCronCap() : null, "万元");
         result.add(subCronCapProp);
 
         // 认缴出资时间对比项
@@ -110,7 +110,7 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
         result.add(subCronFromProp);
 
         // 实缴出资额对比项
-        NumberCompareProperty acCronCapProp = NumberCompareProperty.build(PropertyEnum.INS_AC_CRON_CAP.getCode(), stockHolderModule, std.getAcCronCap(), cmp != null ? cmp.getAcCronCap() : null);
+        NumberCompareProperty acCronCapProp = NumberCompareProperty.build(PropertyEnum.INS_AC_CRON_CAP.getCode(), stockHolderModule, std.getAcCronCap(), cmp != null ? cmp.getAcCronCap() : null, "万元");
         result.add(acCronCapProp);
 
         // 实缴出资方式对比项

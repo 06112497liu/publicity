@@ -27,6 +27,16 @@ public class StringCompareProperty extends CompareProperty<String> {
         p.setOther(other);
         return p;
     }
+    
+    public static StringCompareProperty build(String name, Integer submodule, String base, String other, String unit) {
+        StringCompareProperty p = new StringCompareProperty();
+        p.setName(name);
+        p.setSubmodule(submodule);
+        p.setBase(base);
+        p.setOther(other);
+        p.setUnit(unit);
+        return p;
+    }
 
     @Override
     public int compare() {

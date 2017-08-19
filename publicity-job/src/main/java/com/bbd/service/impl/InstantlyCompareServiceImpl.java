@@ -86,6 +86,7 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
         } else {
             ex.setOther(String.valueOf(prop.getOther()));            
         }
+        ex.setUnit(prop.getUnit());
         ex.setGmtCreate(now);
 
         return ex;

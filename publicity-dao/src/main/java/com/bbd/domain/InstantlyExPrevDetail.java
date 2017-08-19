@@ -23,6 +23,8 @@ public class InstantlyExPrevDetail {
 
     private String other;
 
+    private String unit;
+
     private Date gmtCreate;
 
     private Date gmtModified;
@@ -107,6 +109,14 @@ public class InstantlyExPrevDetail {
 
     public void setOther(String other) {
         this.other = other;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Date getGmtCreate() {

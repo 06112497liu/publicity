@@ -4,6 +4,7 @@
  */
 package com.bbd.service.param;
 
+import com.bbd.util.StringUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,8 +44,11 @@ public class ExDetailVo {
     @ApiModelProperty(value = "对比标准", required = false)
     private String base;
 
-    @ApiModelProperty(value = "年报数据", required = false)
+    @ApiModelProperty(value = "公示数据", required = false)
     private String other;
+    
+    @ApiModelProperty(value = "单位", required = false)
+    private String unit;
 
     public Long getId() {
         return id;
@@ -106,6 +110,9 @@ public class ExDetailVo {
         if("null".equals(base)) {
             return "无数据";
         }
+        if(StringUtils.isNumeric(base)) {
+            return base + getUnit();
+        }
         return base;
     }
 
@@ -117,10 +124,22 @@ public class ExDetailVo {
         if("null".equals(other)) {
             return "无数据";
         }
+        if(StringUtils.isNumeric(other)) {
+            return other + getUnit();
+        }
         return other;
     }
 
     public void setOther(String other) {
         this.other = other;
     }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }    
+    
 }

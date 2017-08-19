@@ -25,6 +25,16 @@ public class NumberCompareProperty extends CompareProperty<Number> {
         property.setOther(other);
         return property;
     }
+    
+    public static NumberCompareProperty build(String name, Integer submodule, Number base, Number other, String unit) {
+        NumberCompareProperty property = new NumberCompareProperty();
+        property.setName(name);
+        property.setSubmodule(submodule);
+        property.setBase(base);
+        property.setOther(other);
+        property.setUnit(unit);
+        return property;
+    }
 
 
     @Override

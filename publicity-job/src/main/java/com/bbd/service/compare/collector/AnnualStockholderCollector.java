@@ -117,7 +117,7 @@ public class AnnualStockholderCollector extends AnnualPropertyCollector<AnnualSt
 
         // 认缴出资额对比项
         NumberCompareProperty subCronCapProp = NumberCompareProperty.build(PropertyEnum.ANNUAL_SUB_CRON_CAP.getCode(), stockHolderModule, stockholderStd.getSubCronCap(),
-            stockholderCmp != null ? stockholderCmp.getSubCronCap() : null);
+            stockholderCmp != null ? stockholderCmp.getSubCronCap() : null, "万元");
         result.add(subCronCapProp);
 
         // 认缴出资时间对比项
@@ -136,7 +136,7 @@ public class AnnualStockholderCollector extends AnnualPropertyCollector<AnnualSt
 
         // 实缴出资额对比项
         NumberCompareProperty acCronCapProp = NumberCompareProperty.build(PropertyEnum.ANNUAL_AC_CRON_CAP.getCode(), stockHolderModule, stockholderStd.getAcCronCap(),
-            stockholderCmp != null ? stockholderCmp.getAcCronCap() : null);
+            stockholderCmp != null ? stockholderCmp.getAcCronCap() : null, "万元");
         result.add(acCronCapProp);
 
         // 实缴出资方式对比项

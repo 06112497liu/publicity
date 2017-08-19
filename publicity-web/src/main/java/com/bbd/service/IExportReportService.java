@@ -15,10 +15,18 @@ import java.io.OutputStream;
 public interface IExportReportService {
     
     /**
-     * 企业信息比对详情报告
+     * 企业信息比对详情报告（单个）
      * @param nbxh
      * @param out
      */
-    void exDetailByNbxh(String nbxh, OutputStream out);    
+    void exDetailByNbxh(String nbxh, OutputStream out);  
+    
+    /**
+     * 企业信息对比详情报告（批量）
+     * @param nbxhs
+     * @param out
+     */
+    void exDetailByNbxhs(String[] nbxhs, OutputStream out, Integer exType);
+    
 }
 

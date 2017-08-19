@@ -11,25 +11,39 @@
  */
 public class ExDetailReportVo {
 
-    private String exType;
-    
+    // 公司名称
     private String companyName;
     
+    
+    // 注册号或信用代码
     private String regno;
     
+    // 地址
     private String adress;
     
+    // 电话
     private String phone;
     
-    private String email;
+    // 邮箱
+    private String email;    
+
+    // 异常种类（年报信息异常、即时信息异常）
+    private String exType;
     
+    // 异常信息类别
+    private String exClass;
+    
+    // 异常项
     private String exItem;
     
-    private String exReason;
-    
+    // 数据对比标准
     private String base;
     
+    // 企业公示数据
     private String other;
+    
+    // 异常原因
+    private String exReason;
 
     public String getExType() {
         return exType;
@@ -69,6 +83,14 @@ public class ExDetailReportVo {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }  
+    
+    public String getExClass() {
+        return exClass;
+    }
+
+    public void setExClass(String exClass) {
+        this.exClass = exClass;
     }
 
     public String getEmail() {
@@ -109,12 +131,12 @@ public class ExDetailReportVo {
 
     public void setOther(String other) {
         this.other = other;
-    }
+    }      
 
     @Override
     public String toString() {
-        return "ExDetailReportVo [exType=" + exType + ", companyName=" + companyName + ", regno=" + regno + ", adress=" + adress + ", phone=" + phone + ", email=" + email + ", exItem=" + exItem
-               + ", exReason=" + exReason + ", other=" + other + "]";
+        return "ExDetailReportVo [exType=" + exType + ", companyName=" + companyName + ", regno=" + regno + ", adress=" + adress + ", phone=" + phone + ", email=" + email + ", exClass=" + exClass
+               + ", exItem=" + exItem + ", exReason=" + exReason + ", base=" + base + ", other=" + other + "]";
     }      
     
 }

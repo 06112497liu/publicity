@@ -8,6 +8,7 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import com.bbd.service.IExportReportService;
 import com.bbd.util.SessionContext;
 import com.bbd.util.ValidateUtil;
 import com.exception.CommonErrorCode;
+import com.google.common.collect.Lists;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -54,13 +56,27 @@ public class ReprotController extends AbstractController {
      
      @ApiOperation(value = "企业信息比对详情报告批量导出", httpMethod = "GET")
      @ApiImplicitParams({ 
-         @ApiImplicitParam(name = "nbxhs", value = "企业nbxh数组", required = false, paramType = "query", dataType = "String"),
-         @ApiImplicitParam(name = "exType", value = "异常类型", required = false, paramType = "query", dataType = "String")
+         @ApiImplicitParam(name = "nbxhs", value = "企业nbxh数组", required = true, paramType = "query", dataType = "String"),
+         @ApiImplicitParam(name = "exType", value = "异常类型（1-年报信息公示异常，2-即时信息公示异常，3-完整异常）", required = true, paramType = "query", dataType = "String")
      })
      @RequestMapping(value = "/exception/detail/batch/download.do")
-     public void exportExDetailByNbhxs(List<String> nbxhs, Integer exType) {
-         ValidateUtil.checkNull(exType, CommonErrorCode.PARAM_NULL);
-         ValidateUtil.checkListEmpty(nbxhs, CommonErrorCode.PARAM_NULL);
+     public void exportExDetailByNbhxs(String[] nbxhs, Integer exType) throws IOException {
+         ValidateUtil.checkAllNull(CommonErrorCode.PARAM_NULL, exType, nbxhs);
+         HttpServletRequest request = SessionContext.getRequest();
+         HttpServletResponse response = SessionContext.getResponse();
+         String fileName = "企业信息对比详情报告.xlsx";
+         OutputStream out = buildResponse(fileName, request, response);
+         reportService.exDetailByNbxhs(nbxhs, out, exType);
+     }
+     
+     @ApiOperation(value = "企业信息比对详情报告全量导出", httpMethod = "GET")
+     @ApiImplicitParams({ 
+         @ApiImplicitParam(name = "nbxhs", value = "企业nbxh数组", required = true, paramType = "query", dataType = "String"),
+         @ApiImplicitParam(name = "exType", value = "异常类型（1-年报信息公示异常，2-即时信息公示异常，3-完整异常）", required = true, paramType = "query", dataType = "String")
+     })
+     @RequestMapping(value = "/exception/detail/all/download.do")
+     public void ExportExDetailByAll() throws IOException {
+         
      }
      
      // 处理下载文件问题

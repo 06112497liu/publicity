@@ -27,6 +27,16 @@ public enum InstantlyModule {
         this.code = code;
         this.desc = desc;
     }
+    
+    public static String getDescByCode(int code) {
+        InstantlyModule[] vals = InstantlyModule.values();
+        for (int i = 0; i < vals.length; i++) {
+            if (vals[i].getCode() == code) {
+                return vals[i].getDesc();
+            }
+        }
+        return null;
+    }
 
     public int getCode() {
         return code;
