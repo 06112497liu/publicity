@@ -167,6 +167,7 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
         } else {
             annualExDetail.setOther(String.valueOf(prop.getOther()));            
         }
+        annualExDetail.setUnit(prop.getUnit());
         annualExDetail.setGmtCreate(now);
 
         return annualExDetail;

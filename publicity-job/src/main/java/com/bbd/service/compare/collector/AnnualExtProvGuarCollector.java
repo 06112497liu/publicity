@@ -130,7 +130,7 @@ public class AnnualExtProvGuarCollector extends AnnualPropertyCollector<AnnualEx
 
         // 主债权数额
         NumberCompareProperty priCalSecAmProp = NumberCompareProperty.build(PropertyEnum.ANNUAL_EXT_PROV_PRI_CAL_SEC_AM.getCode(), extProvMoudle, extProvStd.getPriCalSecAm(),
-            extProvCmp != null ? extProvCmp.getPriCalSecAm() : null);
+            extProvCmp != null ? extProvCmp.getPriCalSecAm() : null, "万元");
         result.add(priCalSecAmProp);
 
         // 履行债务的期限自

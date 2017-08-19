@@ -70,7 +70,7 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
         result.add(phonesProp);
 
         // 从业人数对比项
-        NumberCompareProperty empnumProp = NumberCompareProperty.build(PropertyEnum.ANNUAL_EMPNO.getCode(), baseModule, std.getEmpnum(), cmp != null ? cmp.getEmpnum() : null);
+        NumberCompareProperty empnumProp = NumberCompareProperty.build(PropertyEnum.ANNUAL_EMPNO.getCode(), baseModule, std.getEmpnum(), cmp != null ? cmp.getEmpnum() : null, "人");
         result.add(empnumProp);
 
         // 地址对比项
@@ -101,7 +101,7 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
             StringCompareProperty opName = StringCompareProperty.build(PropertyEnum.ANNUAL_OP_NAME.getCode(), baseModule, std.getOpstate(), cmp != null ? cmp.getOpName() : null);
             result.add(opName);
 
-            NumberCompareProperty amountMon = NumberCompareProperty.build(PropertyEnum.ANNUAL_AMOUNT_MON.getCode(), baseModule, std.getAmountMon(), cmp != null ? cmp.getAmountMon() : null);
+            NumberCompareProperty amountMon = NumberCompareProperty.build(PropertyEnum.ANNUAL_AMOUNT_MON.getCode(), baseModule, std.getAmountMon(), cmp != null ? cmp.getAmountMon() : null, "万元");
             result.add(amountMon);
         }
 

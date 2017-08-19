@@ -1,5 +1,7 @@
 package com.bbd.service.compare;
 
+import com.bbd.enums.OpStateEnum;
+
 /**
  * @author tjwang
  * @version $Id: AnnualModule.java, v 0.1 2017/7/11 0011 14:50 tjwang Exp $
@@ -22,6 +24,16 @@ public enum AnnualModule {
     AnnualModule(int code, String desc) {
         this.code = code;
         this.desc = desc;
+    }
+    
+    public static String getDescByCode(int code) {
+        AnnualModule[] vals = AnnualModule.values();
+        for (int i = 0; i < vals.length; i++) {
+            if (vals[i].getCode() == code) {
+                return vals[i].getDesc();
+            }
+        }
+        return null;
     }
 
     public int getCode() {

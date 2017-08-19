@@ -12,6 +12,7 @@
     <result column="compare_time" jdbcType="TIMESTAMP" property="compareTime" />
     <result column="base" jdbcType="VARCHAR" property="base" />
     <result column="other" jdbcType="VARCHAR" property="other" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="region" jdbcType="VARCHAR" property="region" />
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, nbxh, prop_name, submodule, company_name, primary_industry, ex_type, compare_time, 
-    base, other, gmt_create, gmt_modified, region
+    base, other, unit, gmt_create, gmt_modified, region
   </sql>
   <select id="selectByExample" parameterType="com.bbd.domain.AnnualExDetailExample" resultMap="BaseResultMap">
     select
@@ -110,13 +111,13 @@
     insert into bbd_pub_annual_ex_detail (nbxh, prop_name, submodule, 
       company_name, primary_industry, ex_type, 
       compare_time, base, other, 
-      gmt_create, gmt_modified, region
-      )
+      unit, gmt_create, gmt_modified, 
+      region)
     values (#{nbxh,jdbcType=VARCHAR}, #{propName,jdbcType=VARCHAR}, #{submodule,jdbcType=TINYINT}, 
       #{companyName,jdbcType=VARCHAR}, #{primaryIndustry,jdbcType=VARCHAR}, #{exType,jdbcType=TINYINT}, 
       #{compareTime,jdbcType=TIMESTAMP}, #{base,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{region,jdbcType=VARCHAR}
-      )
+      #{unit,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{region,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bbd.domain.AnnualExDetail">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -150,6 +151,9 @@
       </if>
       <if test="other != null">
         other,
+      </if>
+      <if test="unit != null">
+        unit,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -189,6 +193,9 @@
       <if test="other != null">
         #{other,jdbcType=VARCHAR},
       </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -200,6 +207,12 @@
       </if>
     </trim>
   </insert>
+  <select id="countByExample" parameterType="com.bbd.domain.AnnualExDetailExample" resultType="java.lang.Long">
+    select count(*) from bbd_pub_annual_ex_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update bbd_pub_annual_ex_detail
     <set>
@@ -233,6 +246,9 @@
       <if test="record.other != null">
         other = #{record.other,jdbcType=VARCHAR},
       </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -259,6 +275,7 @@
       compare_time = #{record.compareTime,jdbcType=TIMESTAMP},
       base = #{record.base,jdbcType=VARCHAR},
       other = #{record.other,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
       region = #{record.region,jdbcType=VARCHAR}
@@ -296,6 +313,9 @@
       <if test="other != null">
         other = #{other,jdbcType=VARCHAR},
       </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -319,6 +339,7 @@
       compare_time = #{compareTime,jdbcType=TIMESTAMP},
       base = #{base,jdbcType=VARCHAR},
       other = #{other,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       region = #{region,jdbcType=VARCHAR}

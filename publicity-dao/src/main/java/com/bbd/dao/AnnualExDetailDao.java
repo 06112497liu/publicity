@@ -3,11 +3,12 @@ package com.bbd.dao;
 import com.bbd.domain.AnnualExDetail;
 import com.bbd.domain.AnnualExDetailExample;
 import com.mybatis.domain.PageBounds;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface AnnualExDetailDao {
+    long countByExample(AnnualExDetailExample example);
+
     int deleteByPrimaryKey(Long id);
 
     int insert(AnnualExDetail record);
