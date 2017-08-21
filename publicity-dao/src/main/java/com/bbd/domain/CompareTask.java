@@ -19,11 +19,13 @@ public class CompareTask {
 
     private Date endTime;
 
+    private Integer exIncreased;
+
+    private Integer decrease;
+
     private Date gmtCreate;
 
     private Date gmtModified;
-
-    private Integer exIncreased;
 
     public Long getId() {
         return id;
@@ -89,6 +91,22 @@ public class CompareTask {
         this.endTime = endTime;
     }
 
+    public Integer getExIncreased() {
+        return exIncreased;
+    }
+
+    public void setExIncreased(Integer exIncreased) {
+        this.exIncreased = exIncreased;
+    }
+
+    public Integer getDecrease() {
+        return decrease;
+    }
+
+    public void setDecrease(Integer decrease) {
+        this.decrease = decrease;
+    }
+
     public Date getGmtCreate() {
         return gmtCreate;
     }
@@ -103,13 +121,5 @@ public class CompareTask {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
-    }
-
-    public Integer getExIncreased() {
-        return exIncreased;
-    }
-
-    public void setExIncreased(Integer exIncreased) {
-        this.exIncreased = exIncreased;
     }
 }
