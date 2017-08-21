@@ -6,6 +6,7 @@ package com.bbd.controller;
 
 import com.bbd.service.IReportService;
 import com.bbd.service.param.CompareReportVo;
+import com.bbd.util.BigDecimalUtil;
 import com.bean.RestResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,8 +34,8 @@ public class CompareReportController {
     public RestResult getDistrictReport() {
         List<CompareReportVo> ds = reportService.queryDistrictExInfos();
         sortList(ds);
-        CompareReportVo wholeCity = getWholeCityStatistics(ds);
-        ds.add(0, wholeCity);
+        CompareReportVo whole = getWholeCityStatistics(ds);
+        ds.add(0, whole);
         return RestResult.ok(ds);
     }
 
@@ -74,17 +75,36 @@ public class CompareReportController {
         int total = 0;
         int annualNum = 0;
         int insNum = 0;
+        int bothNum = 0;
+        double insPer = 0.0;
+        double annualPer = 0.0;
+        double bothPer = 0.0;
+        double percent = 0.0;
         for (CompareReportVo info : data) {
             total += info.getTotal();
             annualNum += info.getAnnualNum();
             insNum += info.getInsNum();
+            bothNum += info.getBothNum();
+            //百分比计算
+            String insPerStr = info.getInsPer().replace("%", "");
+            insPer = BigDecimalUtil.add(insPer, Double.parseDouble(insPerStr));            
+            String annualPerStr = info.getAnnualPer().replace("%", "");
+            annualPer = BigDecimalUtil.add(annualPer, Double.parseDouble(annualPerStr));
+            String bothPerStr = info.getBothPer().replace("%", "");
+            bothPer = BigDecimalUtil.add(bothPer, Double.parseDouble(bothPerStr));
+            String percentStr = info.getPercent().replace("%", "");
+            percent = BigDecimalUtil.add(percent, Double.parseDouble(percentStr));
         }
         vo.setItem("5201");
         vo.setItemDesc("全市");
         vo.setTotal(total);
         vo.setAnnualNum(annualNum);
+        vo.setAnnualPer(BigDecimalUtil.transDoubleToPercent(annualPer));
         vo.setInsNum(insNum);
-        vo.setPercent("0%");
+        vo.setInsPer(BigDecimalUtil.transDoubleToPercent(insPer));
+        vo.setBothNum(bothNum);
+        vo.setBothPer(BigDecimalUtil.transDoubleToPercent(bothPer));
+        vo.setPercent(BigDecimalUtil.transDoubleToPercent(percent));
         return vo;
     }
 

@@ -33,6 +33,13 @@ public interface ReportDao {
      * @return
      */
     List<Map<String, Object>> queryDistrictInsExStatistics();
+    
+    /**
+     * 按区域统计两者都异常的企业数量
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryDistrictBothExStatistics();
 
     /**
      * 按行业统计地图数据
@@ -54,6 +61,13 @@ public interface ReportDao {
      * @return
      */
     List<Map<String, Object>> queryIndustryInsExStatistics();
+    
+    /**
+     * 按行业统计两者都异常的企业数量
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryIndustryBothExStatistics();
 
     /**
      * 按企业性质统计地图数据
@@ -75,6 +89,13 @@ public interface ReportDao {
      * @return
      */
     List<Map<String, Object>> queryCompanyPropertyInsExStatistics();
+    
+    /**
+     * 按企业性质统计两者都异常企业数量
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryCompanyPropertyBothExStatistics();
     
     /**
      * 查询各个区域的企业数量
