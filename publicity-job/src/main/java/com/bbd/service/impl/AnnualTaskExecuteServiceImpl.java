@@ -4,7 +4,10 @@
  */
 package com.bbd.service.impl;
 
+import com.bbd.dao.CompanyExItemExtDao;
 import com.bbd.service.ICompareService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,6 +24,9 @@ public class AnnualTaskExecuteServiceImpl extends AbstractTaskExecuteService {
 
     @Resource(name = "annualCompareService")
     private ICompareService compareService;
+    
+    @Autowired
+    private CompanyExItemExtDao companyExItemExtDao;
 
     @Override
     protected void doCompare(long taskId, List<String> nbxhs) {
@@ -29,6 +35,8 @@ public class AnnualTaskExecuteServiceImpl extends AbstractTaskExecuteService {
 
     @Override
     protected void finishTask(long taskId) {
+        companyExItemExtDao.insertCompanyExItemPreAnnual();
+        companyExItemExtDao.updateCompanyExItemPreAnnual();
         compareTaskService.finishAnnualCompareTask(taskId);
     }
 

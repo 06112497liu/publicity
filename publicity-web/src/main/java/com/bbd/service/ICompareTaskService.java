@@ -22,6 +22,14 @@ public interface ICompareTaskService {
      * @return
      */
     Optional<CompareTask> getCurrentRunningTask(int type);
+    
+    /**
+     * 获取上一次对比信息
+     *
+     * @param type
+     * @return
+     */
+    Optional<CompareTask> getLastTask(int type, int last);
 
 
 }

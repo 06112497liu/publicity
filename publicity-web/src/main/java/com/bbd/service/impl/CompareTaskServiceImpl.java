@@ -45,4 +45,23 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
         return Optional.fromNullable(task);
     }
 
+    /**
+     * 获取上一次比对任务统计
+     */
+    @Override
+    public Optional<CompareTask> getLastTask(int type, int last) {
+        Preconditions.checkArgument(Lists.newArrayList(1, 2).contains(type), "非法任务类型 : " + type);
+        
+        CompareTaskExample exam = new CompareTaskExample();
+        exam.createCriteria().andTypeEqualTo(type).andNumEqualTo(last);
+        PageBounds pb = new PageBounds(1, 1, false);
+        List<CompareTask> ds = compareTaskDao.selectByExampleWithPageBounds(exam, pb);
+
+        CompareTask task = null;
+        if (ds.size() > 0) {
+            task = ds.get(0);
+        }
+        return Optional.fromNullable(task);
+    }
+
 }

@@ -8,10 +8,11 @@
     <result column="cur_nbxh" jdbcType="VARCHAR" property="curNbxh" />
     <result column="total" jdbcType="INTEGER" property="total" />
     <result column="total_item" jdbcType="INTEGER" property="totalItem" />
+    <result column="ex_num" jdbcType="INTEGER" property="exNum" />
     <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="ex_increased" jdbcType="INTEGER" property="exIncreased" />
-    <result column="decrease" jdbcType="INTEGER" property="decrease" />
+    <result column="ex_decrease" jdbcType="INTEGER" property="exDecrease" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, num, cur_nbxh, total, total_item, begin_time, end_time, ex_increased, decrease, 
-    gmt_create, gmt_modified
+    id, type, num, cur_nbxh, total, total_item, ex_num, begin_time, end_time, ex_increased, 
+    ex_decrease, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.bbd.domain.CompareTaskExample" resultMap="BaseResultMap">
     select
@@ -107,13 +108,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into bbd_pub_cmp_task (type, num, cur_nbxh, 
-      total, total_item, begin_time, 
-      end_time, ex_increased, decrease, 
-      gmt_create, gmt_modified)
+      total, total_item, ex_num, 
+      begin_time, end_time, ex_increased, 
+      ex_decrease, gmt_create, gmt_modified
+      )
     values (#{type,jdbcType=TINYINT}, #{num,jdbcType=INTEGER}, #{curNbxh,jdbcType=VARCHAR}, 
-      #{total,jdbcType=INTEGER}, #{totalItem,jdbcType=INTEGER}, #{beginTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{exIncreased,jdbcType=INTEGER}, #{decrease,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+      #{total,jdbcType=INTEGER}, #{totalItem,jdbcType=INTEGER}, #{exNum,jdbcType=INTEGER}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{exIncreased,jdbcType=INTEGER}, 
+      #{exDecrease,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.bbd.domain.CompareTask">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -136,6 +139,9 @@
       <if test="totalItem != null">
         total_item,
       </if>
+      <if test="exNum != null">
+        ex_num,
+      </if>
       <if test="beginTime != null">
         begin_time,
       </if>
@@ -145,8 +151,8 @@
       <if test="exIncreased != null">
         ex_increased,
       </if>
-      <if test="decrease != null">
-        decrease,
+      <if test="exDecrease != null">
+        ex_decrease,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -171,6 +177,9 @@
       <if test="totalItem != null">
         #{totalItem,jdbcType=INTEGER},
       </if>
+      <if test="exNum != null">
+        #{exNum,jdbcType=INTEGER},
+      </if>
       <if test="beginTime != null">
         #{beginTime,jdbcType=TIMESTAMP},
       </if>
@@ -180,8 +189,8 @@
       <if test="exIncreased != null">
         #{exIncreased,jdbcType=INTEGER},
       </if>
-      <if test="decrease != null">
-        #{decrease,jdbcType=INTEGER},
+      <if test="exDecrease != null">
+        #{exDecrease,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -212,6 +221,9 @@
       <if test="record.totalItem != null">
         total_item = #{record.totalItem,jdbcType=INTEGER},
       </if>
+      <if test="record.exNum != null">
+        ex_num = #{record.exNum,jdbcType=INTEGER},
+      </if>
       <if test="record.beginTime != null">
         begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
       </if>
@@ -221,8 +233,8 @@
       <if test="record.exIncreased != null">
         ex_increased = #{record.exIncreased,jdbcType=INTEGER},
       </if>
-      <if test="record.decrease != null">
-        decrease = #{record.decrease,jdbcType=INTEGER},
+      <if test="record.exDecrease != null">
+        ex_decrease = #{record.exDecrease,jdbcType=INTEGER},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
@@ -243,10 +255,11 @@
       cur_nbxh = #{record.curNbxh,jdbcType=VARCHAR},
       total = #{record.total,jdbcType=INTEGER},
       total_item = #{record.totalItem,jdbcType=INTEGER},
+      ex_num = #{record.exNum,jdbcType=INTEGER},
       begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       ex_increased = #{record.exIncreased,jdbcType=INTEGER},
-      decrease = #{record.decrease,jdbcType=INTEGER},
+      ex_decrease = #{record.exDecrease,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -271,6 +284,9 @@
       <if test="totalItem != null">
         total_item = #{totalItem,jdbcType=INTEGER},
       </if>
+      <if test="exNum != null">
+        ex_num = #{exNum,jdbcType=INTEGER},
+      </if>
       <if test="beginTime != null">
         begin_time = #{beginTime,jdbcType=TIMESTAMP},
       </if>
@@ -280,8 +296,8 @@
       <if test="exIncreased != null">
         ex_increased = #{exIncreased,jdbcType=INTEGER},
       </if>
-      <if test="decrease != null">
-        decrease = #{decrease,jdbcType=INTEGER},
+      <if test="exDecrease != null">
+        ex_decrease = #{exDecrease,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -299,10 +315,11 @@
       cur_nbxh = #{curNbxh,jdbcType=VARCHAR},
       total = #{total,jdbcType=INTEGER},
       total_item = #{totalItem,jdbcType=INTEGER},
+      ex_num = #{exNum,jdbcType=INTEGER},
       begin_time = #{beginTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       ex_increased = #{exIncreased,jdbcType=INTEGER},
-      decrease = #{decrease,jdbcType=INTEGER},
+      ex_decrease = #{exDecrease,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

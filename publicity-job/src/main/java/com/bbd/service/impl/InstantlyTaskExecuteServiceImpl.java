@@ -4,8 +4,11 @@
  */
 package com.bbd.service.impl;
 
+import com.bbd.dao.CompanyExItemExtDao;
 import com.bbd.service.ICompareService;
 import com.google.common.collect.Lists;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +29,9 @@ public class InstantlyTaskExecuteServiceImpl extends AbstractTaskExecuteService 
 
     @Resource(name = "instantlyCompareService")
     private ICompareService compareService;
+    
+    @Autowired
+    private CompanyExItemExtDao companyExItemExtDao;
 
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
@@ -52,6 +58,8 @@ public class InstantlyTaskExecuteServiceImpl extends AbstractTaskExecuteService 
 
     @Override
     protected void finishTask(long taskId) {
+        companyExItemExtDao.insertCompanyExItemPreIns();
+        companyExItemExtDao.updateCompanyExItemPreIns();
         compareTaskService.finishInstantlyCompareTask(taskId);
     }
 }

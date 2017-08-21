@@ -45,11 +45,11 @@ public class CompareStatisticController extends AbstractController {
     @Autowired
     private ICompanyService     companyService;
 
-    @ApiOperation(value = "查询系统对比成效、比对日志信息", httpMethod = "GET", response = CompareStatisticVo.class)
+    @ApiOperation(value = "比对日志统计信息", httpMethod = "GET", response = CompareStatisticVo.class)
     @RequestMapping(value = "/total.do", method = RequestMethod.GET)
     public RestResult getCompareStatistic() {
+        
         CompareStatistic d = compareStatisticDao.selectByPrimaryKey(1L);
-
         CompareStatisticVo vo = BeanMapperUtil.map(d, CompareStatisticVo.class);
 
         DateTime create = new DateTime(d.getGmtCreate());
@@ -60,11 +60,11 @@ public class CompareStatisticController extends AbstractController {
         return RestResult.ok(vo);
     }
 
-    @ApiOperation(value = "查询当前比对周期信息", httpMethod = "GET", response = Map.class)
+    @ApiOperation(value = "当前比对周期", httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/current/ins.do", method = RequestMethod.GET)
     public RestResult getCurrentInstantlyTaskInfo() {
+        
         Optional<CompareTask> opt = compareTaskService.getCurrentRunningTask(Constants.TASK_INSTANTLY_TYPE);
-
         Map<String, Object> map = Maps.newHashMap();
 
         // 已对比企业数量
@@ -75,6 +75,7 @@ public class CompareStatisticController extends AbstractController {
         int totalCompany = 0;
         // 新增异常企业
         int increasedCompany = 0;
+
         if (opt.isPresent()) {
             CompareTask task = opt.get();
             total = task.getTotal();
@@ -87,6 +88,68 @@ public class CompareStatisticController extends AbstractController {
         map.put("totalItem", totalItem);
         map.put("totalCompany", totalCompany);
         map.put("increasedCompany", increasedCompany);
+        
+        return RestResult.ok(map);
+    }
+    
+    @ApiOperation(value = "系统比对成效", httpMethod = "GET", response = Map.class)
+    @RequestMapping(value = "/ex/statistics.do", method = RequestMethod.GET)
+    public RestResult getExStatistics() {
+        Map<String, Object> map = Maps.newHashMap();
+        // 即时信息对比任务
+        int insExLast = 0;
+        int insExIncreaseCurr = 0;
+        int insExDecreaseCurr = 0;
+        Optional<CompareTask> insOptCurr = compareTaskService.getCurrentRunningTask(Constants.TASK_INSTANTLY_TYPE); //当次
+        int insNum = 1;
+        if(insOptCurr.isPresent()) {
+            CompareTask insTask = insOptCurr.get();
+            insNum = insTask.getNum();
+            insExIncreaseCurr = insTask.getExIncreased();
+            insExDecreaseCurr = insTask.getExDecrease();
+        }
+        if(insNum != 1) {
+            Optional<CompareTask> insOptLast = compareTaskService.getLastTask(Constants.TASK_INSTANTLY_TYPE, insNum - 1); //上次
+            if(insOptLast.isPresent()) {
+                insExLast = insOptLast.get().getExNum();
+            }
+        }
+        int insExNum = insExLast + insExIncreaseCurr - insExDecreaseCurr; // 即时信息异常数量
+        
+        // 年报对比任务
+        int annualExLast = 0;
+        int annualExIncreaseCurr = 0;
+        int annualExDecreaseCurr = 0;
+        Optional<CompareTask> annualOptCurr = compareTaskService.getCurrentRunningTask(Constants.TASK_INSTANTLY_TYPE); //当次
+        int annualNum = 1;
+        if(annualOptCurr.isPresent()) {
+            CompareTask annualTask = annualOptCurr.get();
+            annualNum = annualTask.getNum();
+            annualExIncreaseCurr = annualTask.getExIncreased();
+            annualExDecreaseCurr = annualTask.getExDecrease();
+        }
+        if(annualNum != 1) {
+            Optional<CompareTask> annualOptLast = compareTaskService.getLastTask(Constants.TASK_INSTANTLY_TYPE, annualNum - 1); //上次
+            if(annualOptLast.isPresent()) {
+                annualExLast = annualOptLast.get().getExNum();
+            }
+        }
+        int annualExNum = annualExLast + annualExIncreaseCurr - annualExDecreaseCurr; // 年报异常企业数量
+        map.put("exTotal", insExNum + annualExNum);
+        map.put("insTotal", insExNum);
+        map.put("annualTotal", annualExNum);
         return RestResult.ok(map);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

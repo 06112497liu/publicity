@@ -14,7 +14,27 @@ import java.util.List;
  * @version $Id: CompareTaskExtDao.java, v 0.1 2017/7/12 0012 18:04 tjwang Exp $
  */
 public interface CompanyExItemExtDao {
+    
+    /**
+     * 插入bbd_pub_company_ex_item_pre年报异常信息
+     */
+    void insertCompanyExItemPreAnnual();
+    
+    /**
+     * 更新bbd_pub_company_ex_item_pre年报异常信息
+     */
+    void updateCompanyExItemPreAnnual();
+    
+    /**
+     * 插入bbd_pub_company_ex_item_pre即时异常信息
+     */
+    void insertCompanyExItemPreIns();
 
+    /**
+     * 更新bbd_pub_company_ex_item_pre即时异常信息
+     */
+    void updateCompanyExItemPreIns();
+    
     /**
      * 更新年报对比异常项数量统计
      *

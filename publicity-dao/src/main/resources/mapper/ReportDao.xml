@@ -8,7 +8,7 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item
+			bbd_pub_company_ex_item_pre
 		WHERE 
 			(annual_num > 0 OR instantly_num > 0)
 		GROUP BY
@@ -21,7 +21,7 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item
+			bbd_pub_company_ex_item_pre
 		WHERE
 			annual_num > 0
 		GROUP BY
@@ -34,7 +34,7 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item
+			bbd_pub_company_ex_item_pre
 		WHERE
 			instantly_num > 0
 		GROUP BY
@@ -47,7 +47,7 @@
         primary_industry AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         (annual_num > 0 OR instantly_num > 0)
         GROUP BY
@@ -60,7 +60,7 @@
         primary_industry AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         annual_num > 0
         GROUP BY
@@ -73,7 +73,7 @@
         primary_industry AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         instantly_num > 0
         GROUP BY
@@ -87,7 +87,7 @@
         CONCAT(company_property) AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         (annual_num > 0 OR instantly_num > 0)
         GROUP BY
@@ -100,7 +100,7 @@
         CONCAT(company_property) AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         annual_num > 0
         GROUP BY
@@ -113,7 +113,7 @@
         CONCAT(company_property) AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         instantly_num > 0
         GROUP BY

@@ -15,13 +15,15 @@ public class CompareTask {
 
     private Integer totalItem;
 
+    private Integer exNum;
+
     private Date beginTime;
 
     private Date endTime;
 
     private Integer exIncreased;
 
-    private Integer decrease;
+    private Integer exDecrease;
 
     private Date gmtCreate;
 
@@ -75,6 +77,14 @@ public class CompareTask {
         this.totalItem = totalItem;
     }
 
+    public Integer getExNum() {
+        return exNum;
+    }
+
+    public void setExNum(Integer exNum) {
+        this.exNum = exNum;
+    }
+
     public Date getBeginTime() {
         return beginTime;
     }
@@ -99,12 +109,12 @@ public class CompareTask {
         this.exIncreased = exIncreased;
     }
 
-    public Integer getDecrease() {
-        return decrease;
+    public Integer getExDecrease() {
+        return exDecrease;
     }
 
-    public void setDecrease(Integer decrease) {
-        this.decrease = decrease;
+    public void setExDecrease(Integer exDecrease) {
+        this.exDecrease = exDecrease;
     }
 
     public Date getGmtCreate() {

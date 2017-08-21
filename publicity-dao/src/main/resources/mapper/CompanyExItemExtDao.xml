@@ -69,4 +69,118 @@
         order by num ${sort}
     </select>
 
+	<insert id="insertCompanyExItemPreAnnual">
+		INSERT INTO bbd_pub_company_ex_item_pre (
+			nbxh,
+			company_name,
+			company_property,
+			annual_num,
+			annual_ex_types,
+			annual_ex_modules,
+			annual_cmp_time,
+			gmt_create,
+			region,
+			primary_industry
+		)(
+			SELECT
+				nbxh,
+				company_name,
+				company_property,
+				annual_num,
+				annual_ex_types,
+				annual_ex_modules,
+				annual_cmp_time,
+				gmt_create,
+				region,
+				primary_industry
+			FROM
+				bbd_pub_company_ex_item a
+			WHERE
+				NOT EXISTS (
+					SELECT
+						1
+					FROM
+						bbd_pub_company_ex_item_pre b
+					WHERE
+						a.nbxh = b.nbxh
+				)
+		);		
+	</insert>
+	
+	<update id="updateCompanyExItemPreAnnual">
+		UPDATE 
+			bbd_pub_company_ex_item_pre a, bbd_pub_company_ex_item b 
+		SET 
+			a.annual_num = b.annual_num,
+			a.annual_ex_types = b.annual_ex_types,
+			a.annual_ex_modules = b.annual_ex_modules,
+			a.annual_cmp_time = b.annual_cmp_time,
+			a.num = b.annual_num + a.instantly_num
+		WHERE 
+			a.nbxh = b.nbxh		
+	</update>
+	
+	<insert id="insertCompanyExItemPreIns">
+		INSERT INTO bbd_pub_company_ex_item_pre (
+			nbxh,
+			company_name,
+			company_property,
+			instantly_num,
+			ins_ex_types,
+			ins_ex_modules,
+			instantly_cmp_time,
+			gmt_create,
+			region,
+			primary_industry
+		)(
+			SELECT
+				nbxh,
+				company_name,
+				company_property,
+				instantly_num,
+				ins_ex_types,
+				ins_ex_modules,
+				instantly_cmp_time,
+				gmt_create,
+				region,
+				primary_industry
+			FROM
+				bbd_pub_company_ex_item a
+			WHERE
+				NOT EXISTS (
+					SELECT
+						1
+					FROM
+						bbd_pub_company_ex_item_pre b
+					WHERE
+						a.nbxh = b.nbxh
+				)
+		);	
+	</insert>
+	
+	<update id="updateCompanyExItemPreIns">
+		UPDATE 
+			bbd_pub_company_ex_item_pre a, bbd_pub_company_ex_item b 
+		SET 
+			a.instantly_num = b.instantly_num,
+			a.ins_ex_types = b.ins_ex_types,
+			a.ins_ex_modules = b.ins_ex_modules,
+			a.instantly_cmp_time = b.instantly_cmp_time,
+			a.num = b.instantly_num + a.annual_num
+		WHERE 
+			a.nbxh = b.nbxh	
+	</update>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
