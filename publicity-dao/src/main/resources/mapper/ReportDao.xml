@@ -182,7 +182,31 @@
 		GROUP BY
 			primary_industry		
 	</select>
+	
+	<!-- 查询贵阳市企业总量 -->
+	<select id="queryWholeCount" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_info
+	</select>
+	
+	<!-- 查询贵阳市年报异常企业数量 -->
+	<select id="queryWholeAnnualExNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE annual_num > 0
+	</select>
+	
+	<!-- 查询贵阳市即时信息异常企业数量 -->
+	<select id="queryWholeInsExNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE instantly_num > 0
+	</select>	
+	
+	<!-- 查询贵阳市两者都异常的企业数量 -->
+	<select id="queryWholeBothExNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE instantly_num > 0 AND annual_num > 0
+	</select>
 
+	<!-- 查询归于昂是异常企业总量 -->
+	<select id="queryWholeExNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE num > 0
+	</select>
 </mapper>
 
 

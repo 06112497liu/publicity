@@ -120,7 +120,7 @@ public class CompareStatisticController extends AbstractController {
         int annualExLast = 0;
         int annualExIncreaseCurr = 0;
         int annualExDecreaseCurr = 0;
-        Optional<CompareTask> annualOptCurr = compareTaskService.getCurrentRunningTask(Constants.TASK_INSTANTLY_TYPE); //当次
+        Optional<CompareTask> annualOptCurr = compareTaskService.getCurrentRunningTask(Constants.TASK_ANNUAL_TYPE); //当次
         int annualNum = 1;
         if(annualOptCurr.isPresent()) {
             CompareTask annualTask = annualOptCurr.get();
@@ -129,7 +129,7 @@ public class CompareStatisticController extends AbstractController {
             annualExDecreaseCurr = annualTask.getExDecrease();
         }
         if(annualNum != 1) {
-            Optional<CompareTask> annualOptLast = compareTaskService.getLastTask(Constants.TASK_INSTANTLY_TYPE, annualNum - 1); //上次
+            Optional<CompareTask> annualOptLast = compareTaskService.getLastTask(Constants.TASK_ANNUAL_TYPE, annualNum - 1); //上次
             if(annualOptLast.isPresent()) {
                 annualExLast = annualOptLast.get().getExNum();
             }

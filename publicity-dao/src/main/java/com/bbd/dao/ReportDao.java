@@ -110,5 +110,39 @@ public interface ReportDao {
      * @return
      */
     List<Map<String, Object>> queryCompanyCountGroupIndustry();
-
+    
+    /**
+     * 查询贵阳市企业总量
+     *
+     * @return
+     */
+    int queryWholeCount();
+    
+    /**
+     * 查询贵阳市年报异常企业数量
+     *
+     * @return
+     */
+    int queryWholeAnnualExNum();
+    
+    /**
+     * 查询贵阳市即时信息异常企业数量
+     *
+     * @return
+     */
+    int queryWholeInsExNum();
+    
+    /**
+     * 查询贵阳市两者都异常的企业数量
+     *
+     * @return
+     */
+    int queryWholeBothExNum();
+    
+    /**
+     * 查询归于昂是异常企业总量
+     *
+     * @return
+     */
+    int queryWholeExNum();
 }

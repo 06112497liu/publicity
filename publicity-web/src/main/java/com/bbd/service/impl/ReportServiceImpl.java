@@ -4,18 +4,20 @@
  */
 package com.bbd.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.bbd.common.util.PercentUtil;
+import com.bbd.dao.PubCompanyInfoDao;
 import com.bbd.dao.ReportDao;
 import com.bbd.service.IDictionaryService;
 import com.bbd.service.IReportService;
 import com.bbd.service.param.CompareReportVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * 报表服务
@@ -31,10 +33,12 @@ public class ReportServiceImpl implements IReportService {
 
     @Autowired
     private IDictionaryService dictionaryService;
+    
+    @Autowired
+    private PubCompanyInfoDao companyInfoDao;
 
     /**
      * 按地区分组统计
-     * @see com.bbd.service.IReportService#queryDistrictExInfos()
      */
     @Override
     public List<CompareReportVo> queryDistrictExInfos() {
@@ -62,7 +66,6 @@ public class ReportServiceImpl implements IReportService {
 
     /**
      * 按行业分组统计
-     * @see com.bbd.service.IReportService#queryIndustryExInfos()
      */
     @Override
     public List<CompareReportVo> queryIndustryExInfos() {
@@ -84,7 +87,6 @@ public class ReportServiceImpl implements IReportService {
 
     /**
      * 按企业性质分组统计
-     * @see com.bbd.service.IReportService#queryCompanyPropertyExInfos()
      */
     @Override
     public List<CompareReportVo> queryCompanyPropertyExInfos() {
@@ -103,6 +105,27 @@ public class ReportServiceImpl implements IReportService {
         List<CompareReportVo> rs = getReportVos(propertyMap, totalMap, annualMap, insMap, bothMap, null);
         calcPercentCompanyProperty(rs);
         return rs;
+    }
+    
+    @Autowired
+    public CompareReportVo queryWholeCity() {
+        CompareReportVo rs = new CompareReportVo();
+        int total = reportDao.queryWholeCount();
+        int annual = reportDao.queryWholeAnnualExNum();
+        int ins = reportDao.queryWholeInsExNum();
+        int both = reportDao.queryWholeBothExNum();
+        int exTotal = reportDao.queryWholeExNum();
+        rs.setItem("5201");
+        rs.setItemDesc("全市");
+        rs.setAnnualNum(annual);
+        rs.setAnnualPer(PercentUtil.calcIntPercent(total, annual));
+        rs.setInsNum(ins);
+        rs.setInsPer(PercentUtil.calcIntPercent(total, ins));
+        rs.setBothNum(both);
+        rs.setBothPer(PercentUtil.calcIntPercent(total, both));
+        rs.setTotal(exTotal);
+        rs.setPercent(PercentUtil.calcIntPercent(total, exTotal));
+        return rs;        
     }
 
     // 将list<Map> 转化为单个Map

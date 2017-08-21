@@ -33,5 +33,11 @@ public interface IReportService {
      * @return
      */
     List<CompareReportVo> queryCompanyPropertyExInfos();
+    
+    /**
+     * 获取整个贵阳市的统计数据
+     * @return
+     */
+    CompareReportVo queryWholeCity();
 
 }
