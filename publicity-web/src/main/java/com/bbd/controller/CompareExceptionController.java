@@ -62,6 +62,7 @@ public class CompareExceptionController extends AbstractController {
             @ApiImplicitParam(name = "exType", value = "异常原因（1.隐瞒未报；2.登记不一致；4.格式错误）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/annual/search.do", method = RequestMethod.GET)
@@ -80,12 +81,14 @@ public class CompareExceptionController extends AbstractController {
     @ApiImplicitParams({ @ApiImplicitParam(name = "count", value = "异常项数量", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"), 
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/annual/excount/search.do", method = RequestMethod.GET)
-    public RestResult searchAnnualByExCount(Integer count, String sort) {
-        int param = count == null ? 0 : count;
-        List<String> ds = compareExceptionService.searchAnnualByExCount(param, sort, getPageBounds());
+    public RestResult searchAnnualByExCount(Integer count, Integer sortType, String sort) {
+        int num = (count == null ? 0 : count);
+        int type = (sortType == null ? 1 : sortType);
+        List<String> ds = compareExceptionService.searchAnnualByExCount(num, sort, type, getPageBounds());
         if (ds.size() == 0) {
             return RestResult.ok(ds);
         }
@@ -99,11 +102,13 @@ public class CompareExceptionController extends AbstractController {
     @ApiImplicitParams({ @ApiImplicitParam(name = "companyName", value = "企业名称", required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"), 
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/annual/name/search.do", method = RequestMethod.GET)
-    public RestResult searchAnnualByCompanyName(String companyName, String sort) {
-        List<String> ds = compareExceptionService.searchAnnualByCompanyName(companyName, sort, getPageBounds());
+    public RestResult searchAnnualByCompanyName(String companyName, String sort, Integer sortType) {
+        int type = (sortType == null ? 1 : sortType);
+        List<String> ds = compareExceptionService.searchAnnualByCompanyName(companyName, sort, type, getPageBounds());
         if (ds.size() == 0) {
             return RestResult.ok(ds);
         }
@@ -120,6 +125,7 @@ public class CompareExceptionController extends AbstractController {
             @ApiImplicitParam(name = "exType", value = "异常原因（1.隐瞒未报；2.登记不一致）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"), 
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/ins/search.do", method = RequestMethod.GET)
@@ -138,12 +144,14 @@ public class CompareExceptionController extends AbstractController {
     @ApiImplicitParams({ @ApiImplicitParam(name = "count", value = "异常项数量", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/ins/excount/search.do", method = RequestMethod.GET)
-    public RestResult searchInstantlyByExCount(Integer count, String sort) {
+    public RestResult searchInstantlyByExCount(Integer count, String sort, Integer sortType) {
         int param = count == null ? 0 : count;
-        List<String> ds = compareExceptionService.searchInstantlyByExCount(param, sort, getPageBounds());
+        int type = (sortType == null ? 1 : sortType);
+        List<String> ds = compareExceptionService.searchInstantlyByExCount(param, sort, type, getPageBounds());
         if (ds.size() == 0) {
             return RestResult.ok(ds);
         }
@@ -157,11 +165,13 @@ public class CompareExceptionController extends AbstractController {
     @ApiImplicitParams({ @ApiImplicitParam(name = "companyName", value = "企业名称", required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"), 
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")    
     })
     @RequestMapping(value = "/ins/name/search.do", method = RequestMethod.GET)
-    public RestResult searchInstantlyByCompanyName(String companyName, String sort) {
-        List<String> ds = compareExceptionService.searchInstantlyByCompanyName(companyName, sort, getPageBounds());
+    public RestResult searchInstantlyByCompanyName(String companyName, String sort, Integer sortType) {
+        int type = (sortType == null ? 1 : sortType);
+        List<String> ds = compareExceptionService.searchInstantlyByCompanyName(companyName, sort, type, getPageBounds());
         if (ds.size() == 0) {
             return RestResult.ok(ds);
         }
@@ -177,6 +187,7 @@ public class CompareExceptionController extends AbstractController {
             @ApiImplicitParam(name = "exType", value = "异常原因（1.隐瞒未报；2.登记不一致；4.格式错误）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"), 
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/all/search.do", method = RequestMethod.GET)
@@ -195,12 +206,14 @@ public class CompareExceptionController extends AbstractController {
     @ApiImplicitParams({ @ApiImplicitParam(name = "count", value = "异常项数量", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"), 
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/all/excount/search.do", method = RequestMethod.GET)
-    public RestResult searchAllByExCount(Integer count, String sort) {
-        int param = count == null ? 0 : count;
-        List<String> ds = compareExceptionService.searchAllByExCount(param, sort, getPageBounds());
+    public RestResult searchAllByExCount(Integer count, String sort, Integer sortType) {
+        int param = (count == null ? 0 : count);
+        int type = (sortType == null ? 1 : sortType);
+        List<String> ds = compareExceptionService.searchAllByExCount(param, sort, type, getPageBounds());
         if (ds.size() == 0) {
             return RestResult.ok(ds);
         }
@@ -214,11 +227,13 @@ public class CompareExceptionController extends AbstractController {
     @ApiImplicitParams({ @ApiImplicitParam(name = "companyName", value = "企业名称", required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query"), 
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/all/name/search.do", method = RequestMethod.GET)
-    public RestResult searchAllByCompanyName(String companyName, String sort) {
-        List<String> ds = compareExceptionService.searchAllByCompanyName(companyName, sort, getPageBounds());
+    public RestResult searchAllByCompanyName(String companyName, String sort, Integer sortType) {
+        int type = (sortType == null ? 1 : sortType);
+        List<String> ds = compareExceptionService.searchAllByCompanyName(companyName, sort, type, getPageBounds());
         if (ds.size() == 0) {
             return RestResult.ok(ds);
         }

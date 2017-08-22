@@ -31,6 +31,11 @@ public class ExceptionSearchParam {
     private int exType;
     
     /**
+     * 排序字段
+     */
+    private int sortType;
+    
+    /**
      * 排序
      */
     private String sort;
@@ -65,6 +70,14 @@ public class ExceptionSearchParam {
 
     public void setExType(int exType) {
         this.exType = exType;
+    }
+
+    public int getSortType() {
+        return sortType == 0 ? 1 : sortType;
+    }
+
+    public void setSortType(int sortType) {
+        this.sortType = sortType;
     }
 
     public String getSort() {
