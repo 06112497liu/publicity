@@ -21,7 +21,13 @@ public class CompanyExItem {
 
     private Integer annualExModules;
 
+    private Integer annualExModulesNum;
+
     private Integer insExModules;
+
+    private Integer insExModulesNum;
+
+    private Integer exModulesNum;
 
     private Integer num;
 
@@ -109,12 +115,36 @@ public class CompanyExItem {
         this.annualExModules = annualExModules;
     }
 
+    public Integer getAnnualExModulesNum() {
+        return annualExModulesNum;
+    }
+
+    public void setAnnualExModulesNum(Integer annualExModulesNum) {
+        this.annualExModulesNum = annualExModulesNum;
+    }
+
     public Integer getInsExModules() {
         return insExModules;
     }
 
     public void setInsExModules(Integer insExModules) {
         this.insExModules = insExModules;
+    }
+
+    public Integer getInsExModulesNum() {
+        return insExModulesNum;
+    }
+
+    public void setInsExModulesNum(Integer insExModulesNum) {
+        this.insExModulesNum = insExModulesNum;
+    }
+
+    public Integer getExModulesNum() {
+        return exModulesNum;
+    }
+
+    public void setExModulesNum(Integer exModulesNum) {
+        this.exModulesNum = exModulesNum;
     }
 
     public Integer getNum() {

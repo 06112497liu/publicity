@@ -99,7 +99,9 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
 
         int exTypes = getInstantlyExTypes(c);
         int exModules = getIntantlyExModules(c);
-        int n = companyExItemExtDao.updateInstantlyInfo(c.getNbxh(), num, exTypes, exModules);
+        List<Integer> ds = exDetailExtDao.selectInstantlyExModules(c.getNbxh());
+        int exModulesNum = ds.size();
+        int n = companyExItemExtDao.updateInstantlyInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
         if (n > 0) {
             return;
         }

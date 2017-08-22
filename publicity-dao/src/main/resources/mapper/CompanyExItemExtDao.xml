@@ -3,15 +3,33 @@
 <mapper namespace="com.bbd.dao.CompanyExItemExtDao">
 
     <update id="updateAnnualInfo">
-        update bbd_pub_company_ex_item
-        set annual_num=#{num}, num=instantly_num+#{num}, annual_ex_types = #{exTypes}, annual_ex_modules = #{exModules}, annual_cmp_time = now()
-        where nbxh = #{nbxh}
+        update 
+        	bbd_pub_company_ex_item
+        set 
+        	annual_num=#{num}, 
+        	num=instantly_num+#{num}, 
+        	annual_ex_types = #{exTypes}, 
+        	annual_ex_modules = #{exModules},
+        	annual_ex_modules_num = #{exModulesNum},
+        	ex_modules_num = #{exModulesNum} + ins_ex_modules_num,
+        	annual_cmp_time = now()
+        where 
+        	nbxh = #{nbxh}
     </update>
 
     <update id="updateInstantlyInfo">
-        update bbd_pub_company_ex_item
-        set instantly_num=#{num}, num=annual_num+#{num}, ins_ex_types = #{exTypes}, ins_ex_modules = #{exModules}, instantly_cmp_time=now()
-        where nbxh = #{nbxh}
+        update 
+        	bbd_pub_company_ex_item
+        set 
+        	instantly_num=#{num}, 
+        	num=annual_num+#{num}, 
+        	ins_ex_types = #{exTypes}, 
+        	ins_ex_modules = #{exModules},
+        	ins_ex_modules_num = #{exModulesNum},
+        	ex_modules_num = #{exModulesNum} + annual_ex_modules_num,
+        	instantly_cmp_time=now()
+        where 
+        	nbxh = #{nbxh}
     </update>
 
     <select id="queryAnnualByParam" resultType="java.lang.String">

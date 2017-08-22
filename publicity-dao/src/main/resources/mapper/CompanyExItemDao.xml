@@ -11,7 +11,10 @@
     <result column="annual_ex_types" jdbcType="INTEGER" property="annualExTypes" />
     <result column="ins_ex_types" jdbcType="INTEGER" property="insExTypes" />
     <result column="annual_ex_modules" jdbcType="INTEGER" property="annualExModules" />
+    <result column="annual_ex_modules_num" jdbcType="INTEGER" property="annualExModulesNum" />
     <result column="ins_ex_modules" jdbcType="INTEGER" property="insExModules" />
+    <result column="ins_ex_modules_num" jdbcType="INTEGER" property="insExModulesNum" />
+    <result column="ex_modules_num" jdbcType="INTEGER" property="exModulesNum" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="annual_cmp_time" jdbcType="TIMESTAMP" property="annualCmpTime" />
     <result column="instantly_cmp_time" jdbcType="TIMESTAMP" property="instantlyCmpTime" />
@@ -80,8 +83,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, nbxh, company_name, company_property, annual_num, instantly_num, annual_ex_types, 
-    ins_ex_types, annual_ex_modules, ins_ex_modules, num, annual_cmp_time, instantly_cmp_time, 
-    gmt_create, gmt_modified, region, primary_industry
+    ins_ex_types, annual_ex_modules, annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num, 
+    ex_modules_num, num, annual_cmp_time, instantly_cmp_time, gmt_create, gmt_modified, 
+    region, primary_industry
   </sql>
   <select id="selectByExample" parameterType="com.bbd.domain.CompanyExItemExample" resultMap="BaseResultMap">
     select
@@ -114,13 +118,15 @@
     </selectKey>
     insert into bbd_pub_company_ex_item (nbxh, company_name, company_property, 
       annual_num, instantly_num, annual_ex_types, 
-      ins_ex_types, annual_ex_modules, ins_ex_modules, 
+      ins_ex_types, annual_ex_modules, annual_ex_modules_num, 
+      ins_ex_modules, ins_ex_modules_num, ex_modules_num, 
       num, annual_cmp_time, instantly_cmp_time, 
       gmt_create, gmt_modified, region, 
       primary_industry)
     values (#{nbxh,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{companyProperty,jdbcType=TINYINT}, 
       #{annualNum,jdbcType=INTEGER}, #{instantlyNum,jdbcType=INTEGER}, #{annualExTypes,jdbcType=INTEGER}, 
-      #{insExTypes,jdbcType=INTEGER}, #{annualExModules,jdbcType=INTEGER}, #{insExModules,jdbcType=INTEGER}, 
+      #{insExTypes,jdbcType=INTEGER}, #{annualExModules,jdbcType=INTEGER}, #{annualExModulesNum,jdbcType=INTEGER}, 
+      #{insExModules,jdbcType=INTEGER}, #{insExModulesNum,jdbcType=INTEGER}, #{exModulesNum,jdbcType=INTEGER}, 
       #{num,jdbcType=INTEGER}, #{annualCmpTime,jdbcType=TIMESTAMP}, #{instantlyCmpTime,jdbcType=TIMESTAMP}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{region,jdbcType=VARCHAR}, 
       #{primaryIndustry,jdbcType=VARCHAR})
@@ -155,8 +161,17 @@
       <if test="annualExModules != null">
         annual_ex_modules,
       </if>
+      <if test="annualExModulesNum != null">
+        annual_ex_modules_num,
+      </if>
       <if test="insExModules != null">
         ins_ex_modules,
+      </if>
+      <if test="insExModulesNum != null">
+        ins_ex_modules_num,
+      </if>
+      <if test="exModulesNum != null">
+        ex_modules_num,
       </if>
       <if test="num != null">
         num,
@@ -205,8 +220,17 @@
       <if test="annualExModules != null">
         #{annualExModules,jdbcType=INTEGER},
       </if>
+      <if test="annualExModulesNum != null">
+        #{annualExModulesNum,jdbcType=INTEGER},
+      </if>
       <if test="insExModules != null">
         #{insExModules,jdbcType=INTEGER},
+      </if>
+      <if test="insExModulesNum != null">
+        #{insExModulesNum,jdbcType=INTEGER},
+      </if>
+      <if test="exModulesNum != null">
+        #{exModulesNum,jdbcType=INTEGER},
       </if>
       <if test="num != null">
         #{num,jdbcType=INTEGER},
@@ -261,8 +285,17 @@
       <if test="record.annualExModules != null">
         annual_ex_modules = #{record.annualExModules,jdbcType=INTEGER},
       </if>
+      <if test="record.annualExModulesNum != null">
+        annual_ex_modules_num = #{record.annualExModulesNum,jdbcType=INTEGER},
+      </if>
       <if test="record.insExModules != null">
         ins_ex_modules = #{record.insExModules,jdbcType=INTEGER},
+      </if>
+      <if test="record.insExModulesNum != null">
+        ins_ex_modules_num = #{record.insExModulesNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.exModulesNum != null">
+        ex_modules_num = #{record.exModulesNum,jdbcType=INTEGER},
       </if>
       <if test="record.num != null">
         num = #{record.num,jdbcType=INTEGER},
@@ -301,7 +334,10 @@
       annual_ex_types = #{record.annualExTypes,jdbcType=INTEGER},
       ins_ex_types = #{record.insExTypes,jdbcType=INTEGER},
       annual_ex_modules = #{record.annualExModules,jdbcType=INTEGER},
+      annual_ex_modules_num = #{record.annualExModulesNum,jdbcType=INTEGER},
       ins_ex_modules = #{record.insExModules,jdbcType=INTEGER},
+      ins_ex_modules_num = #{record.insExModulesNum,jdbcType=INTEGER},
+      ex_modules_num = #{record.exModulesNum,jdbcType=INTEGER},
       num = #{record.num,jdbcType=INTEGER},
       annual_cmp_time = #{record.annualCmpTime,jdbcType=TIMESTAMP},
       instantly_cmp_time = #{record.instantlyCmpTime,jdbcType=TIMESTAMP},
@@ -340,8 +376,17 @@
       <if test="annualExModules != null">
         annual_ex_modules = #{annualExModules,jdbcType=INTEGER},
       </if>
+      <if test="annualExModulesNum != null">
+        annual_ex_modules_num = #{annualExModulesNum,jdbcType=INTEGER},
+      </if>
       <if test="insExModules != null">
         ins_ex_modules = #{insExModules,jdbcType=INTEGER},
+      </if>
+      <if test="insExModulesNum != null">
+        ins_ex_modules_num = #{insExModulesNum,jdbcType=INTEGER},
+      </if>
+      <if test="exModulesNum != null">
+        ex_modules_num = #{exModulesNum,jdbcType=INTEGER},
       </if>
       <if test="num != null">
         num = #{num,jdbcType=INTEGER},
@@ -377,7 +422,10 @@
       annual_ex_types = #{annualExTypes,jdbcType=INTEGER},
       ins_ex_types = #{insExTypes,jdbcType=INTEGER},
       annual_ex_modules = #{annualExModules,jdbcType=INTEGER},
+      annual_ex_modules_num = #{annualExModulesNum,jdbcType=INTEGER},
       ins_ex_modules = #{insExModules,jdbcType=INTEGER},
+      ins_ex_modules_num = #{insExModulesNum,jdbcType=INTEGER},
+      ex_modules_num = #{exModulesNum,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
       annual_cmp_time = #{annualCmpTime,jdbcType=TIMESTAMP},
       instantly_cmp_time = #{instantlyCmpTime,jdbcType=TIMESTAMP},

@@ -665,6 +665,66 @@ public class CompanyExItemExample {
             return (Criteria) this;
         }
 
+        public Criteria andAnnualExModulesNumIsNull() {
+            addCriterion("annual_ex_modules_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumIsNotNull() {
+            addCriterion("annual_ex_modules_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumEqualTo(Integer value) {
+            addCriterion("annual_ex_modules_num =", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumNotEqualTo(Integer value) {
+            addCriterion("annual_ex_modules_num <>", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumGreaterThan(Integer value) {
+            addCriterion("annual_ex_modules_num >", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("annual_ex_modules_num >=", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumLessThan(Integer value) {
+            addCriterion("annual_ex_modules_num <", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumLessThanOrEqualTo(Integer value) {
+            addCriterion("annual_ex_modules_num <=", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumIn(List<Integer> values) {
+            addCriterion("annual_ex_modules_num in", values, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumNotIn(List<Integer> values) {
+            addCriterion("annual_ex_modules_num not in", values, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumBetween(Integer value1, Integer value2) {
+            addCriterion("annual_ex_modules_num between", value1, value2, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("annual_ex_modules_num not between", value1, value2, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
         public Criteria andInsExModulesIsNull() {
             addCriterion("ins_ex_modules is null");
             return (Criteria) this;
@@ -722,6 +782,126 @@ public class CompanyExItemExample {
 
         public Criteria andInsExModulesNotBetween(Integer value1, Integer value2) {
             addCriterion("ins_ex_modules not between", value1, value2, "insExModules");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumIsNull() {
+            addCriterion("ins_ex_modules_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumIsNotNull() {
+            addCriterion("ins_ex_modules_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumEqualTo(Integer value) {
+            addCriterion("ins_ex_modules_num =", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumNotEqualTo(Integer value) {
+            addCriterion("ins_ex_modules_num <>", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumGreaterThan(Integer value) {
+            addCriterion("ins_ex_modules_num >", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ins_ex_modules_num >=", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumLessThan(Integer value) {
+            addCriterion("ins_ex_modules_num <", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumLessThanOrEqualTo(Integer value) {
+            addCriterion("ins_ex_modules_num <=", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumIn(List<Integer> values) {
+            addCriterion("ins_ex_modules_num in", values, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumNotIn(List<Integer> values) {
+            addCriterion("ins_ex_modules_num not in", values, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumBetween(Integer value1, Integer value2) {
+            addCriterion("ins_ex_modules_num between", value1, value2, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("ins_ex_modules_num not between", value1, value2, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumIsNull() {
+            addCriterion("ex_modules_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumIsNotNull() {
+            addCriterion("ex_modules_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumEqualTo(Integer value) {
+            addCriterion("ex_modules_num =", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumNotEqualTo(Integer value) {
+            addCriterion("ex_modules_num <>", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumGreaterThan(Integer value) {
+            addCriterion("ex_modules_num >", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ex_modules_num >=", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumLessThan(Integer value) {
+            addCriterion("ex_modules_num <", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumLessThanOrEqualTo(Integer value) {
+            addCriterion("ex_modules_num <=", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumIn(List<Integer> values) {
+            addCriterion("ex_modules_num in", values, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumNotIn(List<Integer> values) {
+            addCriterion("ex_modules_num not in", values, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumBetween(Integer value1, Integer value2) {
+            addCriterion("ex_modules_num between", value1, value2, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("ex_modules_num not between", value1, value2, "exModulesNum");
             return (Criteria) this;
         }
 

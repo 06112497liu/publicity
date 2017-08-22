@@ -83,7 +83,9 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
 
         int exTypes = getAnnualExTypes(c);
         int exModules = getAnnualExModules(c);
-        int n = companyExItemExtDao.updateAnnualInfo(c.getNbxh(), num, exTypes, exModules);
+        List<Integer> ds = exDetailExtDao.selectAnnualExModules(c.getNbxh());
+        int exModulesNum = ds.size();
+        int n = companyExItemExtDao.updateAnnualInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
         if (n > 0) {
             return;
         }

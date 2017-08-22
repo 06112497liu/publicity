@@ -9,7 +9,7 @@ public class CompanyExItemPre {
 
     private String companyName;
 
-    private Byte companyProperty;
+    private Integer companyProperty;
 
     private Integer annualNum;
 
@@ -21,7 +21,13 @@ public class CompanyExItemPre {
 
     private Integer annualExModules;
 
+    private Integer annualExModulesNum;
+
     private Integer insExModules;
+
+    private Integer insExModulesNum;
+
+    private Integer exModulesNum;
 
     private Integer num;
 
@@ -29,13 +35,13 @@ public class CompanyExItemPre {
 
     private Date instantlyCmpTime;
 
-    private Date gmtCreate;
-
-    private Date gmtModified;
-
     private String region;
 
     private String primaryIndustry;
+
+    private Date gmtCreate;
+
+    private Date gmtModified;
 
     public Long getId() {
         return id;
@@ -61,11 +67,11 @@ public class CompanyExItemPre {
         this.companyName = companyName;
     }
 
-    public Byte getCompanyProperty() {
+    public Integer getCompanyProperty() {
         return companyProperty;
     }
 
-    public void setCompanyProperty(Byte companyProperty) {
+    public void setCompanyProperty(Integer companyProperty) {
         this.companyProperty = companyProperty;
     }
 
@@ -109,12 +115,36 @@ public class CompanyExItemPre {
         this.annualExModules = annualExModules;
     }
 
+    public Integer getAnnualExModulesNum() {
+        return annualExModulesNum;
+    }
+
+    public void setAnnualExModulesNum(Integer annualExModulesNum) {
+        this.annualExModulesNum = annualExModulesNum;
+    }
+
     public Integer getInsExModules() {
         return insExModules;
     }
 
     public void setInsExModules(Integer insExModules) {
         this.insExModules = insExModules;
+    }
+
+    public Integer getInsExModulesNum() {
+        return insExModulesNum;
+    }
+
+    public void setInsExModulesNum(Integer insExModulesNum) {
+        this.insExModulesNum = insExModulesNum;
+    }
+
+    public Integer getExModulesNum() {
+        return exModulesNum;
+    }
+
+    public void setExModulesNum(Integer exModulesNum) {
+        this.exModulesNum = exModulesNum;
     }
 
     public Integer getNum() {
@@ -141,22 +171,6 @@ public class CompanyExItemPre {
         this.instantlyCmpTime = instantlyCmpTime;
     }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
     public String getRegion() {
         return region;
     }
@@ -171,5 +185,21 @@ public class CompanyExItemPre {
 
     public void setPrimaryIndustry(String primaryIndustry) {
         this.primaryIndustry = primaryIndustry;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
     }
 }

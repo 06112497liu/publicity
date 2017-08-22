@@ -315,52 +315,52 @@ public class CompanyExItemPreExample {
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyEqualTo(Byte value) {
+        public Criteria andCompanyPropertyEqualTo(Integer value) {
             addCriterion("company_property =", value, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyNotEqualTo(Byte value) {
+        public Criteria andCompanyPropertyNotEqualTo(Integer value) {
             addCriterion("company_property <>", value, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyGreaterThan(Byte value) {
+        public Criteria andCompanyPropertyGreaterThan(Integer value) {
             addCriterion("company_property >", value, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyGreaterThanOrEqualTo(Byte value) {
+        public Criteria andCompanyPropertyGreaterThanOrEqualTo(Integer value) {
             addCriterion("company_property >=", value, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyLessThan(Byte value) {
+        public Criteria andCompanyPropertyLessThan(Integer value) {
             addCriterion("company_property <", value, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyLessThanOrEqualTo(Byte value) {
+        public Criteria andCompanyPropertyLessThanOrEqualTo(Integer value) {
             addCriterion("company_property <=", value, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyIn(List<Byte> values) {
+        public Criteria andCompanyPropertyIn(List<Integer> values) {
             addCriterion("company_property in", values, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyNotIn(List<Byte> values) {
+        public Criteria andCompanyPropertyNotIn(List<Integer> values) {
             addCriterion("company_property not in", values, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyBetween(Byte value1, Byte value2) {
+        public Criteria andCompanyPropertyBetween(Integer value1, Integer value2) {
             addCriterion("company_property between", value1, value2, "companyProperty");
             return (Criteria) this;
         }
 
-        public Criteria andCompanyPropertyNotBetween(Byte value1, Byte value2) {
+        public Criteria andCompanyPropertyNotBetween(Integer value1, Integer value2) {
             addCriterion("company_property not between", value1, value2, "companyProperty");
             return (Criteria) this;
         }
@@ -665,6 +665,66 @@ public class CompanyExItemPreExample {
             return (Criteria) this;
         }
 
+        public Criteria andAnnualExModulesNumIsNull() {
+            addCriterion("annual_ex_modules_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumIsNotNull() {
+            addCriterion("annual_ex_modules_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumEqualTo(Integer value) {
+            addCriterion("annual_ex_modules_num =", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumNotEqualTo(Integer value) {
+            addCriterion("annual_ex_modules_num <>", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumGreaterThan(Integer value) {
+            addCriterion("annual_ex_modules_num >", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("annual_ex_modules_num >=", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumLessThan(Integer value) {
+            addCriterion("annual_ex_modules_num <", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumLessThanOrEqualTo(Integer value) {
+            addCriterion("annual_ex_modules_num <=", value, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumIn(List<Integer> values) {
+            addCriterion("annual_ex_modules_num in", values, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumNotIn(List<Integer> values) {
+            addCriterion("annual_ex_modules_num not in", values, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumBetween(Integer value1, Integer value2) {
+            addCriterion("annual_ex_modules_num between", value1, value2, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnnualExModulesNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("annual_ex_modules_num not between", value1, value2, "annualExModulesNum");
+            return (Criteria) this;
+        }
+
         public Criteria andInsExModulesIsNull() {
             addCriterion("ins_ex_modules is null");
             return (Criteria) this;
@@ -722,6 +782,126 @@ public class CompanyExItemPreExample {
 
         public Criteria andInsExModulesNotBetween(Integer value1, Integer value2) {
             addCriterion("ins_ex_modules not between", value1, value2, "insExModules");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumIsNull() {
+            addCriterion("ins_ex_modules_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumIsNotNull() {
+            addCriterion("ins_ex_modules_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumEqualTo(Integer value) {
+            addCriterion("ins_ex_modules_num =", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumNotEqualTo(Integer value) {
+            addCriterion("ins_ex_modules_num <>", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumGreaterThan(Integer value) {
+            addCriterion("ins_ex_modules_num >", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ins_ex_modules_num >=", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumLessThan(Integer value) {
+            addCriterion("ins_ex_modules_num <", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumLessThanOrEqualTo(Integer value) {
+            addCriterion("ins_ex_modules_num <=", value, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumIn(List<Integer> values) {
+            addCriterion("ins_ex_modules_num in", values, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumNotIn(List<Integer> values) {
+            addCriterion("ins_ex_modules_num not in", values, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumBetween(Integer value1, Integer value2) {
+            addCriterion("ins_ex_modules_num between", value1, value2, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsExModulesNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("ins_ex_modules_num not between", value1, value2, "insExModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumIsNull() {
+            addCriterion("ex_modules_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumIsNotNull() {
+            addCriterion("ex_modules_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumEqualTo(Integer value) {
+            addCriterion("ex_modules_num =", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumNotEqualTo(Integer value) {
+            addCriterion("ex_modules_num <>", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumGreaterThan(Integer value) {
+            addCriterion("ex_modules_num >", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ex_modules_num >=", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumLessThan(Integer value) {
+            addCriterion("ex_modules_num <", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumLessThanOrEqualTo(Integer value) {
+            addCriterion("ex_modules_num <=", value, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumIn(List<Integer> values) {
+            addCriterion("ex_modules_num in", values, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumNotIn(List<Integer> values) {
+            addCriterion("ex_modules_num not in", values, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumBetween(Integer value1, Integer value2) {
+            addCriterion("ex_modules_num between", value1, value2, "exModulesNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExModulesNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("ex_modules_num not between", value1, value2, "exModulesNum");
             return (Criteria) this;
         }
 
@@ -905,126 +1085,6 @@ public class CompanyExItemPreExample {
             return (Criteria) this;
         }
 
-        public Criteria andGmtCreateIsNull() {
-            addCriterion("gmt_create is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateIsNotNull() {
-            addCriterion("gmt_create is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateEqualTo(Date value) {
-            addCriterion("gmt_create =", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateNotEqualTo(Date value) {
-            addCriterion("gmt_create <>", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateGreaterThan(Date value) {
-            addCriterion("gmt_create >", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateGreaterThanOrEqualTo(Date value) {
-            addCriterion("gmt_create >=", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateLessThan(Date value) {
-            addCriterion("gmt_create <", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateLessThanOrEqualTo(Date value) {
-            addCriterion("gmt_create <=", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateIn(List<Date> values) {
-            addCriterion("gmt_create in", values, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateNotIn(List<Date> values) {
-            addCriterion("gmt_create not in", values, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateBetween(Date value1, Date value2) {
-            addCriterion("gmt_create between", value1, value2, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateNotBetween(Date value1, Date value2) {
-            addCriterion("gmt_create not between", value1, value2, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedIsNull() {
-            addCriterion("gmt_modified is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedIsNotNull() {
-            addCriterion("gmt_modified is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedEqualTo(Date value) {
-            addCriterion("gmt_modified =", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedNotEqualTo(Date value) {
-            addCriterion("gmt_modified <>", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedGreaterThan(Date value) {
-            addCriterion("gmt_modified >", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedGreaterThanOrEqualTo(Date value) {
-            addCriterion("gmt_modified >=", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedLessThan(Date value) {
-            addCriterion("gmt_modified <", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedLessThanOrEqualTo(Date value) {
-            addCriterion("gmt_modified <=", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedIn(List<Date> values) {
-            addCriterion("gmt_modified in", values, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedNotIn(List<Date> values) {
-            addCriterion("gmt_modified not in", values, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedBetween(Date value1, Date value2) {
-            addCriterion("gmt_modified between", value1, value2, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedNotBetween(Date value1, Date value2) {
-            addCriterion("gmt_modified not between", value1, value2, "gmtModified");
-            return (Criteria) this;
-        }
-
         public Criteria andRegionIsNull() {
             addCriterion("region is null");
             return (Criteria) this;
@@ -1162,6 +1222,126 @@ public class CompanyExItemPreExample {
 
         public Criteria andPrimaryIndustryNotBetween(String value1, String value2) {
             addCriterion("primary_industry not between", value1, value2, "primaryIndustry");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateIsNull() {
+            addCriterion("gmt_create is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateIsNotNull() {
+            addCriterion("gmt_create is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateEqualTo(Date value) {
+            addCriterion("gmt_create =", value, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateNotEqualTo(Date value) {
+            addCriterion("gmt_create <>", value, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateGreaterThan(Date value) {
+            addCriterion("gmt_create >", value, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateGreaterThanOrEqualTo(Date value) {
+            addCriterion("gmt_create >=", value, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateLessThan(Date value) {
+            addCriterion("gmt_create <", value, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateLessThanOrEqualTo(Date value) {
+            addCriterion("gmt_create <=", value, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateIn(List<Date> values) {
+            addCriterion("gmt_create in", values, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateNotIn(List<Date> values) {
+            addCriterion("gmt_create not in", values, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateBetween(Date value1, Date value2) {
+            addCriterion("gmt_create between", value1, value2, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtCreateNotBetween(Date value1, Date value2) {
+            addCriterion("gmt_create not between", value1, value2, "gmtCreate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedIsNull() {
+            addCriterion("gmt_modified is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedIsNotNull() {
+            addCriterion("gmt_modified is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedEqualTo(Date value) {
+            addCriterion("gmt_modified =", value, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedNotEqualTo(Date value) {
+            addCriterion("gmt_modified <>", value, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedGreaterThan(Date value) {
+            addCriterion("gmt_modified >", value, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedGreaterThanOrEqualTo(Date value) {
+            addCriterion("gmt_modified >=", value, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedLessThan(Date value) {
+            addCriterion("gmt_modified <", value, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedLessThanOrEqualTo(Date value) {
+            addCriterion("gmt_modified <=", value, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedIn(List<Date> values) {
+            addCriterion("gmt_modified in", values, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedNotIn(List<Date> values) {
+            addCriterion("gmt_modified not in", values, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedBetween(Date value1, Date value2) {
+            addCriterion("gmt_modified between", value1, value2, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andGmtModifiedNotBetween(Date value1, Date value2) {
+            addCriterion("gmt_modified not between", value1, value2, "gmtModified");
             return (Criteria) this;
         }
     }

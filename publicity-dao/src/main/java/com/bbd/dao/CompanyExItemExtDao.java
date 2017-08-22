@@ -40,14 +40,22 @@ public interface CompanyExItemExtDao {
      *
      * @param nbxh
      */
-    int updateAnnualInfo(@Param("nbxh") String nbxh, @Param("num") int num, @Param("exTypes") int exTypes, @Param("exModules") int exModules);
+    int updateAnnualInfo(@Param("nbxh") String nbxh, 
+                         @Param("num") int num, 
+                         @Param("exTypes") int exTypes, 
+                         @Param("exModules") int exModules,
+                         @Param("exModulesNum") int exModulesNum);
 
     /**
      * 更新即时信息对比异常项数量统计
      *
      * @param nbxh
      */
-    int updateInstantlyInfo(@Param("nbxh") String nbxh, @Param("num") int num, @Param("exTypes") int exTypes, @Param("exModules") int exModules);
+    int updateInstantlyInfo(@Param("nbxh") String nbxh, 
+                            @Param("num") int num, 
+                            @Param("exTypes") int exTypes, 
+                            @Param("exModules") int exModules,
+                            @Param("exModulesNum") int exModulesNum);
 
     /**
      * 查询年报异常企业
