@@ -5,9 +5,12 @@
 package com.bbd.controller;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,10 +23,13 @@ import com.bbd.pagin.PageListHelper;
 import com.bbd.service.ICompanyExItemService;
 import com.bbd.service.ICompanyService;
 import com.bbd.service.ICompareExceptionService;
+import com.bbd.service.compare.AnnualModule;
+import com.bbd.service.compare.InstantlyModule;
 import com.bbd.service.compare.PropertyEnum;
 import com.bbd.service.param.ExDetailVo;
 import com.bbd.service.param.ExceptionSearchParam;
 import com.bbd.util.DateUtil;
+import com.bbd.util.NumUtils;
 import com.bbd.util.ValidateUtil;
 import com.bean.RestResult;
 import com.exception.CommonErrorCode;
@@ -283,6 +289,7 @@ public class CompareExceptionController extends AbstractController {
     }
 
     private ExceptionCompanyVo build(String nbxh, Integer type) {
+        List<Integer> modules = Arrays.asList(1, 2, 4, 8, 16);
         PubCompanyInfo c = companyService.getByNbxh(nbxh);
         ExceptionCompanyVo vo = new ExceptionCompanyVo();
         vo.setId(c.getId());
@@ -313,7 +320,47 @@ public class CompareExceptionController extends AbstractController {
                 vo.setCompareTime(null);
             }            
         }
+        buildModuleStr(vo, ex);
         return vo;
+    }
+    
+    // 构造异常模块字符串
+    private void buildModuleStr(ExceptionCompanyVo vo, CompanyExItem ex) {
+        List<Integer> l = Arrays.asList(1, 2, 4, 8, 16);
+        //年报模块
+        List<Integer> annualList = NumUtils.getExistNum(ex.getAnnualExModules(), l);
+        List<String> annualStrList = annualList.stream().map(p -> AnnualModule.getDescByCode(p)).collect(Collectors.toList());
+        String annualStr = StringUtils.join(annualStrList, ",");
+        vo.setAnnualExModules(annualStr);
+        //即时信息模块
+        List<Integer> insList = NumUtils.getExistNum(ex.getInsExModules(), l);
+        List<String> insStrList = insList.stream().map(p -> InstantlyModule.getDescByCode(p)).collect(Collectors.toList());
+        String insStr = StringUtils.join(insStrList, ",");
+        vo.setInsExModules(insStr);
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

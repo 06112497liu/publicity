@@ -28,6 +28,12 @@ public class ExceptionCompanyVo {
 
     @ApiModelProperty(value = "异常项数量", required = false)
     private int count;
+    
+    @ApiModelProperty(value = "即时信息异常模块", required = false)
+    private String insExModules;
+    
+    @ApiModelProperty(value = "年报信息异常模块", required = false)
+    private String annualExModules;
 
     @ApiModelProperty(value = "比对时间", required = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
@@ -63,6 +69,22 @@ public class ExceptionCompanyVo {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getInsExModules() {
+        return insExModules;
+    }
+
+    public void setInsExModules(String insExModules) {
+        this.insExModules = insExModules;
+    }
+
+    public String getAnnualExModules() {
+        return annualExModules;
+    }
+
+    public void setAnnualExModules(String annualExModules) {
+        this.annualExModules = annualExModules;
     }
 
     public Date getCompareTime() {

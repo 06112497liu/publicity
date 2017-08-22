@@ -49,10 +49,10 @@
             and (annual_ex_types div #{exType} mod 2 = 1)
         </if>
         order by 
-        <if test="sortType = 1">
+        <if test="sortType == 1">
         	annual_num ${sort}
         </if>
-        <if test="sortType = 2">
+        <if test="sortType == 2">
         	annual_ex_modules_num ${sort}
         </if>
     </select>
@@ -74,10 +74,10 @@
             and (ins_ex_types div #{exType} mod 2 = 1)
         </if>
 		order by 
-        <if test="sortType = 1">
+        <if test="sortType == 1">
         	instantly_num ${sort}
         </if>
-        <if test="sortType = 2">
+        <if test="sortType == 2">
         	ins_ex_modules_num ${sort}
         </if>
     </select>
@@ -97,10 +97,10 @@
             and ((annual_ex_types div #{exType} mod 2 = 1) or (ins_ex_types div #{exType} mod 2 = 1))
         </if>
         order by 
-	    <if test="sortType = 1">
+	    <if test="sortType == 1">
         	num ${sort}
         </if>
-        <if test="sortType = 2">
+        <if test="sortType == 2">
         	ex_modules_num ${sort}
         </if>
     </select>
