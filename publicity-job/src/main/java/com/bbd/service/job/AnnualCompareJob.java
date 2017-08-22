@@ -18,10 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.Date;
-
-import javax.annotation.Resource;
 
 /**
  * 年报对比任务
@@ -60,13 +59,13 @@ public class AnnualCompareJob extends QuartzJobBean {
             logger.error(e.getMessage(), e);
         }
     }
-    
-    // 判断是否需要尽心年报对比
+
+    // 判断是否需要进行年报对比
     private boolean needExecuteAnnualJob() {
         boolean flag = true;
         // 1. 获取上次年报对比任务
         Optional<CompareTask> task = compareTaskService.getLastAnnualTask();
-        if(task.isPresent()) {
+        if (task.isPresent()) {
             CompareTask taskInfo = task.get();
             LocalDate d = LocalDate.of(LocalDate.now().getYear(), 8, 1);
             int baseDay = d.getDayOfYear();
@@ -74,7 +73,7 @@ public class AnnualCompareJob extends QuartzJobBean {
             LocalDate temp = DateUtil.convertDateToLocalDate(compareTime);
             int year = temp.getYear();
             int day = temp.getDayOfYear();
-            if(year == LocalDate.now().getYear()) {
+            if (year == LocalDate.now().getYear()) {
                 flag = (day < baseDay);
             }
         }

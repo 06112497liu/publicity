@@ -8,7 +8,6 @@ import com.bbd.service.ICompareService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 年报任务执行服务
@@ -23,8 +22,8 @@ public class AnnualTaskExecuteServiceImpl extends AbstractTaskExecuteService {
     private ICompareService compareService;
 
     @Override
-    protected void doCompare(long taskId, List<String> nbxhs) {
-        nbxhs.forEach(nbxh -> compareService.compare(taskId, nbxh));
+    protected void doCompare(long taskId, String nbxh) {
+        compareService.compare(taskId, nbxh);
     }
 
     @Override

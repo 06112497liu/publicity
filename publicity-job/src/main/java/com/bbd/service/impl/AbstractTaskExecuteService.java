@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * @author tjwang
@@ -23,8 +27,12 @@ public abstract class AbstractTaskExecuteService implements ITaskExecuteService 
 
     @Autowired
     protected ICompanyService companyService;
+
     @Autowired
     protected ICompareTaskService compareTaskService;
+
+
+    private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -36,10 +44,28 @@ public abstract class AbstractTaskExecuteService implements ITaskExecuteService 
         }
         List<String> nbxhs = Lists.newArrayList();
         ds.forEach(p -> nbxhs.add(p.getNbxh()));
-        doCompare(taskId, nbxhs);
+
+        List<Future> fs = Lists.newArrayList();
+        for (String nbxh : nbxhs) {
+            Future<?> f = executorService.submit(() -> {
+                doCompare(taskId, nbxh);
+            });
+            fs.add(f);
+        }
+        fs.forEach(f -> {
+            try {
+                f.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        });
+
+
     }
 
-    protected abstract void doCompare(long taskId, List<String> nbxhs);
+    protected abstract void doCompare(long taskId, String nbxh);
 
     protected abstract void finishTask(long taskId);
 

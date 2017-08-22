@@ -5,15 +5,11 @@
 package com.bbd.service.impl;
 
 import com.bbd.service.ICompareService;
-import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * 即时信息任务执行服务
@@ -30,24 +26,8 @@ public class InstantlyTaskExecuteServiceImpl extends AbstractTaskExecuteService 
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
-    protected void doCompare(long taskId, List<String> nbxhs) {
-        List<Future> fs = Lists.newArrayList();
-        for (String nbxh : nbxhs) {
-            Future<?> f = executorService.submit(() -> {
-                compareService.compare(taskId, nbxh);
-            });
-            fs.add(f);
-        }
-        fs.forEach(f -> {
-            try {
-                f.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        });
-
+    protected void doCompare(long taskId, String nbxh) {
+        compareService.compare(taskId, nbxh);
     }
 
     @Override
