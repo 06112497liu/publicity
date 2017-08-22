@@ -330,12 +330,12 @@ public class CompareExceptionController extends AbstractController {
         //年报模块
         List<Integer> annualList = NumUtils.getExistNum(ex.getAnnualExModules(), l);
         List<String> annualStrList = annualList.stream().map(p -> AnnualModule.getDescByCode(p)).collect(Collectors.toList());
-        String annualStr = StringUtils.join(annualStrList, ",");
+        String annualStr = StringUtils.join(annualStrList, "、");
         vo.setAnnualExModules(annualStr);
         //即时信息模块
         List<Integer> insList = NumUtils.getExistNum(ex.getInsExModules(), l);
         List<String> insStrList = insList.stream().map(p -> InstantlyModule.getDescByCode(p)).collect(Collectors.toList());
-        String insStr = StringUtils.join(insStrList, ",");
+        String insStr = StringUtils.join(insStrList, "、");
         vo.setInsExModules(insStr);
     }
 

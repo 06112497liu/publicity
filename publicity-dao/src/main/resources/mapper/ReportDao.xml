@@ -148,7 +148,7 @@
     </select>
     
     <!-- 按企业性质统计两者都异常的企业数量 -->
-    <select id="" resultType="java.util.Map">
+    <select id="queryCompanyPropertyBothExStatistics" resultType="java.util.Map">
 		SELECT
 			company_property AS item,
 			count(1) AS total
