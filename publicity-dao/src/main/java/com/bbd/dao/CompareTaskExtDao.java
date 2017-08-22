@@ -22,5 +22,7 @@ public interface CompareTaskExtDao {
     int updateCount(@Param("id") long id, @Param("total") int total, @Param("totalItem") int totalItem);
 
     int updateExIncreased(@Param("id") long id);
+    
+    int updateExDecreased(@Param("id") long id);
 
 }

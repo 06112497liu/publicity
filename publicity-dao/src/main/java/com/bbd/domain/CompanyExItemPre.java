@@ -2,7 +2,7 @@ package com.bbd.domain;
 
 import java.util.Date;
 
-public class CompanyExItem {
+public class CompanyExItemPre {
     private Long id;
 
     private String nbxh;
@@ -35,13 +35,13 @@ public class CompanyExItem {
 
     private Date instantlyCmpTime;
 
-    private Date gmtCreate;
-
-    private Date gmtModified;
-
     private String region;
 
     private String primaryIndustry;
+
+    private Date gmtCreate;
+
+    private Date gmtModified;
 
     public Long getId() {
         return id;
@@ -171,22 +171,6 @@ public class CompanyExItem {
         this.instantlyCmpTime = instantlyCmpTime;
     }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
     public String getRegion() {
         return region;
     }
@@ -201,5 +185,21 @@ public class CompanyExItem {
 
     public void setPrimaryIndustry(String primaryIndustry) {
         this.primaryIndustry = primaryIndustry;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
     }
 }

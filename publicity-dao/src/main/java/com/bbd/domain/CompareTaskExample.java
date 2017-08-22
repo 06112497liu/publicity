@@ -475,6 +475,66 @@ public class CompareTaskExample {
             return (Criteria) this;
         }
 
+        public Criteria andExNumIsNull() {
+            addCriterion("ex_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumIsNotNull() {
+            addCriterion("ex_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumEqualTo(Integer value) {
+            addCriterion("ex_num =", value, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumNotEqualTo(Integer value) {
+            addCriterion("ex_num <>", value, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumGreaterThan(Integer value) {
+            addCriterion("ex_num >", value, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ex_num >=", value, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumLessThan(Integer value) {
+            addCriterion("ex_num <", value, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumLessThanOrEqualTo(Integer value) {
+            addCriterion("ex_num <=", value, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumIn(List<Integer> values) {
+            addCriterion("ex_num in", values, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumNotIn(List<Integer> values) {
+            addCriterion("ex_num not in", values, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumBetween(Integer value1, Integer value2) {
+            addCriterion("ex_num between", value1, value2, "exNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("ex_num not between", value1, value2, "exNum");
+            return (Criteria) this;
+        }
+
         public Criteria andBeginTimeIsNull() {
             addCriterion("begin_time is null");
             return (Criteria) this;
@@ -655,63 +715,63 @@ public class CompareTaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseIsNull() {
-            addCriterion("decrease is null");
+        public Criteria andExDecreaseIsNull() {
+            addCriterion("ex_decrease is null");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseIsNotNull() {
-            addCriterion("decrease is not null");
+        public Criteria andExDecreaseIsNotNull() {
+            addCriterion("ex_decrease is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseEqualTo(Integer value) {
-            addCriterion("decrease =", value, "decrease");
+        public Criteria andExDecreaseEqualTo(Integer value) {
+            addCriterion("ex_decrease =", value, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseNotEqualTo(Integer value) {
-            addCriterion("decrease <>", value, "decrease");
+        public Criteria andExDecreaseNotEqualTo(Integer value) {
+            addCriterion("ex_decrease <>", value, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseGreaterThan(Integer value) {
-            addCriterion("decrease >", value, "decrease");
+        public Criteria andExDecreaseGreaterThan(Integer value) {
+            addCriterion("ex_decrease >", value, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseGreaterThanOrEqualTo(Integer value) {
-            addCriterion("decrease >=", value, "decrease");
+        public Criteria andExDecreaseGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ex_decrease >=", value, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseLessThan(Integer value) {
-            addCriterion("decrease <", value, "decrease");
+        public Criteria andExDecreaseLessThan(Integer value) {
+            addCriterion("ex_decrease <", value, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseLessThanOrEqualTo(Integer value) {
-            addCriterion("decrease <=", value, "decrease");
+        public Criteria andExDecreaseLessThanOrEqualTo(Integer value) {
+            addCriterion("ex_decrease <=", value, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseIn(List<Integer> values) {
-            addCriterion("decrease in", values, "decrease");
+        public Criteria andExDecreaseIn(List<Integer> values) {
+            addCriterion("ex_decrease in", values, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseNotIn(List<Integer> values) {
-            addCriterion("decrease not in", values, "decrease");
+        public Criteria andExDecreaseNotIn(List<Integer> values) {
+            addCriterion("ex_decrease not in", values, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseBetween(Integer value1, Integer value2) {
-            addCriterion("decrease between", value1, value2, "decrease");
+        public Criteria andExDecreaseBetween(Integer value1, Integer value2) {
+            addCriterion("ex_decrease between", value1, value2, "exDecrease");
             return (Criteria) this;
         }
 
-        public Criteria andDecreaseNotBetween(Integer value1, Integer value2) {
-            addCriterion("decrease not between", value1, value2, "decrease");
+        public Criteria andExDecreaseNotBetween(Integer value1, Integer value2) {
+            addCriterion("ex_decrease not between", value1, value2, "exDecrease");
             return (Criteria) this;
         }
 

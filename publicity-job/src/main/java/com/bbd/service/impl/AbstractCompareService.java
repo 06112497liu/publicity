@@ -48,9 +48,8 @@ public abstract class AbstractCompareService implements ICompareService {
         createOrUpdateCompanyExItem(info, exNum);
 
         boolean isException = exNum > 0;
-        if (isException) {
-            updateExIncreased(taskId, nbxh);
-        }
+        // 更新本轮新增和退出企业数量
+        updateExIncreasedAndDecreased(taskId, nbxh, isException);
         compareTaskService.updateCompareTaskInfo(taskId, nbxh, props.size());
         // 判断对比之后，企业是否异常
         updateCompareStatisticsCount(props.size(), isException);
@@ -110,7 +109,7 @@ public abstract class AbstractCompareService implements ICompareService {
      *
      * @param taskId
      */
-    protected void updateExIncreased(long taskId, String nbxh) {
+    protected void updateExIncreasedAndDecreased(long taskId, String nbxh, boolean isException) {
 
     }
 

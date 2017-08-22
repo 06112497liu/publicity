@@ -22,19 +22,29 @@ public interface ExDetailExtDao {
     void deleteAnnualExDetailPrev();
 
     /**
-     * 将年报异常信息复制到历史记录表
+     * 将即时异常信息复制到历史记录表
      */
     void copyInstantlyExToPre();
 
     /**
-     * 删除年报异常
+     * 删除即时信息异常
      */
     void deleteInstantlyExDetail();
 
     /**
-     * 删除年报异常历史
+     * 删除即时信息异常历史
      */
     void deleteInstantlyExDetailPrev();
+    
+    /**
+     * 查询年报异常企业数量
+     */
+    int countAnnualExNum();
+    
+    /**
+     * 查询即时信息异常企业数量
+     */
+    int countInsExNum();
 
     /**
      * 查询企业年报异常项

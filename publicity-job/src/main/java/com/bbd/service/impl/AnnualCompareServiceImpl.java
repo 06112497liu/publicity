@@ -74,33 +74,6 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
     }
 
     /**
-     * 校验，返回异常数量
-     *
-     * @param c
-     * @param props
-     * @return
-     */
-    @Override
-    protected int validate(PubCompanyInfo c, List<CompareProperty> props) {
-        if (props == null || props.isEmpty()) {
-            return 0;
-        }
-        // 异常项数量
-        int exNum = 0;
-        for (CompareProperty p : props) {
-            int r = p.compare();
-            if (r == 0) {
-                continue;
-            }
-            exNum++;
-            AnnualExDetail detail = buildAnnualExDetail(c, p);
-            detail.setExType(r);
-            annualExDetailDao.insert(detail);
-        }
-        return exNum;
-    }
-
-    /**
      * 创建或更新企业年报异常项统计信息
      */
     @Override
@@ -110,7 +83,9 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
 
         int exTypes = getAnnualExTypes(c);
         int exModules = getAnnualExModules(c);
-        int n = companyExItemExtDao.updateAnnualInfo(c.getNbxh(), num, exTypes, exModules);
+        List<Integer> ds = exDetailExtDao.selectAnnualExModules(c.getNbxh());
+        int exModulesNum = ds.size();
+        int n = companyExItemExtDao.updateAnnualInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
         if (n > 0) {
             return;
         }
@@ -173,5 +148,12 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
         return annualExDetail;
     }
 
+
+    @Override
+    protected void updateExIncreasedAndDecreased(long taskId, String nbxh, boolean isException) {
+        compareTaskService.updateExIncreasedAndDecreased(1, taskId, nbxh, isException);
+    }
+
+       
 
 }

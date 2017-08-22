@@ -4,7 +4,6 @@
  */
 package com.bbd.service.param;
 
-import com.bbd.common.util.PercentUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -23,15 +22,21 @@ public class CompareReportVo {
 
     @ApiModelProperty(value = "年报异常企业数量", required = false)
     private int    annualNum;
-
-    @ApiModelProperty(value = "年报信息异常数量占比", required = false)
+    
+    @ApiModelProperty(value = "年报异常企业数量占比", required = false)
     private String annualPer;
 
     @ApiModelProperty(value = "即时信息异常企业数量", required = false)
     private int    insNum;
-
-    @ApiModelProperty(value = "即时信息异常数量占比", required = false)
+    
+    @ApiModelProperty(value = "即时信息异常企业数量占比", required = false)
     private String insPer;
+    
+    @ApiModelProperty(value = "两者都有的异常企业数量", required = false)
+    private int    bothNum;
+    
+    @ApiModelProperty(value = "两者都有的异常企业数量占比", required = false)
+    private String bothPer;
 
     @ApiModelProperty(value = "异常总量", required = false)
     private int    total;
@@ -63,16 +68,6 @@ public class CompareReportVo {
         this.itemDesc = itemDesc;
     }
 
-    public String getAnnualPer() {
-        String str = PercentUtil.calcIntPercent(insNum + annualNum, annualNum);
-        return str;
-    }
-
-    public String getInsPer() {
-        String str = PercentUtil.calcIntPercent(insNum + annualNum, insNum);
-        return str;
-    }
-
     public int getAnnualNum() {
         return annualNum;
     }
@@ -96,10 +91,43 @@ public class CompareReportVo {
     public void setTotal(int total) {
         this.total = total;
     }
+    
+    public String getAnnualPer() {
+        return annualPer;
+    }
+
+    public void setAnnualPer(String annualPer) {
+        this.annualPer = annualPer;
+    }
+
+    public String getInsPer() {
+        return insPer;
+    }
+
+    public void setInsPer(String insPer) {
+        this.insPer = insPer;
+    }
+
+    public int getBothNum() {
+        return bothNum;
+    }
+
+    public void setBothNum(int bothNum) {
+        this.bothNum = bothNum;
+    }
+
+    public String getBothPer() {
+        return bothPer;
+    }
+
+    public void setBothPer(String bothPer) {
+        this.bothPer = bothPer;
+    }
 
     @Override
     public String toString() {
-        return "CompareReportVo [item=" + item + ", itemDesc=" + itemDesc + ", annualNum=" + annualNum + ", insNum=" + insNum + ", total=" + total + "]";
+        return "CompareReportVo [item=" + item + ", itemDesc=" + itemDesc + ", annualNum=" + annualNum + ", annualPer=" + annualPer + ", insNum=" + insNum + ", insPer=" + insPer + ", bothNum="
+               + bothNum + ", bothPer=" + bothPer + ", total=" + total + ", percent=" + percent + "]";
     }
 
 }

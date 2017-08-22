@@ -42,5 +42,18 @@
         select submodule from bbd_pub_instantly_ex_detail where nbxh=#{nbxh} group by submodule
     </select>
 
+	<select id="countAnnualExNum" resultType="java.lang.Integer">
+		SELECT count(DISTINCT nbxh) FROM bbd_pub_annual_ex_detail;
+	</select>
+	
+	<select id="countInsExNum" resultType="java.lang.Integer">
+		SELECT count(DISTINCT nbxh) FROM bbd_pub_instantly_ex_detail;
+	</select>
 
 </mapper>
+
+
+
+
+
+

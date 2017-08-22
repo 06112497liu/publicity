@@ -69,6 +69,6 @@ public interface ICompareTaskService {
      * @param taskId
      * @param nbxh
      */
-    void updateExIncreased(long taskId, String nbxh);
+    void updateExIncreasedAndDecreased(int taskType, long taskId, String nbxh, boolean isException);
 
 }

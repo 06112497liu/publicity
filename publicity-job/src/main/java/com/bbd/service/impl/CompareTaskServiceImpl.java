@@ -6,6 +6,7 @@ package com.bbd.service.impl;
 
 import com.bbd.common.Constants;
 import com.bbd.dao.*;
+import com.bbd.domain.AnnualExPrevDetailExample;
 import com.bbd.domain.CompareTask;
 import com.bbd.domain.CompareTaskExample;
 import com.bbd.domain.InstantlyExPrevDetailExample;
@@ -47,6 +48,9 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
 
     @Autowired
     private InstantlyExPrevDetailDao instantlyExPrevDetailDao;
+    
+    @Autowired
+    private AnnualExPrevDetailDao annualExPrevDetailDao;
 
     @Override
     public CompareTask getById(Long id) {
@@ -119,24 +123,27 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void finishAnnualCompareTask(long taskId) {
+        int exNum = exDetailExtDao.countAnnualExNum();
         exDetailExtDao.deleteAnnualExDetailPrev();
         exDetailExtDao.copyAnnualExToPre();
         exDetailExtDao.deleteAnnualExDetail();
-        finishTask(taskId);
+        finishTask(taskId, exNum);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void finishInstantlyCompareTask(long taskId) {
+        int exNum = exDetailExtDao.countAnnualExNum();
         exDetailExtDao.deleteInstantlyExDetailPrev();
         exDetailExtDao.copyInstantlyExToPre();
         exDetailExtDao.deleteInstantlyExDetail();
-        finishTask(taskId);
+        finishTask(taskId, exNum);
     }
 
-    private void finishTask(long taskId) {
+    private void finishTask(long taskId, int exNum) {
         Date now = new Date();
         CompareTask updateTask = new CompareTask();
+        updateTask.setExNum(exNum);
         updateTask.setId(taskId);
         updateTask.setEndTime(now);
         updateTask.setGmtModified(now);
@@ -154,16 +161,26 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
     }
 
     @Override
-    public void updateExIncreased(long taskId, String nbxh) {
+    public void updateExIncreasedAndDecreased(int taskType, long taskId, String nbxh, boolean isException) {
+        
         Preconditions.checkArgument(StringUtils.isNotBlank("nbxh"), "内部序号不能为空");
-
-        InstantlyExPrevDetailExample inExam = new InstantlyExPrevDetailExample();
-        inExam.createCriteria().andNbxhEqualTo(nbxh);
-        Long count = instantlyExPrevDetailDao.countByExample(inExam);
-
-        if (count > 0) {
-            return;
+        Long count = 0L;
+        if(taskType == 2) {
+            InstantlyExPrevDetailExample inExam = new InstantlyExPrevDetailExample();
+            inExam.createCriteria().andNbxhEqualTo(nbxh);
+            count = instantlyExPrevDetailDao.countByExample(inExam);
+        } else if(taskType == 1) {
+            AnnualExPrevDetailExample anExam = new AnnualExPrevDetailExample();
+            anExam.createCriteria().andNbxhEqualTo(nbxh);
+            count = annualExPrevDetailDao.countByExample(anExam);
         }
-        compareTaskExtDao.updateExIncreased(taskId);
+
+        if(count == 0 && isException){
+            compareTaskExtDao.updateExIncreased(taskId);
+        } else if(count > 0 && !isException) {
+            compareTaskExtDao.updateExDecreased(taskId);
+        } else {
+            return;
+        }        
     }
 }

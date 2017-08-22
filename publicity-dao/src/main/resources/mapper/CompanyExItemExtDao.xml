@@ -3,15 +3,33 @@
 <mapper namespace="com.bbd.dao.CompanyExItemExtDao">
 
     <update id="updateAnnualInfo">
-        update bbd_pub_company_ex_item
-        set annual_num=#{num}, num=instantly_num+#{num}, annual_ex_types = #{exTypes}, annual_ex_modules = #{exModules}, annual_cmp_time = now()
-        where nbxh = #{nbxh}
+        update 
+        	bbd_pub_company_ex_item
+        set 
+        	annual_num=#{num}, 
+        	num=instantly_num+#{num}, 
+        	annual_ex_types = #{exTypes}, 
+        	annual_ex_modules = #{exModules},
+        	annual_ex_modules_num = #{exModulesNum},
+        	ex_modules_num = #{exModulesNum} + ins_ex_modules_num,
+        	annual_cmp_time = now()
+        where 
+        	nbxh = #{nbxh}
     </update>
 
     <update id="updateInstantlyInfo">
-        update bbd_pub_company_ex_item
-        set instantly_num=#{num}, num=annual_num+#{num}, ins_ex_types = #{exTypes}, ins_ex_modules = #{exModules}, instantly_cmp_time=now()
-        where nbxh = #{nbxh}
+        update 
+        	bbd_pub_company_ex_item
+        set 
+        	instantly_num=#{num}, 
+        	num=annual_num+#{num}, 
+        	ins_ex_types = #{exTypes}, 
+        	ins_ex_modules = #{exModules},
+        	ins_ex_modules_num = #{exModulesNum},
+        	ex_modules_num = #{exModulesNum} + annual_ex_modules_num,
+        	instantly_cmp_time=now()
+        where 
+        	nbxh = #{nbxh}
     </update>
 
     <select id="queryAnnualByParam" resultType="java.lang.String">
@@ -30,7 +48,13 @@
         <if test="exType != 0">
             and (annual_ex_types div #{exType} mod 2 = 1)
         </if>
-        order by annual_num ${sort}
+        order by 
+        <if test="sortType = 1">
+        	annual_num ${sort}
+        </if>
+        <if test="sortType = 2">
+        	annual_ex_modules_num ${sort}
+        </if>
     </select>
 
     <select id="queryInstantlyByParam" resultType="java.lang.String">
@@ -49,7 +73,13 @@
         <if test="exType != 0">
             and (ins_ex_types div #{exType} mod 2 = 1)
         </if>
-		order by instantly_num ${sort}
+		order by 
+        <if test="sortType = 1">
+        	instantly_num ${sort}
+        </if>
+        <if test="sortType = 2">
+        	ins_ex_modules_num ${sort}
+        </if>
     </select>
 
     <select id="queryAllByParam" resultType="java.lang.String">
@@ -66,7 +96,127 @@
         <if test="exType != 0">
             and ((annual_ex_types div #{exType} mod 2 = 1) or (ins_ex_types div #{exType} mod 2 = 1))
         </if>
-        order by num ${sort}
+        order by 
+	    <if test="sortType = 1">
+        	num ${sort}
+        </if>
+        <if test="sortType = 2">
+        	ex_modules_num ${sort}
+        </if>
     </select>
 
+	<insert id="insertCompanyExItemPreAnnual">
+		INSERT INTO bbd_pub_company_ex_item_pre (
+			nbxh,
+			company_name,
+			company_property,
+			annual_num,
+			annual_ex_types,
+			annual_ex_modules,
+			annual_cmp_time,
+			gmt_create,
+			region,
+			primary_industry
+		)(
+			SELECT
+				nbxh,
+				company_name,
+				company_property,
+				annual_num,
+				annual_ex_types,
+				annual_ex_modules,
+				annual_cmp_time,
+				gmt_create,
+				region,
+				primary_industry
+			FROM
+				bbd_pub_company_ex_item a
+			WHERE
+				NOT EXISTS (
+					SELECT
+						1
+					FROM
+						bbd_pub_company_ex_item_pre b
+					WHERE
+						a.nbxh = b.nbxh
+				)
+		);		
+	</insert>
+	
+	<update id="updateCompanyExItemPreAnnual">
+		UPDATE 
+			bbd_pub_company_ex_item_pre a, bbd_pub_company_ex_item b 
+		SET 
+			a.annual_num = b.annual_num,
+			a.annual_ex_types = b.annual_ex_types,
+			a.annual_ex_modules = b.annual_ex_modules,
+			a.annual_cmp_time = b.annual_cmp_time,
+			a.num = b.annual_num + a.instantly_num
+		WHERE 
+			a.nbxh = b.nbxh		
+	</update>
+	
+	<insert id="insertCompanyExItemPreIns">
+		INSERT INTO bbd_pub_company_ex_item_pre (
+			nbxh,
+			company_name,
+			company_property,
+			instantly_num,
+			ins_ex_types,
+			ins_ex_modules,
+			instantly_cmp_time,
+			gmt_create,
+			region,
+			primary_industry
+		)(
+			SELECT
+				nbxh,
+				company_name,
+				company_property,
+				instantly_num,
+				ins_ex_types,
+				ins_ex_modules,
+				instantly_cmp_time,
+				gmt_create,
+				region,
+				primary_industry
+			FROM
+				bbd_pub_company_ex_item a
+			WHERE
+				NOT EXISTS (
+					SELECT
+						1
+					FROM
+						bbd_pub_company_ex_item_pre b
+					WHERE
+						a.nbxh = b.nbxh
+				)
+		);	
+	</insert>
+	
+	<update id="updateCompanyExItemPreIns">
+		UPDATE 
+			bbd_pub_company_ex_item_pre a, bbd_pub_company_ex_item b 
+		SET 
+			a.instantly_num = b.instantly_num,
+			a.ins_ex_types = b.ins_ex_types,
+			a.ins_ex_modules = b.ins_ex_modules,
+			a.instantly_cmp_time = b.instantly_cmp_time,
+			a.num = b.instantly_num + a.annual_num
+		WHERE 
+			a.nbxh = b.nbxh	
+	</update>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

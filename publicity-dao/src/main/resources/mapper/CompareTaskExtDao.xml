@@ -10,4 +10,7 @@
         update bbd_pub_cmp_task set ex_increased = ex_increased + 1 where id = #{id}
     </update>
 
+	<update id="updateExDecreased">
+		update bbd_pub_cmp_task set ex_increased = ex_decreased + 1 where id = #{id}
+	</update>
 </mapper>

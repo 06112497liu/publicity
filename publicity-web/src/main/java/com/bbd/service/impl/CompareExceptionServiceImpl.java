@@ -64,9 +64,10 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String primaryIndustry = param.getPrimaryIndustry();
         int moduleType = param.getModuleType();
         int exType = param.getExType();
+        int sortType = param.getSortType();
         String sort = param.getSort();
 
-        List<String> ds = companyExItemExtDao.queryAnnualByParam(region, primaryIndustry, moduleType, exType, sort, pb);
+        List<String> ds = companyExItemExtDao.queryAnnualByParam(region, primaryIndustry, moduleType, exType, sortType, sort, pb);
 
         if (ds.size() == 0) {
             return rs;
@@ -77,12 +78,16 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchAnnualByExCount(int count, String sort, PageBounds pb) {
+    public List<String> searchAnnualByExCount(int count, String sort, int sortType, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.setOrderByClause("annual_num " + str);
+        if(sortType == 1) {
+            exam.setOrderByClause("annual_num " + str);
+        } else if(sortType == 2) {
+            exam.setOrderByClause("annual_ex_modules_num " + str);
+        }        
         if(count > 0)
             exam.createCriteria().andAnnualNumGreaterThanOrEqualTo(count);
         else 
@@ -99,12 +104,17 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchAnnualByCompanyName(String companyName, String sort, PageBounds pb) {
+    public List<String> searchAnnualByCompanyName(String companyName, String sort, int sortType, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.setOrderByClause("annual_num " + str);
+        if(sortType == 1) {
+            exam.setOrderByClause("annual_num " + str);
+        } else if(sortType == 1) {
+            exam.setOrderByClause("annual_ex_modules_num " + str);
+        }
+        
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
         criteria.andAnnualNumGreaterThan(0);
         
@@ -129,9 +139,10 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String primaryIndustry = param.getPrimaryIndustry();
         int moduleType = param.getModuleType();
         int exType = param.getExType();
+        int sortType = param.getSortType();
         String sort = param.getSort();
 
-        List<String> ds = companyExItemExtDao.queryInstantlyByParam(region, primaryIndustry, moduleType, exType, sort, pb);
+        List<String> ds = companyExItemExtDao.queryInstantlyByParam(region, primaryIndustry, moduleType, exType, sort, sortType, pb);
 
         if (ds.size() == 0) {
             return rs;
@@ -142,12 +153,13 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchInstantlyByExCount(int count, String sort, PageBounds pb) {
+    public List<String> searchInstantlyByExCount(int count, String sort, int sortType, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.setOrderByClause("instantly_num " + str);
+        if(sortType == 1) exam.setOrderByClause("instantly_num " + str);
+        if(sortType == 2) exam.setOrderByClause("ins_ex_modules_num " + str);
         
         if(count > 0)
             exam.createCriteria().andInstantlyNumGreaterThanOrEqualTo(count);
@@ -163,12 +175,13 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchInstantlyByCompanyName(String companyName, String sort, PageBounds pb) {
+    public List<String> searchInstantlyByCompanyName(String companyName, String sort, int sortType, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.setOrderByClause("instantly_num " + str);
+        if(sortType == 1) exam.setOrderByClause("instantly_num " + str);
+        if(sortType == 2) exam.setOrderByClause("ins_ex_modules_num " + str);
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
         criteria.andInstantlyNumGreaterThan(0);
         
@@ -190,9 +203,10 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String region = param.getRegion();
         String primaryIndustry = param.getPrimaryIndustry();
         int exType = param.getExType();
+        int sortType = param.getSortType();
         String sort = param.getSort();
 
-        List<String> ds = companyExItemExtDao.queryAllByParam(region, primaryIndustry, exType, sort, pb);
+        List<String> ds = companyExItemExtDao.queryAllByParam(region, primaryIndustry, exType, sort, sortType, pb);
 
         if (ds.size() == 0) {
             return rs;
@@ -203,12 +217,13 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchAllByExCount(int count, String sort, PageBounds pb) {
+    public List<String> searchAllByExCount(int count, String sort, int sortType, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.setOrderByClause("num " + str);
+        if(sortType == 1) exam.setOrderByClause("num " + str);
+        if(sortType == 2) exam.setOrderByClause("ex_modules_num " + str);
         if(count > 0)
             exam.createCriteria().andNumGreaterThanOrEqualTo(count);
         else 
@@ -225,12 +240,13 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     }
 
     @Override
-    public List<String> searchAllByCompanyName(String companyName, String sort, PageBounds pb) {
+    public List<String> searchAllByCompanyName(String companyName, String sort, int sortType, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        exam.setOrderByClause("num " + str);
+        if(sortType == 1) exam.setOrderByClause("num " + str);
+        if(sortType == 2) exam.setOrderByClause("ex_modules_num " + str);
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
         criteria.andNumGreaterThan(0);
         if(!StringUtils.isEmpty(companyName)) {

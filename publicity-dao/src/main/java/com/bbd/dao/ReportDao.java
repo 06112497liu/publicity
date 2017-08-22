@@ -33,6 +33,13 @@ public interface ReportDao {
      * @return
      */
     List<Map<String, Object>> queryDistrictInsExStatistics();
+    
+    /**
+     * 按区域统计两者都异常的企业数量
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryDistrictBothExStatistics();
 
     /**
      * 按行业统计地图数据
@@ -54,6 +61,13 @@ public interface ReportDao {
      * @return
      */
     List<Map<String, Object>> queryIndustryInsExStatistics();
+    
+    /**
+     * 按行业统计两者都异常的企业数量
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryIndustryBothExStatistics();
 
     /**
      * 按企业性质统计地图数据
@@ -77,6 +91,13 @@ public interface ReportDao {
     List<Map<String, Object>> queryCompanyPropertyInsExStatistics();
     
     /**
+     * 按企业性质统计两者都异常企业数量
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryCompanyPropertyBothExStatistics();
+    
+    /**
      * 查询各个区域的企业数量
      *
      * @return
@@ -89,5 +110,39 @@ public interface ReportDao {
      * @return
      */
     List<Map<String, Object>> queryCompanyCountGroupIndustry();
-
+    
+    /**
+     * 查询贵阳市企业总量
+     *
+     * @return
+     */
+    int queryWholeCount();
+    
+    /**
+     * 查询贵阳市年报异常企业数量
+     *
+     * @return
+     */
+    int queryWholeAnnualExNum();
+    
+    /**
+     * 查询贵阳市即时信息异常企业数量
+     *
+     * @return
+     */
+    int queryWholeInsExNum();
+    
+    /**
+     * 查询贵阳市两者都异常的企业数量
+     *
+     * @return
+     */
+    int queryWholeBothExNum();
+    
+    /**
+     * 查询归于昂是异常企业总量
+     *
+     * @return
+     */
+    int queryWholeExNum();
 }

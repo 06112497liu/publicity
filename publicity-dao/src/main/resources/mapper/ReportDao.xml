@@ -8,7 +8,7 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item
+			bbd_pub_company_ex_item_pre
 		WHERE 
 			(annual_num > 0 OR instantly_num > 0)
 		GROUP BY
@@ -21,7 +21,7 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item
+			bbd_pub_company_ex_item_pre
 		WHERE
 			annual_num > 0
 		GROUP BY
@@ -34,11 +34,25 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item
+			bbd_pub_company_ex_item_pre
 		WHERE
 			instantly_num > 0
 		GROUP BY
 			region
+    </select>
+    
+    <!-- 按区域统计两者都异常的企业数量 -->
+    <select id="queryDistrictBothExStatistics" resultType="java.util.Map">
+		SELECT
+			region AS item,
+			count(1) AS total
+		FROM
+			bbd_pub_company_ex_item_pre
+		WHERE
+			instantly_num > 0
+		AND annual_num > 0
+		GROUP BY
+			region;    
     </select>
 
     <!-- 按行业统计地图数据 -->
@@ -47,7 +61,7 @@
         primary_industry AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         (annual_num > 0 OR instantly_num > 0)
         GROUP BY
@@ -60,7 +74,7 @@
         primary_industry AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         annual_num > 0
         GROUP BY
@@ -73,21 +87,34 @@
         primary_industry AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         instantly_num > 0
         GROUP BY
         primary_industry
     </select>
-
-
+    
+    <!-- 按行业统计两者都异常的企业数量 -->
+    <select id="queryIndustryBothExStatistics" resultType="java.util.Map">
+		SELECT
+			primary_industry AS item,
+			count(1) AS total
+		FROM
+			bbd_pub_company_ex_item_pre
+		WHERE
+			instantly_num > 0
+		AND annual_num > 0
+		GROUP BY
+			primary_industry;    
+    </select>
+    
     <!-- 按企业性质统计地图数据 -->
     <select id="queryCompanyPropertyExStatistics" resultType="java.util.Map">
         SELECT
         CONCAT(company_property) AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         (annual_num > 0 OR instantly_num > 0)
         GROUP BY
@@ -100,7 +127,7 @@
         CONCAT(company_property) AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         annual_num > 0
         GROUP BY
@@ -113,11 +140,25 @@
         CONCAT(company_property) AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item
+        bbd_pub_company_ex_item_pre
         WHERE
         instantly_num > 0
         GROUP BY
         company_property
+    </select>
+    
+    <!-- 按企业性质统计两者都异常的企业数量 -->
+    <select id="" resultType="java.util.Map">
+		SELECT
+			company_property AS item,
+			count(1) AS total
+		FROM
+			bbd_pub_company_ex_item_pre
+		WHERE
+			instantly_num > 0
+		AND annual_num > 0
+		GROUP BY
+			company_property;    	
     </select>
     
     <!-- 查询各个区域的企业数量 -->
@@ -141,7 +182,31 @@
 		GROUP BY
 			primary_industry		
 	</select>
+	
+	<!-- 查询贵阳市企业总量 -->
+	<select id="queryWholeCount" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_info
+	</select>
+	
+	<!-- 查询贵阳市年报异常企业数量 -->
+	<select id="queryWholeAnnualExNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE annual_num > 0
+	</select>
+	
+	<!-- 查询贵阳市即时信息异常企业数量 -->
+	<select id="queryWholeInsExNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE instantly_num > 0
+	</select>	
+	
+	<!-- 查询贵阳市两者都异常的企业数量 -->
+	<select id="queryWholeBothExNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE instantly_num > 0 AND annual_num > 0
+	</select>
 
+	<!-- 查询归于昂是异常企业总量 -->
+	<select id="queryWholeExNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE num > 0
+	</select>
 </mapper>
 
 
