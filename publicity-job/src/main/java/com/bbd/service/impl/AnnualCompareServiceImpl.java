@@ -85,25 +85,26 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
         int exModules = getAnnualExModules(c);
         List<Integer> ds = exDetailExtDao.selectAnnualExModules(c.getNbxh());
         int exModulesNum = ds.size();
-        int n = companyExItemExtDao.updateAnnualInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
-        if (n > 0) {
-            return;
-        }
 
-        Date now = new Date();
-        CompanyExItem item = new CompanyExItem();
-        item.setNbxh(c.getNbxh());
-        item.setRegion(c.getRegion());
-        item.setPrimaryIndustry(c.getPrimaryIndustry());
-        item.setCompanyName(c.getCompanyName());
-        item.setCompanyProperty(c.getCompanyProperty());
-        item.setAnnualNum(num);
-        item.setAnnualCmpTime(now);
-        item.setNum(num);
-        item.setAnnualExTypes(exTypes);
-        item.setAnnualExModules(exModules);
-        item.setGmtCreate(now);
-        companyExItemDao.insertSelective(item);
+        int count = companyExItemExtDao.countByNbxh(c.getNbxh());
+        if (count > 0) {
+            companyExItemExtDao.updateAnnualInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
+        } else {
+            Date now = new Date();
+            CompanyExItem item = new CompanyExItem();
+            item.setNbxh(c.getNbxh());
+            item.setRegion(c.getRegion());
+            item.setPrimaryIndustry(c.getPrimaryIndustry());
+            item.setCompanyName(c.getCompanyName());
+            item.setCompanyProperty(c.getCompanyProperty());
+            item.setAnnualNum(num);
+            item.setAnnualCmpTime(now);
+            item.setNum(num);
+            item.setAnnualExTypes(exTypes);
+            item.setAnnualExModules(exModules);
+            item.setGmtCreate(now);
+            companyExItemDao.insertSelective(item);
+        }
     }
 
     private int getAnnualExTypes(PubCompanyInfo c) {
@@ -130,17 +131,17 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
         annualExDetail.setPrimaryIndustry(c.getPrimaryIndustry());
         annualExDetail.setExType(0);
         annualExDetail.setCompareTime(now);
-        if(prop.getBase() instanceof Date) {
-            String base = DateUtil.formatDateByPatten((Date)prop.getBase(), "yyyy-MM-dd HH:mm:ss");
+        if (prop.getBase() instanceof Date) {
+            String base = DateUtil.formatDateByPatten((Date) prop.getBase(), "yyyy-MM-dd HH:mm:ss");
             annualExDetail.setBase(base);
         } else {
-            annualExDetail.setBase(String.valueOf(prop.getBase()));            
+            annualExDetail.setBase(String.valueOf(prop.getBase()));
         }
-        if(prop.getOther() instanceof Date) {
-            String other = DateUtil.formatDateByPatten((Date)prop.getOther(), "yyyy-MM-dd HH:mm:ss");
+        if (prop.getOther() instanceof Date) {
+            String other = DateUtil.formatDateByPatten((Date) prop.getOther(), "yyyy-MM-dd HH:mm:ss");
             annualExDetail.setOther(other);
         } else {
-            annualExDetail.setOther(String.valueOf(prop.getOther()));            
+            annualExDetail.setOther(String.valueOf(prop.getOther()));
         }
         annualExDetail.setUnit(prop.getUnit());
         annualExDetail.setGmtCreate(now);
@@ -154,6 +155,5 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
         compareTaskService.updateExIncreasedAndDecreased(1, taskId, nbxh, isException);
     }
 
-       
 
 }

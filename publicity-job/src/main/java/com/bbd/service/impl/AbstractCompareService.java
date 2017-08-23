@@ -33,7 +33,7 @@ public abstract class AbstractCompareService implements ICompareService {
     protected ICompareTaskService compareTaskService;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void compare(long taskId, String nbxh) {
         Preconditions.checkArgument(StringUtils.isNotBlank(nbxh), "内部序号不能为空");
 

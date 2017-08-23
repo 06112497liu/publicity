@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bbd.dao.CompanyExItemExtDao">
 
+    <select id="countByNbxh" resultType="java.lang.Integer">
+		select count(1) from bbd_pub_company_ex_item where nbxh = #{nbxh}
+	</select>
+
     <update id="updateAnnualInfo">
         update 
         	bbd_pub_company_ex_item
@@ -48,12 +52,12 @@
         <if test="exType != 0">
             and (annual_ex_types div #{exType} mod 2 = 1)
         </if>
-        order by 
+        order by
         <if test="sortType == 1">
-        	annual_num ${sort}
+            annual_num ${sort}
         </if>
         <if test="sortType == 2">
-        	annual_ex_modules_num ${sort}
+            annual_ex_modules_num ${sort}
         </if>
     </select>
 
@@ -73,12 +77,12 @@
         <if test="exType != 0">
             and (ins_ex_types div #{exType} mod 2 = 1)
         </if>
-		order by 
+        order by
         <if test="sortType == 1">
-        	instantly_num ${sort}
+            instantly_num ${sort}
         </if>
         <if test="sortType == 2">
-        	ins_ex_modules_num ${sort}
+            ins_ex_modules_num ${sort}
         </if>
     </select>
 
@@ -96,16 +100,16 @@
         <if test="exType != 0">
             and ((annual_ex_types div #{exType} mod 2 = 1) or (ins_ex_types div #{exType} mod 2 = 1))
         </if>
-        order by 
-	    <if test="sortType == 1">
-        	num ${sort}
+        order by
+        <if test="sortType == 1">
+            num ${sort}
         </if>
         <if test="sortType == 2">
-        	ex_modules_num ${sort}
+            ex_modules_num ${sort}
         </if>
     </select>
 
-	<insert id="insertCompanyExItemPreAnnual">
+    <insert id="insertCompanyExItemPreAnnual">
 		INSERT INTO bbd_pub_company_ex_item_pre (
 			nbxh,
 			company_name,
@@ -142,8 +146,8 @@
 				)
 		);		
 	</insert>
-	
-	<update id="updateCompanyExItemPreAnnual">
+
+    <update id="updateCompanyExItemPreAnnual">
 		UPDATE 
 			bbd_pub_company_ex_item_pre a, bbd_pub_company_ex_item b 
 		SET 
@@ -155,8 +159,8 @@
 		WHERE 
 			a.nbxh = b.nbxh		
 	</update>
-	
-	<insert id="insertCompanyExItemPreIns">
+
+    <insert id="insertCompanyExItemPreIns">
 		INSERT INTO bbd_pub_company_ex_item_pre (
 			nbxh,
 			company_name,
@@ -193,8 +197,8 @@
 				)
 		);	
 	</insert>
-	
-	<update id="updateCompanyExItemPreIns">
+
+    <update id="updateCompanyExItemPreIns">
 		UPDATE 
 			bbd_pub_company_ex_item_pre a, bbd_pub_company_ex_item b 
 		SET 

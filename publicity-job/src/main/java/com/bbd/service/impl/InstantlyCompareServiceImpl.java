@@ -74,17 +74,17 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
         ex.setPrimaryIndustry(c.getPrimaryIndustry());
         ex.setExType(0);
         ex.setCompareTime(now);
-        if(prop.getBase() instanceof Date) {
-            String base = DateUtil.formatDateByPatten((Date)prop.getBase(), "yyyy-MM-dd HH:mm:ss");
+        if (prop.getBase() instanceof Date) {
+            String base = DateUtil.formatDateByPatten((Date) prop.getBase(), "yyyy-MM-dd HH:mm:ss");
             ex.setBase(base);
         } else {
-            ex.setBase(String.valueOf(prop.getBase()));            
+            ex.setBase(String.valueOf(prop.getBase()));
         }
-        if(prop.getOther() instanceof Date) {
-            String other = DateUtil.formatDateByPatten((Date)prop.getOther(), "yyyy-MM-dd HH:mm:ss");
+        if (prop.getOther() instanceof Date) {
+            String other = DateUtil.formatDateByPatten((Date) prop.getOther(), "yyyy-MM-dd HH:mm:ss");
             ex.setOther(other);
         } else {
-            ex.setOther(String.valueOf(prop.getOther()));            
+            ex.setOther(String.valueOf(prop.getOther()));
         }
         ex.setUnit(prop.getUnit());
         ex.setGmtCreate(now);
@@ -101,25 +101,26 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
         int exModules = getIntantlyExModules(c);
         List<Integer> ds = exDetailExtDao.selectInstantlyExModules(c.getNbxh());
         int exModulesNum = ds.size();
-        int n = companyExItemExtDao.updateInstantlyInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
-        if (n > 0) {
-            return;
-        }
 
-        Date now = new Date();
-        CompanyExItem item = new CompanyExItem();
-        item.setNbxh(c.getNbxh());
-        item.setRegion(c.getRegion());
-        item.setPrimaryIndustry(c.getPrimaryIndustry());
-        item.setCompanyName(c.getCompanyName());
-        item.setInstantlyNum(num);
-        item.setCompanyProperty(c.getCompanyProperty());
-        item.setInstantlyCmpTime(now);
-        item.setNum(num);
-        item.setInsExTypes(exTypes);
-        item.setInsExModules(exModules);
-        item.setGmtCreate(now);
-        companyExItemDao.insertSelective(item);
+        int count = companyExItemExtDao.countByNbxh(c.getNbxh());
+        if (count > 0) {
+            companyExItemExtDao.updateInstantlyInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
+        } else {
+            Date now = new Date();
+            CompanyExItem item = new CompanyExItem();
+            item.setNbxh(c.getNbxh());
+            item.setRegion(c.getRegion());
+            item.setPrimaryIndustry(c.getPrimaryIndustry());
+            item.setCompanyName(c.getCompanyName());
+            item.setInstantlyNum(num);
+            item.setCompanyProperty(c.getCompanyProperty());
+            item.setInstantlyCmpTime(now);
+            item.setNum(num);
+            item.setInsExTypes(exTypes);
+            item.setInsExModules(exModules);
+            item.setGmtCreate(now);
+            companyExItemDao.insertSelective(item);
+        }
     }
 
     private int getInstantlyExTypes(PubCompanyInfo c) {

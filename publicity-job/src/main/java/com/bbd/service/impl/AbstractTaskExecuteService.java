@@ -11,7 +11,6 @@ import com.bbd.service.ICompareTaskService;
 import com.bbd.service.ITaskExecuteService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -35,7 +34,6 @@ public abstract class AbstractTaskExecuteService implements ITaskExecuteService 
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void excuteCompareTask(Long taskId) {
         CompareTask task = compareTaskService.getById(taskId);
         List<PubCompanyInfo> ds = companyService.getNextCompanys(task.getCurNbxh());
