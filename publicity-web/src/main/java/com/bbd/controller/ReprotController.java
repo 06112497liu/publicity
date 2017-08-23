@@ -8,8 +8,6 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +20,6 @@ import com.bbd.service.IExportReportService;
 import com.bbd.util.SessionContext;
 import com.bbd.util.ValidateUtil;
 import com.exception.CommonErrorCode;
-import com.google.common.collect.Lists;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
