@@ -167,7 +167,7 @@
 			region item,
 			count(1) total
 		FROM
-			bbd_pub_company_info
+			bbd_pub_company_ex_item_pre
 		GROUP BY
 			region
     </select>
@@ -178,14 +178,14 @@
 			primary_industry item,
 			count(1) total
 		FROM
-			bbd_pub_company_info
+			bbd_pub_company_ex_item_pre
 		GROUP BY
 			primary_industry		
 	</select>
 	
 	<!-- 查询贵阳市企业总量 -->
 	<select id="queryWholeCount" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM bbd_pub_company_info
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre
 	</select>
 	
 	<!-- 查询贵阳市年报异常企业数量 -->
@@ -203,7 +203,7 @@
 		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE instantly_num > 0 AND annual_num > 0
 	</select>
 
-	<!-- 查询归于昂是异常企业总量 -->
+	<!-- 查询归贵阳市异常企业总量 -->
 	<select id="queryWholeExNum" resultType="java.lang.Integer">
 		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE num > 0
 	</select>
