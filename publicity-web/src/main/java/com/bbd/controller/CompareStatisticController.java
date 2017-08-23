@@ -108,11 +108,12 @@ public class CompareStatisticController extends AbstractController {
             insExIncreaseCurr = insTask.getExIncreased();
             insExDecreaseCurr = insTask.getExDecrease();
         }
-        if(insNum != 1) {
-            Optional<CompareTask> insOptLast = compareTaskService.getLastTask(Constants.TASK_INSTANTLY_TYPE, insNum - 1); //上次
-            if(insOptLast.isPresent()) {
-                insExLast = insOptLast.get().getExNum();
-            }
+        Optional<CompareTask> insOptLast = null;
+        if(insNum != 1) insOptLast = compareTaskService.getLastTask(Constants.TASK_INSTANTLY_TYPE, insNum - 1); 
+        if(!insOptCurr.isPresent()) insOptLast = compareTaskService.getLastTask(Constants.TASK_INSTANTLY_TYPE, insNum);
+        
+        if(insOptLast.isPresent()) {
+            insExLast = insOptLast.get().getExNum();
         }
         int insExNum = insExLast + insExIncreaseCurr - insExDecreaseCurr; // 即时信息异常数量
         
@@ -127,12 +128,13 @@ public class CompareStatisticController extends AbstractController {
             annualNum = annualTask.getNum();
             annualExIncreaseCurr = annualTask.getExIncreased();
             annualExDecreaseCurr = annualTask.getExDecrease();
-        }
-        if(annualNum != 1) {
-            Optional<CompareTask> annualOptLast = compareTaskService.getLastTask(Constants.TASK_ANNUAL_TYPE, annualNum - 1); //上次
-            if(annualOptLast.isPresent()) {
-                annualExLast = annualOptLast.get().getExNum();
-            }
+        }        
+        Optional<CompareTask> annualOptLast = null;
+        if(annualNum != 1) annualOptLast = compareTaskService.getLastTask(Constants.TASK_ANNUAL_TYPE, annualNum - 1);
+        if(!annualOptCurr.isPresent()) annualOptLast = compareTaskService.getLastTask(Constants.TASK_ANNUAL_TYPE, annualNum);
+        
+        if(annualOptLast.isPresent()) {
+            annualExLast = annualOptLast.get().getExNum();
         }
         int annualExNum = annualExLast + annualExIncreaseCurr - annualExDecreaseCurr; // 年报异常企业数量
         map.put("exTotal", insExNum + annualExNum);
