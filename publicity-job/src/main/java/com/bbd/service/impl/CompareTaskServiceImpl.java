@@ -127,7 +127,7 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
         exDetailExtDao.deleteAnnualExDetailPrev();
         exDetailExtDao.copyAnnualExToPre();
         exDetailExtDao.deleteAnnualExDetail();
-        finishTask(taskId, exNum);
+        finishTask(taskId, exNum, 1);
     }
 
     @Override
@@ -137,10 +137,10 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
         exDetailExtDao.deleteInstantlyExDetailPrev();
         exDetailExtDao.copyInstantlyExToPre();
         exDetailExtDao.deleteInstantlyExDetail();
-        finishTask(taskId, exNum);
+        finishTask(taskId, exNum, 2);
     }
 
-    private void finishTask(long taskId, int exNum) {
+    private void finishTask(long taskId, int exNum, Integer taskType) {
         Date now = new Date();
         CompareTask updateTask = new CompareTask();
         updateTask.setExNum(exNum);
@@ -148,7 +148,7 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
         updateTask.setEndTime(now);
         updateTask.setGmtModified(now);
         compareTaskDao.updateByPrimaryKeySelective(updateTask);
-        compareStatisticExtDao.updateFullTaskNum();
+        if(2 == taskType) compareStatisticExtDao.updateFullTaskNum();
     }
 
     @Override
