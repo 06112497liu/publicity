@@ -104,7 +104,7 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
 
         int count = companyExItemExtDao.countByNbxh(c.getNbxh());
         if (count > 0) {
-            companyExItemExtDao.updateInstantlyInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
+            doUpdate(c.getNbxh(), num, exTypes, exModules, exModulesNum);
         } else {
             Date now = new Date();
             CompanyExItem item = new CompanyExItem();
@@ -119,8 +119,17 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
             item.setInsExTypes(exTypes);
             item.setInsExModules(exModules);
             item.setGmtCreate(now);
-            companyExItemDao.insertSelective(item);
+            try {
+                companyExItemDao.insertSelective(item);
+            } catch (Exception e) {
+                doUpdate(c.getNbxh(), num, exTypes, exModules, exModulesNum);
+            }
+
         }
+    }
+
+    private void doUpdate(String nbhx, int num, int exTypes, int exModules, int exModulesNum) {
+        companyExItemExtDao.updateInstantlyInfo(nbhx, num, exTypes, exModules, exModulesNum);
     }
 
     private int getInstantlyExTypes(PubCompanyInfo c) {

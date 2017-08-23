@@ -88,7 +88,7 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
 
         int count = companyExItemExtDao.countByNbxh(c.getNbxh());
         if (count > 0) {
-            companyExItemExtDao.updateAnnualInfo(c.getNbxh(), num, exTypes, exModules, exModulesNum);
+            doUpdate(c.getNbxh(), num, exTypes, exModules, exModulesNum);
         } else {
             Date now = new Date();
             CompanyExItem item = new CompanyExItem();
@@ -103,8 +103,17 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
             item.setAnnualExTypes(exTypes);
             item.setAnnualExModules(exModules);
             item.setGmtCreate(now);
-            companyExItemDao.insertSelective(item);
+            try {
+                companyExItemDao.insertSelective(item);
+            } catch (Exception e) {
+                doUpdate(c.getNbxh(), num, exTypes, exModules, exModulesNum);
+            }
+
         }
+    }
+
+    private void doUpdate(String nbxh, int num, int exTypes, int exModules, int exModulesNum) {
+        companyExItemExtDao.updateAnnualInfo(nbxh, num, exTypes, exModules, exModulesNum);
     }
 
     private int getAnnualExTypes(PubCompanyInfo c) {
