@@ -47,7 +47,7 @@ public interface ICompareTaskService {
      * @param nbxh
      * @param count
      */
-    void updateCompareTaskInfo(long taskId, String nbxh, int count);
+    void updateCompareTaskCount(long taskId, String nbxh, int count);
 
     /**
      * 完成年报对比任务

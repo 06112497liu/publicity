@@ -35,20 +35,20 @@ import java.util.List;
 public class CompareTaskServiceImpl implements ICompareTaskService {
 
     @Autowired
-    private CompareTaskDao           compareTaskDao;
+    private CompareTaskDao compareTaskDao;
 
     @Autowired
-    private CompareTaskExtDao        compareTaskExtDao;
+    private CompareTaskExtDao compareTaskExtDao;
 
     @Autowired
-    private ExDetailExtDao           exDetailExtDao;
+    private ExDetailExtDao exDetailExtDao;
 
     @Autowired
-    private CompareStatisticExtDao   compareStatisticExtDao;
+    private CompareStatisticExtDao compareStatisticExtDao;
 
     @Autowired
     private InstantlyExPrevDetailDao instantlyExPrevDetailDao;
-    
+
     @Autowired
     private AnnualExPrevDetailDao annualExPrevDetailDao;
 
@@ -152,7 +152,7 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
     }
 
     @Override
-    public void updateCompareTaskInfo(long taskId, String nbxh, int count) {
+    public void updateCompareTaskCount(long taskId, String nbxh, int count) {
         CompareTask u = new CompareTask();
         u.setId(taskId);
         u.setCurNbxh(nbxh);
@@ -162,25 +162,25 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
 
     @Override
     public void updateExIncreasedAndDecreased(int taskType, long taskId, String nbxh, boolean isException) {
-        
+
         Preconditions.checkArgument(StringUtils.isNotBlank("nbxh"), "内部序号不能为空");
         Long count = 0L;
-        if(taskType == 2) {
+        if (taskType == 2) {
             InstantlyExPrevDetailExample inExam = new InstantlyExPrevDetailExample();
             inExam.createCriteria().andNbxhEqualTo(nbxh);
             count = instantlyExPrevDetailDao.countByExample(inExam);
-        } else if(taskType == 1) {
+        } else if (taskType == 1) {
             AnnualExPrevDetailExample anExam = new AnnualExPrevDetailExample();
             anExam.createCriteria().andNbxhEqualTo(nbxh);
             count = annualExPrevDetailDao.countByExample(anExam);
         }
 
-        if(count == 0 && isException){
+        if (count == 0 && isException) {
             compareTaskExtDao.updateExIncreased(taskId);
-        } else if(count > 0 && !isException) {
+        } else if (count > 0 && !isException) {
             compareTaskExtDao.updateExDecreased(taskId);
         } else {
             return;
-        }        
+        }
     }
 }
