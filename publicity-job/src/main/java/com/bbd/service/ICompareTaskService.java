@@ -44,10 +44,16 @@ public interface ICompareTaskService {
      * 更新任务数量统计信息
      *
      * @param taskId
-     * @param nbxh
      * @param count
      */
-    void updateCompareTaskCount(long taskId, String nbxh, int count);
+    void updateCompareTaskCount(long taskId, int count);
+
+    /**
+     * 更新对比信息
+     *
+     * @param task
+     */
+    void updateCompareTask(CompareTask task);
 
     /**
      * 完成年报对比任务

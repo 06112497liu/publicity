@@ -148,16 +148,19 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
         updateTask.setEndTime(now);
         updateTask.setGmtModified(now);
         compareTaskDao.updateByPrimaryKeySelective(updateTask);
-        if(2 == taskType) compareStatisticExtDao.updateFullTaskNum();
+        if (2 == taskType) compareStatisticExtDao.updateFullTaskNum();
     }
 
     @Override
-    public void updateCompareTaskCount(long taskId, String nbxh, int count) {
-        CompareTask u = new CompareTask();
-        u.setId(taskId);
-        u.setCurNbxh(nbxh);
-        compareTaskDao.updateByPrimaryKeySelective(u);
+    public void updateCompareTaskCount(long taskId, int count) {
         compareTaskExtDao.updateCount(taskId, 1, count);
+    }
+
+    @Override
+    public void updateCompareTask(CompareTask task) {
+        Preconditions.checkNotNull(task);
+        Preconditions.checkNotNull(task.getId(), "ID不能为空");
+        compareTaskDao.updateByPrimaryKeySelective(task);
     }
 
     @Override

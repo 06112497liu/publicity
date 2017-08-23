@@ -61,8 +61,10 @@ public abstract class AbstractTaskExecuteService implements ITaskExecuteService 
                 e.printStackTrace();
             }
         });
-
-
+        CompareTask u = new CompareTask();
+        u.setId(taskId);
+        u.setCurNbxh(ds.get(ds.size() - 1).getNbxh());
+        compareTaskService.updateCompareTask(u);
     }
 
     protected abstract void doCompare(long taskId, String nbxh);

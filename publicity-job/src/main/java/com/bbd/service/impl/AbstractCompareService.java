@@ -50,7 +50,7 @@ public abstract class AbstractCompareService implements ICompareService {
         boolean isException = exNum > 0;
         // 更新本轮新增和退出企业数量
         updateExIncreasedAndDecreased(taskId, nbxh, isException);
-        compareTaskService.updateCompareTaskCount(taskId, nbxh, props.size());
+        compareTaskService.updateCompareTaskCount(taskId, props.size());
         // 判断对比之后，企业是否异常
         updateCompareStatisticsCount(props.size(), isException);
     }
