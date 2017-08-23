@@ -41,6 +41,7 @@ public abstract class AbstractTaskExecuteService implements ITaskExecuteService 
         List<PubCompanyInfo> ds = companyService.getNextCompanys(task.getCurNbxh());
         if (ds.size() == 0) {
             finishTask(taskId);
+            return;
         }
         List<String> nbxhs = Lists.newArrayList();
         ds.forEach(p -> nbxhs.add(p.getNbxh()));

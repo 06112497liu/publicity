@@ -133,7 +133,7 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void finishInstantlyCompareTask(long taskId) {
-        int exNum = exDetailExtDao.countAnnualExNum();
+        int exNum = exDetailExtDao.countInsExNum();
         exDetailExtDao.deleteInstantlyExDetailPrev();
         exDetailExtDao.copyInstantlyExToPre();
         exDetailExtDao.deleteInstantlyExDetail();
