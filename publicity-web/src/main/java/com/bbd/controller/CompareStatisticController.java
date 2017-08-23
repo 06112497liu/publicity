@@ -96,52 +96,18 @@ public class CompareStatisticController extends AbstractController {
     @RequestMapping(value = "/ex/statistics.do", method = RequestMethod.GET)
     public RestResult getExStatistics() {
         Map<String, Object> map = Maps.newHashMap();
-        // 即时信息对比任务
-        int insExLast = 0;
-        int insExIncreaseCurr = 0;
-        int insExDecreaseCurr = 0;
-        Optional<CompareTask> insOptCurr = compareTaskService.getCurrentRunningTask(Constants.TASK_INSTANTLY_TYPE); //当次
-        int insNum = 1;
-        if(insOptCurr.isPresent()) {
-            CompareTask insTask = insOptCurr.get();
-            insNum = insTask.getNum();
-            insExIncreaseCurr = insTask.getExIncreased();
-            insExDecreaseCurr = insTask.getExDecrease();
-        }
-        Optional<CompareTask> insOptLast = null;
-        if(insNum != 1) insOptLast = compareTaskService.getLastTask(Constants.TASK_INSTANTLY_TYPE, insNum - 1); 
-        if(!insOptCurr.isPresent()) insOptLast = compareTaskService.getLastTask(Constants.TASK_INSTANTLY_TYPE, insNum);
+
+        int insExNum = compareTaskService.getInsExNum();
+        int annualExNum = compareTaskService.getAnnualExNum();
+        int exNum = compareTaskService.getExNum();
         
-        if(insOptLast.isPresent()) {
-            insExLast = insOptLast.get().getExNum();
-        }
-        int insExNum = insExLast + insExIncreaseCurr - insExDecreaseCurr; // 即时信息异常数量
-        
-        // 年报对比任务
-        int annualExLast = 0;
-        int annualExIncreaseCurr = 0;
-        int annualExDecreaseCurr = 0;
-        Optional<CompareTask> annualOptCurr = compareTaskService.getCurrentRunningTask(Constants.TASK_ANNUAL_TYPE); //当次
-        int annualNum = 1;
-        if(annualOptCurr.isPresent()) {
-            CompareTask annualTask = annualOptCurr.get();
-            annualNum = annualTask.getNum();
-            annualExIncreaseCurr = annualTask.getExIncreased();
-            annualExDecreaseCurr = annualTask.getExDecrease();
-        }        
-        Optional<CompareTask> annualOptLast = null;
-        if(annualNum != 1) annualOptLast = compareTaskService.getLastTask(Constants.TASK_ANNUAL_TYPE, annualNum - 1);
-        if(!annualOptCurr.isPresent()) annualOptLast = compareTaskService.getLastTask(Constants.TASK_ANNUAL_TYPE, annualNum);
-        
-        if(annualOptLast.isPresent()) {
-            annualExLast = annualOptLast.get().getExNum();
-        }
-        int annualExNum = annualExLast + annualExIncreaseCurr - annualExDecreaseCurr; // 年报异常企业数量
-        map.put("exTotal", insExNum + annualExNum);
+        map.put("exTotal", exNum);
         map.put("insTotal", insExNum);
         map.put("annualTotal", annualExNum);
         return RestResult.ok(map);
     }
+    
+    
 }
 
 

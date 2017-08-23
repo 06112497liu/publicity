@@ -24,12 +24,32 @@ public interface ICompareTaskService {
     Optional<CompareTask> getCurrentRunningTask(int type);
     
     /**
-     * 获取上一次对比信息
+     * 获取上一次对比任务
      *
      * @param type
      * @return
      */
     Optional<CompareTask> getLastTask(int type, int last);
+    
+    /**
+     * 获取即时信息异常企业数量
+     *
+     * @return
+     */
+    int getInsExNum();
 
+    /**
+     * 获取年报信息异常企业数量
+     *
+     * @return
+     */
+    int getAnnualExNum();
+    
+    /**
+     * 获取异常企业总量
+     *
+     * @return
+     */
+    int getExNum();
 
 }

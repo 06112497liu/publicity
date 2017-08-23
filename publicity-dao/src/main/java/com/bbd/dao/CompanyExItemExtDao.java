@@ -42,6 +42,13 @@ public interface CompanyExItemExtDao {
      * 更新bbd_pub_company_ex_item_pre即时异常信息
      */
     void updateCompanyExItemPreIns();
+    
+    /**
+     * 查询异常企业总量
+     *
+     * @return
+     */
+    int queryExNum();
 
     /**
      * 更新年报对比异常项数量统计
