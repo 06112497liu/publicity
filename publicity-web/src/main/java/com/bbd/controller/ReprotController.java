@@ -79,6 +79,28 @@ public class ReprotController extends AbstractController {
          
      }
      
+     @ApiOperation(value = "比对分析报告导出", httpMethod = "GET")
+     @RequestMapping(value = "/statistics/download.do")    
+     public void ExportCompareStatistics() throws IOException {
+         HttpServletRequest request = SessionContext.getRequest();
+         HttpServletResponse response = SessionContext.getResponse();
+         String fileName = "比对统计分析报告.pdf";
+         OutputStream out = buildResponse(fileName, request, response);
+     }
+     
+     @ApiOperation(value = "年报导出", httpMethod = "GET")
+     @ApiImplicitParams({ 
+         @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, paramType = "query", dataType = "String"),
+         @ApiImplicitParam(name = "annualYear", value = "年报年度", required = true, paramType = "query", dataType = "String")
+     })
+     @RequestMapping(value = "/annual/download.do")    
+     public void ExportAnnual(String nbxh, String annualYear) throws IOException {
+         HttpServletRequest request = SessionContext.getRequest();
+         HttpServletResponse response = SessionContext.getResponse();
+         String fileName = "企业年报报告.pdf";
+         OutputStream out = buildResponse(fileName, request, response);
+     }
+     
      // 处理下载文件问题
      private OutputStream buildResponse(String fileName, 
                                         HttpServletRequest request, 
