@@ -287,14 +287,12 @@ public class CompareExceptionController extends AbstractController {
     }
 
     private ExceptionCompanyVo build(String nbxh, Integer type) {
-        List<Integer> modules = Arrays.asList(1, 2, 4, 8, 16);
-        PubCompanyInfo c = companyService.getByNbxh(nbxh);
+        
         ExceptionCompanyVo vo = new ExceptionCompanyVo();
-        vo.setId(c.getId());
-        vo.setCompanyName(c.getCompanyName());
-        vo.setNbxh(c.getNbxh());
-
-        CompanyExItem ex = companyExItemService.getByNbxh(c.getNbxh());
+        CompanyExItem ex = companyExItemService.getByNbxh(nbxh);
+        vo.setCompanyName(ex.getCompanyName());
+        ex.setNbxh(ex.getNbxh());
+        
         if (type == 1) {
             vo.setCount(ex.getAnnualNum());
             vo.setCompareTime(ex.getAnnualCmpTime());

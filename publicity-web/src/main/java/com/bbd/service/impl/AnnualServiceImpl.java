@@ -289,7 +289,6 @@ public class AnnualServiceImpl implements IAnnualService {
     /**
      * 根据年报流水号获取对外投资信息
      *
-     * @see com.bbd.service.IAnnualService#getOutInvesInfo(java.lang.String)
      */
     @Override
     public List<OutInvesInfoVo> getOutInvesInfo(String serialNo) {
@@ -303,7 +302,6 @@ public class AnnualServiceImpl implements IAnnualService {
     /**
      * 根据年报流水号获取资产状况信息
      *
-     * @see com.bbd.service.IAnnualService#queryEnterpriAssetInfo(java.lang.String)
      */
     @Override
     public EnterpriseAssetVo queryEnterpriAssetInfo(String serialNo) {
@@ -347,8 +345,6 @@ public class AnnualServiceImpl implements IAnnualService {
 
     /**
      * 根据年报流水号获取行政许可信息
-     *
-     * @see com.bbd.service.IAnnualService#getAdminLicInfo(java.lang.String, com.mybatis.domain.PageBounds)
      */
     @Override
     public List<AdminLicVo> getAdminLicInfo(String serialNo, PageBounds pb) {
@@ -374,8 +370,6 @@ public class AnnualServiceImpl implements IAnnualService {
 
     /**
      * 根据年报流水号查询分支机构情况
-     *
-     * @see com.bbd.service.IAnnualService#getBranchInfo(java.lang.String, com.mybatis.domain.PageBounds)
      */
     @Override
     public List<BranchVo> getBranchInfo(String serialNo, PageBounds pb) {
