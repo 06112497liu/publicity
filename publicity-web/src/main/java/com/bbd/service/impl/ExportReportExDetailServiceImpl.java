@@ -25,7 +25,7 @@ import com.bbd.report.enums.ExportEnum;
 import com.bbd.report.model.ReportElementModel;
 import com.bbd.report.model.TableDataModel;
 import com.bbd.service.ICompareExceptionService;
-import com.bbd.service.IExportReportService;
+import com.bbd.service.IExportExDetailReportService;
 import com.bbd.service.compare.AnnualModule;
 import com.bbd.service.compare.InstantlyModule;
 import com.bbd.service.compare.PropertyEnum;
@@ -35,14 +35,14 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 /** 
- *  
+ * 异常详情报告服务层
  * @author liuweibo 
  * @version $Id: ExportReportServiceImpl.java, v 0.1 2017年8月17日 下午3:45:40 liuweibo Exp $ 
  */
 @Service
-public class ExportReportServiceImpl implements IExportReportService {
+public class ExportReportExDetailServiceImpl implements IExportExDetailReportService {
     
-    public static final Logger logger = LoggerFactory.getLogger(ExportReportServiceImpl.class);
+    public static final Logger logger = LoggerFactory.getLogger(ExportReportExDetailServiceImpl.class);
     
     @Autowired
     private ICompareExceptionService compareExceptionService;

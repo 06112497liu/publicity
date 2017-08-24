@@ -585,6 +585,76 @@ public class PubCompanyInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andCreditCodeIsNull() {
+            addCriterion("credit_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeIsNotNull() {
+            addCriterion("credit_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeEqualTo(String value) {
+            addCriterion("credit_code =", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotEqualTo(String value) {
+            addCriterion("credit_code <>", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeGreaterThan(String value) {
+            addCriterion("credit_code >", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("credit_code >=", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLessThan(String value) {
+            addCriterion("credit_code <", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLessThanOrEqualTo(String value) {
+            addCriterion("credit_code <=", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLike(String value) {
+            addCriterion("credit_code like", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotLike(String value) {
+            addCriterion("credit_code not like", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeIn(List<String> values) {
+            addCriterion("credit_code in", values, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotIn(List<String> values) {
+            addCriterion("credit_code not in", values, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeBetween(String value1, String value2) {
+            addCriterion("credit_code between", value1, value2, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotBetween(String value1, String value2) {
+            addCriterion("credit_code not between", value1, value2, "creditCode");
+            return (Criteria) this;
+        }
+
         public Criteria andRegionIsNull() {
             addCriterion("region is null");
             return (Criteria) this;
@@ -855,6 +925,76 @@ public class PubCompanyInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andCompanyTypeIsNull() {
+            addCriterion("company_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeIsNotNull() {
+            addCriterion("company_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeEqualTo(String value) {
+            addCriterion("company_type =", value, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeNotEqualTo(String value) {
+            addCriterion("company_type <>", value, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeGreaterThan(String value) {
+            addCriterion("company_type >", value, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("company_type >=", value, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeLessThan(String value) {
+            addCriterion("company_type <", value, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeLessThanOrEqualTo(String value) {
+            addCriterion("company_type <=", value, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeLike(String value) {
+            addCriterion("company_type like", value, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeNotLike(String value) {
+            addCriterion("company_type not like", value, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeIn(List<String> values) {
+            addCriterion("company_type in", values, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeNotIn(List<String> values) {
+            addCriterion("company_type not in", values, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeBetween(String value1, String value2) {
+            addCriterion("company_type between", value1, value2, "companyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyTypeNotBetween(String value1, String value2) {
+            addCriterion("company_type not between", value1, value2, "companyType");
+            return (Criteria) this;
+        }
+
         public Criteria andAnnualedIsNull() {
             addCriterion("annualed is null");
             return (Criteria) this;
@@ -1032,76 +1172,6 @@ public class PubCompanyInfoExample {
 
         public Criteria andGmtModifiedNotBetween(Date value1, Date value2) {
             addCriterion("gmt_modified not between", value1, value2, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeIsNull() {
-            addCriterion("company_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeIsNotNull() {
-            addCriterion("company_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeEqualTo(String value) {
-            addCriterion("company_type =", value, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeNotEqualTo(String value) {
-            addCriterion("company_type <>", value, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeGreaterThan(String value) {
-            addCriterion("company_type >", value, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("company_type >=", value, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeLessThan(String value) {
-            addCriterion("company_type <", value, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeLessThanOrEqualTo(String value) {
-            addCriterion("company_type <=", value, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeLike(String value) {
-            addCriterion("company_type like", value, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeNotLike(String value) {
-            addCriterion("company_type not like", value, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeIn(List<String> values) {
-            addCriterion("company_type in", values, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeNotIn(List<String> values) {
-            addCriterion("company_type not in", values, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeBetween(String value1, String value2) {
-            addCriterion("company_type between", value1, value2, "companyType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyTypeNotBetween(String value1, String value2) {
-            addCriterion("company_type not between", value1, value2, "companyType");
             return (Criteria) this;
         }
     }

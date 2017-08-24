@@ -305,6 +305,76 @@ public class AnnualBaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andCreditCodeIsNull() {
+            addCriterion("credit_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeIsNotNull() {
+            addCriterion("credit_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeEqualTo(String value) {
+            addCriterion("credit_code =", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotEqualTo(String value) {
+            addCriterion("credit_code <>", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeGreaterThan(String value) {
+            addCriterion("credit_code >", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("credit_code >=", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLessThan(String value) {
+            addCriterion("credit_code <", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLessThanOrEqualTo(String value) {
+            addCriterion("credit_code <=", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLike(String value) {
+            addCriterion("credit_code like", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotLike(String value) {
+            addCriterion("credit_code not like", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeIn(List<String> values) {
+            addCriterion("credit_code in", values, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotIn(List<String> values) {
+            addCriterion("credit_code not in", values, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeBetween(String value1, String value2) {
+            addCriterion("credit_code between", value1, value2, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotBetween(String value1, String value2) {
+            addCriterion("credit_code not between", value1, value2, "creditCode");
+            return (Criteria) this;
+        }
+
         public Criteria andSerialNoIsNull() {
             addCriterion("serial_no is null");
             return (Criteria) this;

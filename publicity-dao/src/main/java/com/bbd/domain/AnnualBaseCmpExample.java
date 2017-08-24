@@ -2,7 +2,6 @@ package com.bbd.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class AnnualBaseCmpExample {
@@ -104,32 +103,6 @@ public class AnnualBaseCmpExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -332,6 +305,76 @@ public class AnnualBaseCmpExample {
             return (Criteria) this;
         }
 
+        public Criteria andCreditCodeIsNull() {
+            addCriterion("credit_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeIsNotNull() {
+            addCriterion("credit_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeEqualTo(String value) {
+            addCriterion("credit_code =", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotEqualTo(String value) {
+            addCriterion("credit_code <>", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeGreaterThan(String value) {
+            addCriterion("credit_code >", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("credit_code >=", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLessThan(String value) {
+            addCriterion("credit_code <", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLessThanOrEqualTo(String value) {
+            addCriterion("credit_code <=", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeLike(String value) {
+            addCriterion("credit_code like", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotLike(String value) {
+            addCriterion("credit_code not like", value, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeIn(List<String> values) {
+            addCriterion("credit_code in", values, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotIn(List<String> values) {
+            addCriterion("credit_code not in", values, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeBetween(String value1, String value2) {
+            addCriterion("credit_code between", value1, value2, "creditCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditCodeNotBetween(String value1, String value2) {
+            addCriterion("credit_code not between", value1, value2, "creditCode");
+            return (Criteria) this;
+        }
+
         public Criteria andSerialNoIsNull() {
             addCriterion("serial_no is null");
             return (Criteria) this;
@@ -483,52 +526,52 @@ public class AnnualBaseCmpExample {
         }
 
         public Criteria andAnnualDateEqualTo(Date value) {
-            addCriterionForJDBCDate("annual_date =", value, "annualDate");
+            addCriterion("annual_date =", value, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("annual_date <>", value, "annualDate");
+            addCriterion("annual_date <>", value, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("annual_date >", value, "annualDate");
+            addCriterion("annual_date >", value, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("annual_date >=", value, "annualDate");
+            addCriterion("annual_date >=", value, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateLessThan(Date value) {
-            addCriterionForJDBCDate("annual_date <", value, "annualDate");
+            addCriterion("annual_date <", value, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("annual_date <=", value, "annualDate");
+            addCriterion("annual_date <=", value, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateIn(List<Date> values) {
-            addCriterionForJDBCDate("annual_date in", values, "annualDate");
+            addCriterion("annual_date in", values, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("annual_date not in", values, "annualDate");
+            addCriterion("annual_date not in", values, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("annual_date between", value1, value2, "annualDate");
+            addCriterion("annual_date between", value1, value2, "annualDate");
             return (Criteria) this;
         }
 
         public Criteria andAnnualDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("annual_date not between", value1, value2, "annualDate");
+            addCriterion("annual_date not between", value1, value2, "annualDate");
             return (Criteria) this;
         }
 

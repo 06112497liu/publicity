@@ -5,6 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="nbxh" jdbcType="VARCHAR" property="nbxh" />
     <result column="regno" jdbcType="VARCHAR" property="regno" />
+    <result column="credit_code" jdbcType="VARCHAR" property="creditCode" />
     <result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
     <result column="annual_date" jdbcType="TIMESTAMP" property="annualDate" />
@@ -83,9 +84,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, nbxh, regno, serial_no, company_name, annual_date, annual_year, addr, postal_code, 
-    phones, emails, empnum, memnum, opstate, op_name, amount_mon, holdings, op_activity, 
-    women_num, gmt_create, gmt_modified
+    id, nbxh, regno, credit_code, serial_no, company_name, annual_date, annual_year, 
+    addr, postal_code, phones, emails, empnum, memnum, opstate, op_name, amount_mon, 
+    holdings, op_activity, women_num, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.bbd.domain.AnnualBaseStdExample" resultMap="BaseResultMap">
     select
@@ -116,20 +117,22 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into bbd_pub_annual_base_std (nbxh, regno, serial_no, 
-      company_name, annual_date, annual_year, 
-      addr, postal_code, phones, 
-      emails, empnum, memnum, 
-      opstate, op_name, amount_mon, 
-      holdings, op_activity, women_num, 
-      gmt_create, gmt_modified)
-    values (#{nbxh,jdbcType=VARCHAR}, #{regno,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR}, 
-      #{companyName,jdbcType=VARCHAR}, #{annualDate,jdbcType=TIMESTAMP}, #{annualYear,jdbcType=VARCHAR}, 
-      #{addr,jdbcType=VARCHAR}, #{postalCode,jdbcType=CHAR}, #{phones,jdbcType=VARCHAR}, 
-      #{emails,jdbcType=VARCHAR}, #{empnum,jdbcType=BIGINT}, #{memnum,jdbcType=BIGINT}, 
-      #{opstate,jdbcType=CHAR}, #{opName,jdbcType=VARCHAR}, #{amountMon,jdbcType=DECIMAL}, 
-      #{holdings,jdbcType=VARCHAR}, #{opActivity,jdbcType=VARCHAR}, #{womenNum,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+    insert into bbd_pub_annual_base_std (nbxh, regno, credit_code, 
+      serial_no, company_name, annual_date, 
+      annual_year, addr, postal_code, 
+      phones, emails, empnum, 
+      memnum, opstate, op_name, 
+      amount_mon, holdings, op_activity, 
+      women_num, gmt_create, gmt_modified
+      )
+    values (#{nbxh,jdbcType=VARCHAR}, #{regno,jdbcType=VARCHAR}, #{creditCode,jdbcType=VARCHAR}, 
+      #{serialNo,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{annualDate,jdbcType=TIMESTAMP}, 
+      #{annualYear,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{postalCode,jdbcType=CHAR}, 
+      #{phones,jdbcType=VARCHAR}, #{emails,jdbcType=VARCHAR}, #{empnum,jdbcType=BIGINT}, 
+      #{memnum,jdbcType=BIGINT}, #{opstate,jdbcType=CHAR}, #{opName,jdbcType=VARCHAR}, 
+      #{amountMon,jdbcType=DECIMAL}, #{holdings,jdbcType=VARCHAR}, #{opActivity,jdbcType=VARCHAR}, 
+      #{womenNum,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.bbd.domain.AnnualBaseStd">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -142,6 +145,9 @@
       </if>
       <if test="regno != null">
         regno,
+      </if>
+      <if test="creditCode != null">
+        credit_code,
       </if>
       <if test="serialNo != null">
         serial_no,
@@ -204,6 +210,9 @@
       </if>
       <if test="regno != null">
         #{regno,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null">
+        #{creditCode,jdbcType=VARCHAR},
       </if>
       <if test="serialNo != null">
         #{serialNo,jdbcType=VARCHAR},
@@ -273,6 +282,9 @@
       <if test="record.regno != null">
         regno = #{record.regno,jdbcType=VARCHAR},
       </if>
+      <if test="record.creditCode != null">
+        credit_code = #{record.creditCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.serialNo != null">
         serial_no = #{record.serialNo,jdbcType=VARCHAR},
       </if>
@@ -337,6 +349,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       nbxh = #{record.nbxh,jdbcType=VARCHAR},
       regno = #{record.regno,jdbcType=VARCHAR},
+      credit_code = #{record.creditCode,jdbcType=VARCHAR},
       serial_no = #{record.serialNo,jdbcType=VARCHAR},
       company_name = #{record.companyName,jdbcType=VARCHAR},
       annual_date = #{record.annualDate,jdbcType=TIMESTAMP},
@@ -367,6 +380,9 @@
       </if>
       <if test="regno != null">
         regno = #{regno,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null">
+        credit_code = #{creditCode,jdbcType=VARCHAR},
       </if>
       <if test="serialNo != null">
         serial_no = #{serialNo,jdbcType=VARCHAR},
@@ -429,6 +445,7 @@
     update bbd_pub_annual_base_std
     set nbxh = #{nbxh,jdbcType=VARCHAR},
       regno = #{regno,jdbcType=VARCHAR},
+      credit_code = #{creditCode,jdbcType=VARCHAR},
       serial_no = #{serialNo,jdbcType=VARCHAR},
       company_name = #{companyName,jdbcType=VARCHAR},
       annual_date = #{annualDate,jdbcType=TIMESTAMP},

@@ -8,11 +8,11 @@
 import java.io.OutputStream;
 
 /** 
- * 报告导出服务层
+ * 异常详情报告服务层
  * @author liuweibo 
  * @version $Id: IExportReportService.java, v 0.1 2017年8月17日 下午3:39:33 liuweibo Exp $ 
  */
-public interface IExportReportService {
+public interface IExportExDetailReportService {
     
     /**
      * 企业信息比对详情报告（单个）
@@ -27,6 +27,7 @@ public interface IExportReportService {
      * @param out
      */
     void exDetailByNbxhs(String[] nbxhs, OutputStream out, Integer exType);
+    
     
 }
 

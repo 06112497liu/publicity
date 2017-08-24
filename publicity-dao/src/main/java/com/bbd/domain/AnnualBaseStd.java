@@ -9,6 +9,8 @@ public class AnnualBaseStd {
 
     private String regno;
 
+    private String creditCode;
+
     private String serialNo;
 
     private String companyName;
@@ -67,6 +69,14 @@ public class AnnualBaseStd {
 
     public void setRegno(String regno) {
         this.regno = regno;
+    }
+
+    public String getCreditCode() {
+        return creditCode;
+    }
+
+    public void setCreditCode(String creditCode) {
+        this.creditCode = creditCode;
     }
 
     public String getSerialNo() {

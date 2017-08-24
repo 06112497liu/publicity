@@ -17,6 +17,8 @@ public class PubCompanyInfo {
 
     private String regno;
 
+    private String creditCode;
+
     private String region;
 
     private String addr;
@@ -25,13 +27,13 @@ public class PubCompanyInfo {
 
     private String primaryIndustry;
 
+    private String companyType;
+
     private Integer annualed;
 
     private Date gmtCreate;
 
     private Date gmtModified;
-
-    private String companyType;
 
     public Long getId() {
         return id;
@@ -89,6 +91,14 @@ public class PubCompanyInfo {
         this.regno = regno;
     }
 
+    public String getCreditCode() {
+        return creditCode;
+    }
+
+    public void setCreditCode(String creditCode) {
+        this.creditCode = creditCode;
+    }
+
     public String getRegion() {
         return region;
     }
@@ -121,6 +131,14 @@ public class PubCompanyInfo {
         this.primaryIndustry = primaryIndustry;
     }
 
+    public String getCompanyType() {
+        return companyType;
+    }
+
+    public void setCompanyType(String companyType) {
+        this.companyType = companyType;
+    }
+
     public Integer getAnnualed() {
         return annualed;
     }
@@ -143,13 +161,5 @@ public class PubCompanyInfo {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
-    }
-
-    public String getCompanyType() {
-        return companyType;
-    }
-
-    public void setCompanyType(String companyType) {
-        this.companyType = companyType;
     }
 }

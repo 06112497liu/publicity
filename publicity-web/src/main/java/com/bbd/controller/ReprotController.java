@@ -16,7 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bbd.service.IExportReportService;
+import com.bbd.service.IExportCmpStaReportService;
+import com.bbd.service.IExportExDetailReportService;
 import com.bbd.util.SessionContext;
 import com.bbd.util.ValidateUtil;
 import com.exception.CommonErrorCode;
@@ -37,7 +38,10 @@ import io.swagger.annotations.ApiOperation;
 public class ReprotController extends AbstractController {
      
      @Autowired
-     private IExportReportService reportService;
+     private IExportExDetailReportService exDetailreportService;
+     
+     @Autowired
+     private IExportCmpStaReportService cmpStaReportService;
      
      @ApiOperation(value = "企业信息比对详情报告导出", httpMethod = "GET")
      @ApiImplicitParams({ @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, paramType = "query", dataType = "String") })
@@ -48,7 +52,7 @@ public class ReprotController extends AbstractController {
          HttpServletResponse response = SessionContext.getResponse();
          String fileName = "企业信息对比详情报告.xlsx";
          OutputStream out = buildResponse(fileName, request, response);
-         reportService.exDetailByNbxh(nbxh, out);
+         exDetailreportService.exDetailByNbxh(nbxh, out);
      }
      
      @ApiOperation(value = "企业信息比对详情报告批量导出", httpMethod = "GET")
@@ -63,7 +67,7 @@ public class ReprotController extends AbstractController {
          HttpServletResponse response = SessionContext.getResponse();
          String fileName = "企业信息对比详情报告.xlsx";
          OutputStream out = buildResponse(fileName, request, response);
-         reportService.exDetailByNbxhs(nbxhs, out, exType);
+         exDetailreportService.exDetailByNbxhs(nbxhs, out, exType);
      }
      
      @ApiOperation(value = "企业信息比对详情报告全量导出", httpMethod = "GET")
@@ -83,6 +87,7 @@ public class ReprotController extends AbstractController {
          HttpServletResponse response = SessionContext.getResponse();
          String fileName = "比对统计分析报告.pdf";
          OutputStream out = buildResponse(fileName, request, response);
+         cmpStaReportService.cmpStaReport(out);
      }
      
      @ApiOperation(value = "年报导出", httpMethod = "GET")
