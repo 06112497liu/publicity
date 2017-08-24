@@ -118,6 +118,7 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
             item.setNum(num);
             item.setInsExTypes(exTypes);
             item.setInsExModules(exModules);
+            item.setInsExModulesNum(exModulesNum);
             item.setGmtCreate(now);
             try {
                 companyExItemDao.insertSelective(item);

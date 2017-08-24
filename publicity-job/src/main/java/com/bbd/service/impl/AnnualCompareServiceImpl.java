@@ -102,6 +102,7 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
             item.setNum(num);
             item.setAnnualExTypes(exTypes);
             item.setAnnualExModules(exModules);
+            item.setAnnualExModulesNum(exModulesNum);
             item.setGmtCreate(now);
             try {
                 companyExItemDao.insertSelective(item);
