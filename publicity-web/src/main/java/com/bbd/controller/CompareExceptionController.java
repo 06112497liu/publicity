@@ -291,7 +291,7 @@ public class CompareExceptionController extends AbstractController {
         ExceptionCompanyVo vo = new ExceptionCompanyVo();
         CompanyExItem ex = companyExItemService.getByNbxh(nbxh);
         vo.setCompanyName(ex.getCompanyName());
-        ex.setNbxh(ex.getNbxh());
+        vo.setNbxh(ex.getNbxh());
         
         if (type == 1) {
             vo.setCount(ex.getAnnualNum());
