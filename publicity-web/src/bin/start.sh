@@ -9,7 +9,7 @@ SERVER_NAME=publicity
 SERVER_PORT=8085
 
 if [ -z "$SERVER_NAME" ]; then
-    SERVER_NAME=`hostname`mvn
+    SERVER_NAME=`hostname`
 fi
 
 PIDS=`ps -ef | grep java | grep "$CONF_DIR" |awk '{print $2}'`
@@ -41,7 +41,7 @@ STDOUT_FILE=$LOGS_DIR/stdout.log
 LIB_DIR=$DEPLOY_DIR/lib
 LIB_JARS=`ls $LIB_DIR|grep .jar|awk '{print "'$LIB_DIR'/"$0}'|tr "\n" ":"`
 
-JAVA_OPTS=" -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dlog.path=./log -Djob.enable=false -Dspring.profiles.active=union -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=5007"
+JAVA_OPTS=" -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dlog.path=./log -Dspring.profiles.active=union -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=5007"
 JAVA_DEBUG_OPTS=""
 if [ "$1" = "debug" ]; then
     JAVA_DEBUG_OPTS=" -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8007,server=y,suspend=n "
