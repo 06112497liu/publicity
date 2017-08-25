@@ -79,20 +79,20 @@ public class AnnualServiceImpl implements IAnnualService {
     @Override
     public List<AnnualBaseInfoVo> getAnnualInfoList(String param, PageBounds pb) {
         List<AnnualBaseInfoVo> rs = Lists.newArrayList();
-        // 1.先根据注册号来查询，看用户是否输入的注册号（并且参数不能为空）
+        // 1.先根据注册号或信用代码来查询，看用户是否是精确查询
         if (!StringUtils.isEmpty(param)) {
             rs = getAnnualInfoListByRegno(param, pb);
         }
         if (!rs.isEmpty()) {
             return rs;
         } else {
-            // 2.如果通过注册号查不到数据，就通过企业名称模糊查询
+            // 2.如果通过注册号或信用代码查不到数据，就通过企业名称模糊查询
             rs = getAnnualInfoListByName(param, pb);
             return rs;
         }
     }
 
-    // 根据企业注册号精确查找企业年报信息
+    // 根据企业注册号或信用代码精确查找企业年报信息
     private List<AnnualBaseInfoVo> getAnnualInfoListByRegno(String param, PageBounds pb) {
         PageList<AnnualBaseInfoVo> rs = new PageList<>();
         // 1.查询年报表
@@ -107,9 +107,13 @@ public class AnnualServiceImpl implements IAnnualService {
         PubCompanyInfoExample example = new PubCompanyInfoExample();
         example.createCriteria().andNbxhEqualTo(nbxh);
         List<PubCompanyInfo> dbList = companyInfoDao.selectByExample(example);
+        
         if (!dbList.isEmpty()) {
-            String legPer = dbList.get(0).getLegalPerson();
+            PubCompanyInfo p = dbList.get(0);
+            String creditCode = p.getCreditCode();
+            String legPer = p.getLegalPerson();
             infoVo.setLegalPerson(legPer);
+            infoVo.setCreditCode(creditCode);
         }
 
         // 3.构建结果
@@ -132,15 +136,16 @@ public class AnnualServiceImpl implements IAnnualService {
         }
         List<PubCompanyInfo> dbList1 = companyInfoDao.selectByExampleWithPageBounds(exam, pb);
         Paginator paginator = PageListHelper.getPaginator(dbList1);
-        Map<String, String> map = dbList1.stream().collect(HashMap::new, (m, v) -> m.put(v.getNbxh(), v.getLegalPerson()), HashMap::putAll);
 
         // 2.去年报表查询年报基本信息
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            String nb = entry.getKey();
-            String person = entry.getValue();
+        for (PubCompanyInfo p : dbList1) {
+            String nb = p.getNbxh();
+            String person = p.getLegalPerson();
+            String creditCode = p.getCreditCode();
             AnnualBase s = baseExtDao.selectRecentlyAnnualInfoByNbxh(nb);
             AnnualBaseInfoVo t = BeanMapperUtil.map(s, AnnualBaseInfoVo.class);
             t.setLegalPerson(person);
+            t.setCreditCode(creditCode);
             temp.add(t);
         }
         PageList<AnnualBaseInfoVo> rs = PageListHelper.create(temp, paginator);

@@ -29,7 +29,7 @@ public interface AnnualBaseExtDao {
      * @param pb
      * @return
      */
-    AnnualBase selectRecentlyAnnualInfoByRegno(@Param("regno") String regno);
+    AnnualBase selectRecentlyAnnualInfoByRegno(@Param("code") String code);
     
 }
 

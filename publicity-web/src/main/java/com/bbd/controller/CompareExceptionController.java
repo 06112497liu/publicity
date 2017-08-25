@@ -4,12 +4,22 @@
  */
 package com.bbd.controller;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.bbd.controller.vo.ExceptionCompanyVo;
 import com.bbd.domain.CompanyExItem;
-import com.bbd.domain.PubCompanyInfo;
 import com.bbd.pagin.PageListHelper;
 import com.bbd.service.ICompanyExItemService;
-import com.bbd.service.ICompanyService;
 import com.bbd.service.ICompareExceptionService;
 import com.bbd.service.compare.AnnualModule;
 import com.bbd.service.compare.InstantlyModule;
@@ -23,21 +33,11 @@ import com.bean.RestResult;
 import com.exception.CommonErrorCode;
 import com.google.common.collect.Lists;
 import com.mybatis.domain.PageList;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 对比异常控制器
@@ -50,8 +50,6 @@ import java.util.stream.Collectors;
 @Api(description = "公示信息异常企业名单查询")
 public class CompareExceptionController extends AbstractController {
 
-    @Autowired
-    private ICompanyService companyService;
 
     @Autowired
     private ICompareExceptionService compareExceptionService;

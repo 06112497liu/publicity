@@ -44,7 +44,9 @@
 		FROM
 			bbd_pub_annual_base
 		WHERE
-			regno = #{regno}
+			regno = #{code}
+		OR
+			credit_code = #{code}
 		ORDER BY
 			annual_year DESC
 		LIMIT 1

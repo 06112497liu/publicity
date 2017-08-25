@@ -28,6 +28,9 @@ public class AnnualBaseInfoVo {
     @ApiModelProperty(value = "注册号", required = false)
     private String regno;
     
+    @ApiModelProperty(value = "信用代码", required = false)
+    private String creditCode;
+    
     @ApiModelProperty(value = "流水号", required = false)
     private String serialNo;
     
@@ -284,6 +287,14 @@ public class AnnualBaseInfoVo {
 
     public Integer getWomenNum() {
         return womenNum;
+    }
+    
+    public String getCreditCode() {
+        return creditCode;
+    }
+
+    public void setCreditCode(String creditCode) {
+        this.creditCode = creditCode;
     }
 
     public void setWomenNum(Integer womenNum) {

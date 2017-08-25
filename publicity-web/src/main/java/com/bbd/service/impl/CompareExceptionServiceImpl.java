@@ -335,9 +335,10 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
             PubCompanyInfo info = dbList.get(0);
             rs.put("companyName", info.getCompanyName());
             rs.put("regno", info.getRegno());
+            rs.put("creditCode", info.getCreditCode());
             String district = info.getRegion();
             rs.put("district", "贵阳市" + disMap.get(district));
-            rs.put("legalPerson", info.getLegalPerson());
+            rs.put("legalPerson", info.getLegalPerson());           
         }
         return rs;
     }
