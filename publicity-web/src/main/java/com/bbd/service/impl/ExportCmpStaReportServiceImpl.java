@@ -7,7 +7,10 @@
 
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +31,7 @@ import com.bbd.util.NumUtils;
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /** 
  * 比对统计分析报告服务层
@@ -55,6 +59,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         ReportElementModel eleModel1 = new ReportElementModel(); // 公示异常企业区域列表分布
         ReportElementModel eleModel2 = new ReportElementModel(); // 公示异常企业区域条形图
         List<CmpStaReportVo> list1 = getDistrictReport();
+        getArea();
         Object[][] data1 = buildTwoArray(list1);
         TableDataModel dataModel1 = new TableDataModel(data1, title1);
         
@@ -89,6 +94,37 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
             vo.setItemvalue(p.getTotal());
             rs.add(vo);
         });
+        return rs;
+    }
+    
+    private Map<String, List<CmpStaReportVo>> getArea() {
+        String[] strs = new String[]{"annual", "ins", "both", "total"};
+        Map<String, List<CmpStaReportVo>> rs = Maps.newHashMap();
+        List<CompareReportVo> list = reportService.queryDistrictExInfos();
+        Map<String, List<CompareReportVo>> temp = list.stream().collect(Collectors.groupingBy(CompareReportVo::getItem));
+        for(Map.Entry<String, List<CompareReportVo>> entry : temp.entrySet()) {
+            List<CmpStaReportVo> areaList = Lists.newArrayList();
+            String key = entry.getKey();
+            CompareReportVo v = entry.getValue().get(0);
+            for (String s : strs) {
+                CmpStaReportVo info = new CmpStaReportVo();
+                if(s.equals("annual")) {
+                    info.setItem("年报异常企业" + v.getAnnualNum() + "户");
+                    info.setItemvalue(NumUtils.trimPer(v.getAnnualPer()));
+                } else if(s.equals("ins")) {
+                    info.setItem("及时信息异常企业" + v.getInsNum() + "户");
+                    info.setItemvalue(NumUtils.trimPer(v.getInsPer()));
+                } else if(s.equals("both")) {
+                    info.setItem("两者均异常企业" + v.getBothNum() + "户");
+                    info.setItemvalue(NumUtils.trimPer(v.getBothPer()));
+                } else if(s.equals("total")) {
+                    info.setItem("异常企业总量" + v.getTotal() + "户");
+                    info.setItemvalue(NumUtils.trimPer(v.getPercent()));
+                }
+                areaList.add(info);
+            }
+            rs.put(key, areaList);
+        }
         return rs;
     }
     
