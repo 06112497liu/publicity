@@ -52,7 +52,8 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     @Override
     public void cmpStaReport(OutputStream out) {
 
-        ReportElementModel eleModel1 = new ReportElementModel();
+        ReportElementModel eleModel1 = new ReportElementModel(); // 公示异常企业区域列表分布
+        ReportElementModel eleModel2 = new ReportElementModel(); // 公示异常企业区域条形图
         List<CmpStaReportVo> list1 = getDistrictReport();
         Object[][] data1 = buildTwoArray(list1);
         TableDataModel dataModel1 = new TableDataModel(data1, title1);
@@ -62,8 +63,14 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         eleModel1.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
         eleModel1.setDataModel(dataModel1);
         
+        eleModel2.setName("RegionDistributeMap");
+        eleModel2.setDataName("RegionDistributeMapData");
+        eleModel2.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        eleModel2.setDataModel(dataModel1);
+        
         ArrayListMultimap<StructureEnum, ReportElementModel> elements = ArrayListMultimap.create();
         elements.put(StructureEnum.REPORT_HEADER, eleModel1);
+        elements.put(StructureEnum.REPORT_HEADER, eleModel2);
         
         ReportEngine re = new ReportEngine();
         re.generateReport(source, elements, null, ExportEnum.PDF, out);
@@ -73,7 +80,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     private List<CmpStaReportVo> getDistrictReport() {
         List<CmpStaReportVo> rs = Lists.newArrayList();
         List<CompareReportVo> ds = reportService.queryDistrictExInfos();
-        sortList(ds);
+        sortList(ds, 1);
         CompareReportVo whole = reportService.queryWholeCity();
         ds.add(0, whole);
         ds.forEach(p -> {
@@ -89,7 +96,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     private List<CmpStaReportVo> getIndustryReport() {
         List<CmpStaReportVo> rs = Lists.newArrayList();
         List<CompareReportVo> ds = reportService.queryIndustryExInfos();
-        sortList(ds);
+        sortList(ds, 2);
         ds.forEach(p -> {
             CmpStaReportVo vo = new CmpStaReportVo();
             vo.setItem(p.getItemDesc());
@@ -103,7 +110,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     private List<CmpStaReportVo> getCompanyPropertyReport() {
         List<CmpStaReportVo> rs = Lists.newArrayList();
         List<CompareReportVo> ds = reportService.queryCompanyPropertyExInfos();
-        sortList(ds);
+        sortList(ds, 2);
         ds.forEach(p -> {
             CmpStaReportVo vo = new CmpStaReportVo();
             vo.setItem(p.getItemDesc());
@@ -114,12 +121,19 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     }
     
     // 结果按百分比排序
-    private void sortList(List<CompareReportVo> data) {
-        data.sort((x, y) -> {
-            Double v1 = Double.parseDouble(x.getPercent().replace("%", ""));
-            Double v2 = Double.parseDouble(y.getPercent().replace("%", ""));
-            return v2.compareTo(v1);
-        });
+    private void sortList(List<CompareReportVo> data, Integer sortType) {
+        if(1 == sortType) {
+            data.sort((x, y) -> {
+                return Integer.compare(y.getTotal(), x.getTotal());
+            });
+        }
+        if(2 == sortType) {
+            data.sort((x, y) -> {
+                Double v1 = Double.parseDouble(x.getPercent().replace("%", ""));
+                Double v2 = Double.parseDouble(y.getPercent().replace("%", ""));
+                return v2.compareTo(v1);
+            });
+        }
     }
     
  // 构建二维数组
