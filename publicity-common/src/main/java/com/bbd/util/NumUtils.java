@@ -24,6 +24,12 @@ public class NumUtils {
         }
         return rs;
     }
+    
+    // 去百分号
+    public static Double trimPer(String perStr) {
+        String s = perStr.replace("%", "");
+        return Double.parseDouble(s);
+    }
 
 }
 
