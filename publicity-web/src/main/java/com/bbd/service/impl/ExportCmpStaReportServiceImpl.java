@@ -97,9 +97,9 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         return rs;
     }
     
-    private Map<String, List<CmpStaReportVo>> getArea() {
+    private Map<String, Object[][]> getArea() {
         String[] strs = new String[]{"annual", "ins", "both", "total"};
-        Map<String, List<CmpStaReportVo>> rs = Maps.newHashMap();
+        Map<String, Object[][]> rs = Maps.newHashMap();
         List<CompareReportVo> list = reportService.queryDistrictExInfos();
         Map<String, List<CompareReportVo>> temp = list.stream().collect(Collectors.groupingBy(CompareReportVo::getItem));
         for(Map.Entry<String, List<CompareReportVo>> entry : temp.entrySet()) {
@@ -123,7 +123,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
                 }
                 areaList.add(info);
             }
-            rs.put(key, areaList);
+            rs.put(key, buildTwoArray(areaList));
         }
         return rs;
     }

@@ -26,16 +26,29 @@ public class PhoneCompareProperty extends StringCompareProperty {
         p.setOther(other);
         return p;
     }
+    
+    public static PhoneCompareProperty build(String name, Integer submodule, String other, String unit) {
+        PhoneCompareProperty p = new PhoneCompareProperty();
+        p.setName(name);
+        p.setSubmodule(submodule);
+        p.setOther(other);
+        p.setUnit(unit);
+        return p;
+    }
 
     @Override
     public int compare() {
-        int r = super.compare();
-        if (r != 0) {
-            return r;
+        
+        String base = getBase();
+        String other = getOther();
+        
+        if(StringUtils.isBlank(base)) {
+            return Constants.EX_TYPE_NORMAL;
         }
-
-        String mobile = getOther();
-        if (!StringUtils.hasMobile(mobile)) {
+        if(StringUtils.isBlank(other)) {
+            return Constants.EX_TYPE_HIDE;
+        }
+        if (!StringUtils.hasMobile(other)) {
             return Constants.EX_TYPE_INVALID_FORMAT;
         }
         return Constants.EX_TYPE_NORMAL;

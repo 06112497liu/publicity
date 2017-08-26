@@ -26,16 +26,27 @@ public class EmailCompareProperty extends StringCompareProperty {
         p.setOther(other);
         return p;
     }
+    
+    public static EmailCompareProperty build(String name, Integer submodule, String other, String unit) {
+        EmailCompareProperty p = new EmailCompareProperty();
+        p.setName(name);
+        p.setSubmodule(submodule);
+        p.setOther(other);
+        p.setUnit(unit);
+        return p;
+    }
 
     @Override
     public int compare() {
-        int r = super.compare();
-        if (r != 0) {
-            return r;
+        String base = getBase();
+        String other = getOther();
+        if(StringUtils.isBlank(base)) {
+            return Constants.EX_TYPE_NORMAL;
         }
-
-        String email = getOther();
-        if (!StringUtils.hasEmail(email)) {
+        if(StringUtils.isBlank(other)) {
+            return Constants.EX_TYPE_HIDE;
+        }
+        if (!StringUtils.hasEmail(other)) {
             return Constants.EX_TYPE_INVALID_FORMAT;
         }
         return Constants.EX_TYPE_NORMAL;

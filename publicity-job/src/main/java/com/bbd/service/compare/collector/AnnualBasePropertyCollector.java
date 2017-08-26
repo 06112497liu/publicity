@@ -58,7 +58,7 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
         AnnualBaseCmp cmp = cmpOpt.isPresent() ? cmpOpt.get() : null;
 
         // 注册号对比项
-        StringCompareProperty regnoProp = StringCompareProperty.build(PropertyEnum.ANNUAL_REGNO.getCode(), baseModule, std.getRegno(), cmp != null ? cmp.getRegno() : null);
+        StringCompareProperty regnoProp = StringCompareProperty.build(PropertyEnum.ANNUAL_REGNO.getCode(), baseModule, std.getRegno(), cmp != null ? cmp.getRegno() : null, "");
         result.add(regnoProp);
 
         // 企业名称对比项
@@ -66,7 +66,7 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
         result.add(companyNameProp);
 
         // 联系电话对比项
-        PhoneCompareProperty phonesProp = PhoneCompareProperty.build(PropertyEnum.ANNUAL_PHONES.getCode(), baseModule, cmp != null ? cmp.getPhones() : null);
+        PhoneCompareProperty phonesProp = PhoneCompareProperty.build(PropertyEnum.ANNUAL_PHONES.getCode(), baseModule, cmp != null ? cmp.getPhones() : null, "");
         result.add(phonesProp);
 
         // 从业人数对比项
@@ -81,10 +81,10 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
 
         // 邮箱地址、邮编对比项、企业经营状态对比项
         if (cp == Constants.COMPANY_PROPERTY_ENTERPISE) {
-            EmailCompareProperty emailsProp = EmailCompareProperty.build(PropertyEnum.ANNUAL_EMAILS.getCode(), baseModule, cmp != null ? cmp.getEmails() : null);
+            EmailCompareProperty emailsProp = EmailCompareProperty.build(PropertyEnum.ANNUAL_EMAILS.getCode(), baseModule, cmp != null ? cmp.getEmails() : null, "");
             result.add(emailsProp);
 
-            PostalCodeCompareProperty postalCodeProp = PostalCodeCompareProperty.build(PropertyEnum.ANNUAL_POSTAL_CODE.getCode(), baseModule, cmp != null ? cmp.getPostalCode() : null);
+            PostalCodeCompareProperty postalCodeProp = PostalCodeCompareProperty.build(PropertyEnum.ANNUAL_POSTAL_CODE.getCode(), baseModule, cmp != null ? cmp.getPostalCode() : null, "");
             result.add(postalCodeProp);
 
             //将经营状态编码转换成中文

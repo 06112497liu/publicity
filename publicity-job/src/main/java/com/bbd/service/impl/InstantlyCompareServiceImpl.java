@@ -75,13 +75,13 @@ public class InstantlyCompareServiceImpl extends AbstractCompareService {
         ex.setExType(0);
         ex.setCompareTime(now);
         if (prop.getBase() instanceof Date) {
-            String base = DateUtil.formatDateByPatten((Date) prop.getBase(), "yyyy-MM-dd HH:mm:ss");
+            String base = DateUtil.formatDateByPatten((Date) prop.getBase(), "yyyy-MM-dd");
             ex.setBase(base);
         } else {
             ex.setBase(String.valueOf(prop.getBase()));
         }
         if (prop.getOther() instanceof Date) {
-            String other = DateUtil.formatDateByPatten((Date) prop.getOther(), "yyyy-MM-dd HH:mm:ss");
+            String other = DateUtil.formatDateByPatten((Date) prop.getOther(), "yyyy-MM-dd");
             ex.setOther(other);
         } else {
             ex.setOther(String.valueOf(prop.getOther()));
