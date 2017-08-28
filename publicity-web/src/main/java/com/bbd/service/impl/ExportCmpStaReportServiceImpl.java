@@ -50,7 +50,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     
     private static final Object[] title2 = new Object[]{"item", "num", "per"};
     
-    private static final Optional source = Optional.of("report/StatisticalReport.prpt");
+    private static final Optional<String> source = Optional.of("report/StatisticalReport.prpt");
 
     /**
      * 对比统计分析报告
@@ -205,7 +205,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         sortList(ds, 2);
         ds.forEach(p -> {
             CmpStaReportPropVo vo = new CmpStaReportPropVo();
-            vo.setItem(p.getItemDesc());
+            vo.setItem(p.getItemDesc() + "" + p.getTotal() + "户，占比所有公示异常企业" + NumUtils.trimPer(p.getPercent()) + "%");
             vo.setNum(p.getTotal());
             vo.setPer(NumUtils.trimPer(p.getPercent()));
             rs.add(vo);
