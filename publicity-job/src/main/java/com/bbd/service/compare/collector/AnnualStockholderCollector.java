@@ -113,7 +113,8 @@ public class AnnualStockholderCollector extends AnnualPropertyCollector<AnnualSt
         List<CompareProperty> result = Lists.newArrayList();
         int stockHolderModule = AnnualModule.STOCKHOLDER.getCode();
         AnnualStockholderStd stockholderStd = stdOpt.get();
-        AnnualStockholderCmp stockholderCmp = cmpOpt.isPresent() ? cmpOpt.get() : null;
+        if(!cmpOpt.isPresent()) return result;
+        AnnualStockholderCmp stockholderCmp = cmpOpt.get();
 
         // 认缴出资额对比项
         NumberCompareProperty subCronCapProp = NumberCompareProperty.build(PropertyEnum.ANNUAL_SUB_CRON_CAP.getCode(), stockHolderModule, stockholderStd.getSubCronCap(),
@@ -127,7 +128,7 @@ public class AnnualStockholderCollector extends AnnualPropertyCollector<AnnualSt
 
         // 认缴出资方式对比项
         String subStdCode = stockholderStd.getSubCronFrom();
-        String subCmpCode = (stockholderCmp == null ? null : stockholderCmp.getSubCronFrom());
+        String subCmpCode = stockholderCmp.getSubCronFrom();
         String subStdDesc = (subStdCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subStdCode)));
         String subCmpDesc = (subCmpCode == null ? null : InvestWayEnum.getDescByCode(Integer.parseInt(subCmpCode)));
         StringCompareProperty subCronFromProp = StringCompareProperty.build(PropertyEnum.ANNUAL_SUB_CRON_FROM.getCode(), stockHolderModule, subStdDesc,

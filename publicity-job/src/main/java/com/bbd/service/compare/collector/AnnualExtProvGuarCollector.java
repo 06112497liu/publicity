@@ -112,7 +112,8 @@ public class AnnualExtProvGuarCollector extends AnnualPropertyCollector<AnnualEx
         List<CompareProperty> result = Lists.newArrayList();
         int extProvMoudle = AnnualModule.EXT_PROV.getCode();
         AnnualExtProvGuarInfoStd extProvStd = stdOpt.get();
-        AnnualExtProvGuarInfoCmp extProvCmp = cmpOpt.isPresent() ? cmpOpt.get() : null;
+        if(!cmpOpt.isPresent()) return result;
+        AnnualExtProvGuarInfoCmp extProvCmp = cmpOpt.get();
 
         // 债务人对比项
         StringCompareProperty debitorProp = StringCompareProperty.build(PropertyEnum.ANNUAL_EXT_PROV_DEBITOR.getCode(), extProvMoudle, extProvStd.getDebitor(),
@@ -121,7 +122,7 @@ public class AnnualExtProvGuarCollector extends AnnualPropertyCollector<AnnualEx
 
         // 主债权种类对比项
         String stdCode = extProvStd.getPriCalSecKind();
-        String cmpCode = (extProvCmp == null ? null : extProvCmp.getPriCalSecKind());
+        String cmpCode = extProvCmp.getPriCalSecKind();
         String stdDesc = (stdCode == null ? null : PriClaTypeEnum.getDescByCode(Integer.parseInt(stdCode)));
         String cmpDesc = (cmpCode == null ? null : PriClaTypeEnum.getDescByCode(Integer.parseInt(cmpCode)));
         StringCompareProperty priCalSecKindProp = StringCompareProperty.build(PropertyEnum.ANNUAL_EXT_PROV_PRI_CAL_SEC_KIND.getCode(), extProvMoudle, stdDesc,

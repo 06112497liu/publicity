@@ -55,7 +55,8 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
         int baseModule = AnnualModule.BASE.getCode();
         Integer cp = c.getCompanyProperty();
         AnnualBaseStd std = stdOpt.get();
-        AnnualBaseCmp cmp = cmpOpt.isPresent() ? cmpOpt.get() : null;
+        if(!cmpOpt.isPresent()) return result;
+        AnnualBaseCmp cmp = cmpOpt.get();
 
         // 注册号对比项
         StringCompareProperty regnoProp = StringCompareProperty.build(PropertyEnum.ANNUAL_REGNO.getCode(), baseModule, std.getRegno(), cmp != null ? cmp.getRegno() : null, "");
@@ -89,7 +90,7 @@ public class AnnualBasePropertyCollector extends AnnualPropertyCollector<AnnualB
 
             //将经营状态编码转换成中文
             String stdState = std.getOpstate();
-            String cmpState = (cmp == null ? null : cmp.getOpstate());
+            String cmpState = cmp.getOpstate();
             String stdStateDesc = (stdState == null ? null : OpStateEnum.getDescByCode(Integer.parseInt(stdState)));
             String cmpStateDesc = (cmpState == null ? null : OpStateEnum.getDescByCode(Integer.parseInt(cmpState)));;
             StringCompareProperty opstateProp = StringCompareProperty.build(PropertyEnum.ANNUAL_OPSTATE.getCode(), baseModule, stdStateDesc, cmp != null ? cmpStateDesc : null);
