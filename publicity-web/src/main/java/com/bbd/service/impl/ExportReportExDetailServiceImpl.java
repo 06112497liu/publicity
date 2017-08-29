@@ -32,6 +32,7 @@ import com.bbd.service.compare.PropertyEnum;
 import com.bbd.service.param.ExDetailReportVo;
 import com.bbd.service.param.ExDetailVo;
 import com.google.common.base.Optional;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 
 /** 
@@ -260,6 +261,11 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         }
         if(2 == sortType) {
             list.sort((x, y) -> {
+//                return ComparisonChain.start()
+//                                      .compare(x.getNbxh(), y.getBase())
+//                                      .compare(x.getSubmodule(), y.getSubmodule())
+//                                      .compare(x.getPropName(), y.getPropName())
+//                                      .result();
                 Integer a = x.getNbxh().compareTo(y.getNbxh());
                 if(a != 0) {
                     return a;

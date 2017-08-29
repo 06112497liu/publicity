@@ -181,9 +181,11 @@ public class AnnualServiceImpl implements IAnnualService {
             String creditCode = p.getCreditCode();
             AnnualBase s = baseExtDao.selectRecentlyAnnualInfoByNbxh(nb);
             AnnualBaseInfoVo t = BeanMapperUtil.map(s, AnnualBaseInfoVo.class);
-            t.setLegalPerson(person);
-            t.setCreditCode(creditCode);
-            temp.add(t);
+            if(null != t) {
+                t.setLegalPerson(person);
+                t.setCreditCode(creditCode);
+                temp.add(t);
+            }
         }
         PageList<AnnualBaseInfoVo> rs = PageListHelper.create(temp, paginator);
         return rs;
