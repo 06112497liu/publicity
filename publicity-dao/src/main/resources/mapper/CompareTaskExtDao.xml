@@ -11,6 +11,6 @@
     </update>
 
 	<update id="updateExDecreased">
-		update bbd_pub_cmp_task set ex_increased = ex_decreased + 1 where id = #{id}
+		update bbd_pub_cmp_task set ex_decreased = ex_decreased + 1 where id = #{id}
 	</update>
 </mapper>
