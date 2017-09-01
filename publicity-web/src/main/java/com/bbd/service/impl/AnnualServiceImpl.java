@@ -4,12 +4,57 @@
  */
 package com.bbd.service.impl;
 
-import com.bbd.dao.*;
-import com.bbd.domain.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bbd.dao.AnnualAdminLicenseDao;
+import com.bbd.dao.AnnualBaseDao;
+import com.bbd.dao.AnnualBaseExtDao;
+import com.bbd.dao.AnnualBranchDao;
+import com.bbd.dao.AnnualEnterpriseAssetsDao;
+import com.bbd.dao.AnnualEquityChangeDao;
+import com.bbd.dao.AnnualExtProvGuarInfoDao;
+import com.bbd.dao.AnnualOutboundInvestmentDao;
+import com.bbd.dao.AnnualStockholderDao;
+import com.bbd.dao.AnnualWebInfoDao;
+import com.bbd.dao.PubCompanyInfoDao;
+import com.bbd.domain.AnnualAdminLicense;
+import com.bbd.domain.AnnualAdminLicenseExample;
+import com.bbd.domain.AnnualBase;
+import com.bbd.domain.AnnualBaseExample;
+import com.bbd.domain.AnnualBranch;
+import com.bbd.domain.AnnualBranchExample;
+import com.bbd.domain.AnnualEnterpriseAssets;
+import com.bbd.domain.AnnualEnterpriseAssetsExample;
+import com.bbd.domain.AnnualEquityChange;
+import com.bbd.domain.AnnualEquityChangeExample;
+import com.bbd.domain.AnnualExtProvGuarInfo;
+import com.bbd.domain.AnnualExtProvGuarInfoExample;
+import com.bbd.domain.AnnualOutboundInvestment;
+import com.bbd.domain.AnnualOutboundInvestmentExample;
+import com.bbd.domain.AnnualStockholder;
+import com.bbd.domain.AnnualStockholderExample;
+import com.bbd.domain.AnnualWebInfo;
+import com.bbd.domain.AnnualWebInfoExample;
+import com.bbd.domain.PubCompanyInfo;
+import com.bbd.domain.PubCompanyInfoExample;
 import com.bbd.pagin.PageListHelper;
 import com.bbd.service.IAnnualService;
 import com.bbd.service.IDictionaryService;
-import com.bbd.service.param.*;
+import com.bbd.service.param.AdminLicVo;
+import com.bbd.service.param.AnnualBaseInfoVo;
+import com.bbd.service.param.BranchVo;
+import com.bbd.service.param.EnterpriseAssetVo;
+import com.bbd.service.param.EquityChangeVo;
+import com.bbd.service.param.OutInvesInfoVo;
+import com.bbd.service.param.ProvGuarVo;
+import com.bbd.service.param.StockholderInfosVo;
+import com.bbd.service.param.WebInfoVo;
 import com.bbd.util.StringUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -17,14 +62,6 @@ import com.mybatis.domain.PageBounds;
 import com.mybatis.domain.PageList;
 import com.mybatis.domain.Paginator;
 import com.utils.BeanMapperUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 年报查询服务
@@ -144,9 +181,11 @@ public class AnnualServiceImpl implements IAnnualService {
             String creditCode = p.getCreditCode();
             AnnualBase s = baseExtDao.selectRecentlyAnnualInfoByNbxh(nb);
             AnnualBaseInfoVo t = BeanMapperUtil.map(s, AnnualBaseInfoVo.class);
-            t.setLegalPerson(person);
-            t.setCreditCode(creditCode);
-            temp.add(t);
+            if(null != t) {
+                t.setLegalPerson(person);
+                t.setCreditCode(creditCode);
+                temp.add(t);
+            }
         }
         PageList<AnnualBaseInfoVo> rs = PageListHelper.create(temp, paginator);
         return rs;
@@ -184,6 +223,19 @@ public class AnnualServiceImpl implements IAnnualService {
         Integer companyProperty = info.getCompanyProperty();
         return companyProperty;
     }
+    
+    // 查询企业注册号
+    private String getCreditCode(String nbxh) {
+        PubCompanyInfoExample example = new PubCompanyInfoExample();
+        example.createCriteria().andNbxhEqualTo(nbxh);
+        List<PubCompanyInfo> rs = companyInfoDao.selectByExample(example);
+        if (rs.isEmpty()) {
+            return null;
+        }
+        PubCompanyInfo info = rs.get(0);
+        String code  = info.getCreditCode();
+        return code;
+    }
 
     /**
      * 根据企业nbxh，年报年度查询企业某年年报基本信息
@@ -206,6 +258,11 @@ public class AnnualServiceImpl implements IAnnualService {
         // 2.获取企业性质
         Integer companyProperty = getCompanyProperty(nbxh);
         rs.setCompanyProperty(companyProperty);
+        
+        // 3.获取企业注册号
+        if(rs.getCreditCode() == null) {
+            rs.setCreditCode(getCreditCode(nbxh));
+        }
 
         // 3.如果是企业，构建页面显示的一些其它信息（企业性质：1.企业；2.个体；3.农专社）
         if (companyProperty == 1) {

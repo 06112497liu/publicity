@@ -301,7 +301,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
             return BeanMapperUtil.mapList(ds, ExDetailVo.class);
         }
         List<InstantlyExPrevDetail> pds = getInstantlyExPrevDetails(nbxh);
-        if (ds.size() > 0) {
+        if (pds.size() > 0) {
             return BeanMapperUtil.mapList(pds, ExDetailVo.class);
         }
 

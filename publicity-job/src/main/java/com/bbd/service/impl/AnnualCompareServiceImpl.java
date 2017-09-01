@@ -142,13 +142,13 @@ public class AnnualCompareServiceImpl extends AbstractCompareService {
         annualExDetail.setExType(0);
         annualExDetail.setCompareTime(now);
         if (prop.getBase() instanceof Date) {
-            String base = DateUtil.formatDateByPatten((Date) prop.getBase(), "yyyy-MM-dd HH:mm:ss");
+            String base = DateUtil.formatDateByPatten((Date) prop.getBase(), "yyyy-MM-dd");
             annualExDetail.setBase(base);
         } else {
             annualExDetail.setBase(String.valueOf(prop.getBase()));
         }
         if (prop.getOther() instanceof Date) {
-            String other = DateUtil.formatDateByPatten((Date) prop.getOther(), "yyyy-MM-dd HH:mm:ss");
+            String other = DateUtil.formatDateByPatten((Date) prop.getOther(), "yyyy-MM-dd");
             annualExDetail.setOther(other);
         } else {
             annualExDetail.setOther(String.valueOf(prop.getOther()));

@@ -182,8 +182,6 @@ public class CompareTaskServiceImpl implements ICompareTaskService {
             compareTaskExtDao.updateExIncreased(taskId);
         } else if (count > 0 && !isException) {
             compareTaskExtDao.updateExDecreased(taskId);
-        } else {
-            return;
         }
     }
 }

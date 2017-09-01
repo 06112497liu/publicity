@@ -107,7 +107,8 @@ public class AnnualBranchCollector extends AnnualPropertyCollector<AnnualBranchS
         List<CompareProperty> result = Lists.newArrayList();
         int branchModule = AnnualModule.BRANCH.getCode();
         AnnualBranchStd branchStd = stdOpt.get();
-        AnnualBranchCmp branchCmp = cmpOpt.isPresent() ? cmpOpt.get() : null;
+        if(!cmpOpt.isPresent()) return result;
+        AnnualBranchCmp branchCmp = cmpOpt.get();
 
         // 分支机构名称对比项
         StringCompareProperty branchProp = StringCompareProperty.build(PropertyEnum.ANNUAL_BRANCH_NAME.getCode(), branchModule, branchStd.getName(), branchCmp != null ? branchCmp.getName() : null);

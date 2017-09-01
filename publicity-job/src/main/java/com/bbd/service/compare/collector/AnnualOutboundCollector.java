@@ -115,7 +115,8 @@ public class AnnualOutboundCollector extends AnnualPropertyCollector<AnnualOutbo
         List<CompareProperty> result = Lists.newArrayList();
         int outInvestModule = AnnualModule.OUT_INVEST.getCode();
         AnnualOutboundInvestmentStd outInvestStd = stdOpt.get();
-        AnnualOutboundInvestmentCmp outInvestCmp = cmpOpt.isPresent() ? cmpOpt.get() : null;
+        if(!cmpOpt.isPresent()) return result;
+        AnnualOutboundInvestmentCmp outInvestCmp = cmpOpt.get();
 
         // 投资公司名称对比项
         StringCompareProperty companyNameProp = StringCompareProperty.build(PropertyEnum.ANNUAL_INV_COMPANY_NAME.getCode(), outInvestModule, outInvestStd.getCompanyName(),

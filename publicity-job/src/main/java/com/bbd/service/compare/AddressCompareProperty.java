@@ -30,15 +30,15 @@ public class AddressCompareProperty extends StringCompareProperty {
 
     @Override
     public int compare() {
-        int r = super.compare();
-        if (r != 0) {
-            return r;
+        String base = getBase();
+        String other = getOther();
+        if(StringUtils.isBlank(base)) {
+            return Constants.EX_TYPE_NORMAL;
         }
-        String addr = getOther();
-        if (StringUtils.isBlank(addr)) {
+        if (StringUtils.isBlank(other)) {
             return Constants.EX_TYPE_HIDE;
         }
-        if (!AddressUtil.validate(addr)) {
+        if (!AddressUtil.validate(other)) {
             return Constants.EX_TYPE_INVALID_FORMAT;
         }
         return Constants.EX_TYPE_NORMAL;
