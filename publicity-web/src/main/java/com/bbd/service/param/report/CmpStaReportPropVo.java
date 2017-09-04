@@ -3,19 +3,19 @@
  * BBD Service Inc 
  * All Rights Reserved @2017 
  */
- package com.bbd.service.param; 
+ package com.bbd.service.param.report; 
 /** 
  * 比对统计分析报告对象
  * @author liuweibo 
  * @version $Id: CmpStaReportVo.java, v 0.1 2017年8月25日 下午1:55:14 liuweibo Exp $ 
  */
-public class CmpStaReportVo {
+public class CmpStaReportPropVo {
     
-    // 名称
     private String item;
     
-    // 值
-    private Number itemvalue;
+    private Number num;
+    
+    private Double per;
 
     public String getItem() {
         return item;
@@ -25,19 +25,26 @@ public class CmpStaReportVo {
         this.item = item;
     }
 
-    public Number getItemvalue() {
-        return itemvalue;
+    public Number getNum() {
+        return num;
     }
 
-    public void setItemvalue(Number itemvalue) {
-        this.itemvalue = itemvalue;
+    public void setNum(Number num) {
+        this.num = num;
+    }
+
+    public Double getPer() {
+        return per;
+    }
+
+    public void setPer(Double per) {
+        this.per = per;
     }
 
     @Override
     public String toString() {
-        return "CmpStaReportVo [item=" + item + ", itemvalue=" + itemvalue + "]";
+        return "CmpStaReportPropVo [item=" + item + ", num=" + num + ", per=" + per + "]";
     }
-    
     
 }
 

@@ -4,9 +4,9 @@
  */
 package com.bbd.service;
 
-import com.bbd.service.param.CompareReportVo;
-
 import java.util.List;
+
+import com.bbd.service.param.CompareReportVo;
 
 /**
  * 报表服务

@@ -28,6 +28,9 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         // 报告元素集合
         ArrayListMultimap<StructureEnum, ReportElementModel> lists = ArrayListMultimap.create();
         
+        ReportElementModel baseModel = new ReportElementModel();
+        
+        
     }
 
 }

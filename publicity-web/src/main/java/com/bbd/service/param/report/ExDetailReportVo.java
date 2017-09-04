@@ -3,7 +3,7 @@
  * BBD Service Inc 
  * All Rights Reserved @2017 
  */
- package com.bbd.service.param; 
+ package com.bbd.service.param.report; 
 /** 
  * 企业比对信息详情对象
  * @author liuweibo 
