@@ -51,7 +51,7 @@ public class CompanyServiceImpl implements ICompanyService {
         }
         exam.setOrderByClause("nbxh asc");
 
-        PageBounds pb = new PageBounds(1, 50, false);
+        PageBounds pb = new PageBounds(1, 1000, false);
 
         return pubCompanyInfoDao.selectByExampleWithPageBounds(exam, pb);
     }

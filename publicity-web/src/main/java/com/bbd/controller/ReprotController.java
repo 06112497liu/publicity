@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bbd.service.IExportAnnualReportService;
 import com.bbd.service.IExportCmpStaReportService;
 import com.bbd.service.IExportExDetailReportService;
 import com.bbd.util.SessionContext;
@@ -42,6 +43,9 @@ public class ReprotController extends AbstractController {
      
      @Autowired
      private IExportCmpStaReportService cmpStaReportService;
+     
+     @Autowired
+     private IExportAnnualReportService annualReportService;
      
      @ApiOperation(value = "企业信息比对详情报告导出", httpMethod = "GET")
      @ApiImplicitParams({ @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, paramType = "query", dataType = "String") })
