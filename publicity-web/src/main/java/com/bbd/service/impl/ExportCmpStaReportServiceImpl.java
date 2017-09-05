@@ -27,6 +27,7 @@ import com.bbd.service.IReportService;
 import com.bbd.service.param.CompareReportVo;
 import com.bbd.service.param.report.CmpStaReportPropVo;
 import com.bbd.service.param.report.CmpStaReportVo;
+import com.bbd.service.param.report.Title;
 import com.bbd.util.NumUtils;
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
@@ -46,10 +47,6 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     @Autowired
     private IReportService reportService;
     
-    private static final Object[] title1 = new Object[]{"item", "itemValue"};
-    
-    private static final Object[] title2 = new Object[]{"item", "num", "per"};
-    
     private static final Optional<String> source = Optional.of("report/StatisticalReport.prpt");
 
     /**
@@ -64,7 +61,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         ReportElementModel eleModel1 = new ReportElementModel(); // 公示异常企业区域列表分布
         ReportElementModel eleModel2 = new ReportElementModel(); // 公示异常企业区域条形图
         Object[][] data1 = buildTwoArray(getDistrictReport(1));
-        TableDataModel dataModel1 = new TableDataModel(data1, title1);
+        TableDataModel dataModel1 = new TableDataModel(data1, Title.nameValueTitle);
         
         eleModel1.setName("RegionDistribute");
         eleModel1.setDataName("RegionDistributionData");
@@ -84,7 +81,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
             System.out.println(key);
             Object[][] o = entry.getValue();
             ReportElementModel rm = new ReportElementModel();
-            TableDataModel tm = new TableDataModel(o, title1);
+            TableDataModel tm = new TableDataModel(o, Title.nameValueTitle);
             rm.setName(key);
             rm.setDataName(key);
             rm.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
@@ -95,7 +92,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         // 分区占比排行
         ReportElementModel eleModel3 = new ReportElementModel();
         Object[][] data3 = buildTwoArray(getDistrictReport(2));
-        TableDataModel model3 = new TableDataModel(data3, title1);
+        TableDataModel model3 = new TableDataModel(data3, Title.nameValueTitle);
         eleModel3.setName("DistrictRatio");
         eleModel3.setDataName("DistrictRatio");
         eleModel3.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
@@ -104,7 +101,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         // 行业占比排行
         ReportElementModel eleModel4 = new ReportElementModel();
         Object[][] data4 = buildTwoArray(getIndustryReport());
-        TableDataModel model4 = new TableDataModel(data4, title1);
+        TableDataModel model4 = new TableDataModel(data4, Title.nameValueTitle);
         eleModel4.setName("IndustryRatio");
         eleModel4.setDataName("IndustryRatio");
         eleModel4.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
@@ -113,7 +110,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         // 企业性质饼状图
         ReportElementModel eleModel5 = new ReportElementModel();
         Object[][] data5 = buildTwoArray(getCompanyPropertyReport());
-        TableDataModel model5 = new TableDataModel(data5, title2);
+        TableDataModel model5 = new TableDataModel(data5, Title.nameValuePerTitle);
         eleModel5.setName("CompanyProp");
         eleModel5.setDataName("CompanyProp");
         eleModel5.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);

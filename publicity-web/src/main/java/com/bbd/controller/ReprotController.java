@@ -105,6 +105,7 @@ public class ReprotController extends AbstractController {
          HttpServletResponse response = SessionContext.getResponse();
          String fileName = "企业年报报告.pdf";
          OutputStream out = buildResponse(fileName, request, response);
+         annualReportService.getAnnualQY(out, nbxh, annualYear);
      }
      
      // 处理下载文件问题
