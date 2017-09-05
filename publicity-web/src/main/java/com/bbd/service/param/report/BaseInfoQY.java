@@ -9,22 +9,51 @@
  * @author liuweibo 
  * @version $Id: BaseInfoQY.java, v 0.1 2017年9月4日 下午5:03:13 liuweibo Exp $ 
  */
-public class BaseInfoQY {
+public class BaseInfoQY extends BaseInfo {
     
+    /** 注册号和信用代码   */
     private String code;
+    
+    /** 公司名称   */
     private String companyName;
+    
+    /** 地址   */
     private String addr;
+    
+    /** 邮政编码   */
     private String postalCode;
+    
+    /** 电话   */
     private String phones;
+    
+    /** 邮箱   */
     private String emails;
+    
+    /** 从业人数   */
     private Long empnum;
+    
+    /** 女性从业人数   */
     private Integer womenNum;
+    
+    /** 经营状态   */
     private String opstateDesc;
+    
+    /** 控股情况   */
     private String holdings;
+    
+    /** 是否有投资信息或购买其它公司股权   */
     private String haveInvest;
+    
+    /** 是否有网站网店信息   */
     private String haveWeb;
+    
+    /** 是否有对外提供担保信息   */
     private String haveGuarantee;
+    
+    /** 是否发生股权转让   */
     private String haveEqTrans;
+    
+    /** 企业主营业务活动   */
     private String opActivity;
     
     public String getCode() {

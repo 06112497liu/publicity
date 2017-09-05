@@ -15,5 +15,7 @@ public class Title {
     public static final Object[] baseInfoTitle = 
             new Object[]{"code", "companyName", "addr", "postalCode", "phones", "emails", "empnum", "womenNum", "opstateDesc", 
                          "holdings", "haveInvest", "haveWeb", "haveGuarantee", "haveEqTrans", "opActivity"};
+    public static final Object[] webInfoTitle = new Object[]{"line", "name", "type", "url"};
+    
 }
 

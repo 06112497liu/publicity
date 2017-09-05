@@ -60,7 +60,8 @@ public class WebInfoVo {
     }
 
     public void setType(String type) {
-        this.type = type;
+        if("1".equals(type)) this.type = "网站";
+        else this.type = "网店";
     }
 
     public String getUrl() {

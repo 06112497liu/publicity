@@ -14,7 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bbd.dao.AnnualWebInfoDao;
 import com.bbd.dao.PubCompanyInfoDao;
+import com.bbd.domain.AnnualWebInfo;
+import com.bbd.domain.AnnualWebInfoExample;
 import com.bbd.domain.PubCompanyInfo;
 import com.bbd.domain.PubCompanyInfoExample;
 import com.bbd.report.ReportEngine;
@@ -26,13 +29,18 @@ import com.bbd.report.model.TableDataModel;
 import com.bbd.service.IAnnualService;
 import com.bbd.service.IExportAnnualReportService;
 import com.bbd.service.param.AnnualBaseInfoVo;
+import com.bbd.service.param.WebInfoVo;
+import com.bbd.service.param.report.BaseInfo;
+import com.bbd.service.param.report.BaseInfoGT;
+import com.bbd.service.param.report.BaseInfoNZ;
 import com.bbd.service.param.report.BaseInfoQY;
-import com.bbd.service.param.report.CmpStaReportVo;
 import com.bbd.service.param.report.Title;
+import com.bbd.service.param.report.WebInfo;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.utils.BeanMapperUtil;
 
 /** 
@@ -58,30 +66,38 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
      * 企业年报报告
      */
     @Override
-    public void getAnnualQY(OutputStream out, String nbxh, String year) {
+    public void getAnnualQY(OutputStream out, String nbxh, String year, String serialNo) {
         
         // 报告元素集合
         ArrayListMultimap<StructureEnum, ReportElementModel> elements = ArrayListMultimap.create();
         
-        ReportElementModel baseModel = new ReportElementModel(); // 企业年报基本信息
-        
-        BaseInfoQY baseInfo = getAnnualBaseInfo(nbxh, year);
+        ReportElementModel baseModel = new ReportElementModel(); // 企业年报基本信息        
+        BaseInfo baseInfo = getAnnualBaseInfo(nbxh, year);
         Object[][] baseArr = buildTwoArray(Lists.newArrayList(baseInfo));
-        TableDataModel baseDataModel = new TableDataModel(baseArr, Title.baseInfoTitle);
-        
+        TableDataModel baseDataModel = new TableDataModel(baseArr, Title.baseInfoTitle);        
         baseModel.setName("BaseInfo");
         baseModel.setDataName("BaseData");
         baseModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
         baseModel.setDataModel(baseDataModel);
         
+        ReportElementModel webModel = new ReportElementModel(); // 网站网店信息
+        List<WebInfo> webInfo = getWebInfo(serialNo);
+        Object[][] webArr = buildTwoArray(webInfo);
+        TableDataModel webDataModel = new TableDataModel(webArr, Title.webInfoTitle);
+        webModel.setName("WebInfo");
+        webModel.setDataName("WebData");
+        webModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        webModel.setDataModel(webDataModel);
+        
         elements.put(StructureEnum.REPORT_HEADER, baseModel);
+        elements.put(StructureEnum.REPORT_HEADER, webModel);
         ReportEngine re = new ReportEngine();
         re.generateReport(source, elements, null, ExportEnum.PDF, out);
         
     }
     
     // 获取年报基本信息
-    private BaseInfoQY getAnnualBaseInfo(String nbxh, String year) {
+    private BaseInfo getAnnualBaseInfo(String nbxh, String year) {
         AnnualBaseInfoVo baseInfo = annualService.getAnnualBaseInfo(nbxh, year);
         PubCompanyInfoExample exam = new PubCompanyInfoExample();
         exam.createCriteria().andNbxhEqualTo(nbxh);
@@ -91,21 +107,46 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             PubCompanyInfo v = c.get(0);
             property = v.getCompanyProperty();
             baseInfo.setCreditCode(v.getCreditCode());
-            baseInfo.setRegno(v.getCreditCode());
-        }
-        BaseInfoQY info = new BaseInfoQY();
-        Joiner joiner = Joiner.on("/").skipNulls();
-        info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
-        if(1 == property) {
+            baseInfo.setRegno(v.getRegno());
+        }       
+        
+        Joiner joiner = Joiner.on(" / ").skipNulls();
+        
+        if(Sets.newHashSet(1, 2, 3).contains(property)) {
+            BaseInfoQY info = new BaseInfoQY();
             info = BeanMapperUtil.map(baseInfo, BaseInfoQY.class);
+            info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
             boolean haveInvest = baseInfo.isHaveEqTrans();
+            info.setHaveInvest(haveInvest == true ? "是" : "否");
             boolean haveWeb = baseInfo.isHaveEqTrans();
+            info.setHaveWeb(haveWeb == true ? "是" : "否");
             boolean haveGuarantee = baseInfo.isHaveEqTrans();
+            info.setHaveGuarantee(haveGuarantee == true ? "是" : "否");
             boolean haveEqTrans = baseInfo.isHaveEqTrans(); 
+            info.setHaveEqTrans(haveEqTrans == true ? "是" : "否");
+            return info;
+        } else if(4 == property) {
+            BaseInfoNZ info = new BaseInfoNZ();
+            info = BeanMapperUtil.map(baseInfo, BaseInfoNZ.class);
+            info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
+        } else if(5 == property) {
+            BaseInfoGT info = new BaseInfoGT();
+            info = BeanMapperUtil.map(baseInfo, BaseInfoGT.class);
+            info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
         }
 
-        
-        return info;
+        return null;
+    }
+    
+    // 获取网站网店信息
+    private List<WebInfo> getWebInfo(String serialNo) {
+        int count = 0;
+        List<WebInfoVo> dbList = annualService.getWebInfo(serialNo);
+        List<WebInfo> rs = BeanMapperUtil.mapList(dbList, WebInfo.class);
+        for (WebInfo info : rs) {
+            info.setLine(++count);
+        }
+        return rs;
     }
     
     // 构建二维数组
