@@ -211,8 +211,10 @@ public class AnnualServiceImpl implements IAnnualService {
         return rs;
     }
 
-    // 查询企业性质
-    private Integer getCompanyProperty(String nbxh) {
+    /**
+     * 根据企业nbxh获取企业性质
+     */
+    public Integer getCompanyProperty(String nbxh) {
         PubCompanyInfoExample example = new PubCompanyInfoExample();
         example.createCriteria().andNbxhEqualTo(nbxh);
         List<PubCompanyInfo> rs = companyInfoDao.selectByExample(example);
@@ -358,6 +360,17 @@ public class AnnualServiceImpl implements IAnnualService {
         example.createCriteria().andSerialNoEqualTo(serialNo);
         List<AnnualOutboundInvestment> dbList = investmentDao.selectByExample(example);
         List<OutInvesInfoVo> rs = BeanMapperUtil.mapList(dbList, OutInvesInfoVo.class);
+        for (OutInvesInfoVo vo : rs) {
+            String nbxh = vo.getNbxh();
+            PubCompanyInfoExample exam = new PubCompanyInfoExample();
+            exam.createCriteria().andNbxhEqualTo(nbxh);
+            List<PubCompanyInfo> list = companyInfoDao.selectByExample(exam);
+            if(!list.isEmpty()) {
+                PubCompanyInfo info = list.get(0);
+                vo.setCreditCode(info.getCreditCode());
+                vo.setRegno(info.getRegno());
+            }
+        }
         return rs;
     }
 

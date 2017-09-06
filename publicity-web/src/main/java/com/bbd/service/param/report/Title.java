@@ -18,6 +18,11 @@ public class Title {
     public static final Object[] webInfoTitle = new Object[]{"line", "name", "type", "url"};
     public static final Object[] stockholderInfoTitle = 
             new Object[]{"line", "stockholder", "subCronCap", "subCronDate", "subCronFromDesc", "acCronCap", "acCronDate", "acCronFromDesc"};
+    public static final Object[] investInfoTitle = new Object[]{"line", "companyName", "regno"};
+    public static final Object[] assetsInfoTitle = 
+            new Object[]{"assTotal", "ownEquity", "grossRevenue", "proTotal", "mainGrossRevenue", "proNet", "taxTotal", "liabTotal"};
+    
+    
     
     
 }

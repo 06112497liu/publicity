@@ -27,6 +27,9 @@ public class OutInvesInfoVo {
 
     @ApiModelProperty(value = "投资公司注册号", required = false)
     private String regno;
+    
+    @ApiModelProperty(value = "投资公司社会信用代码", required = false)
+    private String creditCode;
 
     public String getNbxh() {
         return nbxh;
@@ -58,6 +61,14 @@ public class OutInvesInfoVo {
 
     public void setRegno(String regno) {
         this.regno = regno;
+    }
+    
+    public String getCreditCode() {
+        return creditCode;
+    }
+
+    public void setCreditCode(String creditCode) {
+        this.creditCode = creditCode;
     }
 
     @Override

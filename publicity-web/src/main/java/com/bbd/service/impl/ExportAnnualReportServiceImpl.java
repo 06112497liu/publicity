@@ -30,12 +30,20 @@ import com.bbd.report.model.TableDataModel;
 import com.bbd.service.IAnnualService;
 import com.bbd.service.IExportAnnualReportService;
 import com.bbd.service.param.AnnualBaseInfoVo;
+import com.bbd.service.param.EnterpriseAssetVo;
+import com.bbd.service.param.OutInvesInfoVo;
 import com.bbd.service.param.StockholderInfosVo;
 import com.bbd.service.param.WebInfoVo;
+import com.bbd.service.param.report.AssetsInfo;
+import com.bbd.service.param.report.AssetsInfoGT;
+import com.bbd.service.param.report.AssetsInfoNZ;
+import com.bbd.service.param.report.AssetsInfoQY;
 import com.bbd.service.param.report.BaseInfo;
 import com.bbd.service.param.report.BaseInfoGT;
 import com.bbd.service.param.report.BaseInfoNZ;
 import com.bbd.service.param.report.BaseInfoQY;
+import com.bbd.service.param.report.GuaranteeInfo;
+import com.bbd.service.param.report.InvestInfo;
 import com.bbd.service.param.report.StockholderInfo;
 import com.bbd.service.param.report.Title;
 import com.bbd.service.param.report.WebInfo;
@@ -105,9 +113,29 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         stockholderModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
         stockholderModel.setDataModel(stockholderDataModel);
         
+        ReportElementModel investModel = new ReportElementModel(); // 对外投资信息
+        List<InvestInfo> investInfo = getInvestInfo(serialNo);
+        Object[][] investArr = buildTwoArray(investInfo);
+        TableDataModel investDataModel = new TableDataModel(investArr, Title.investInfoTitle);
+        investModel.setName("InvestmentInfo");
+        investModel.setDataName("InvestmentData");
+        investModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        investModel.setDataModel(investDataModel);
+        
+        ReportElementModel assetsModel = new ReportElementModel(); // 资产状况信息
+        List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
+        Object[][] assetsArr = buildTwoArray(assetsInfo);
+        TableDataModel assetsDataModel = new TableDataModel(assetsArr, Title.assetsInfoTitle);
+        assetsModel.setName("AssetsInfo");
+        assetsModel.setDataName("AssetsData");
+        assetsModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        assetsModel.setDataModel(assetsDataModel);  
+        
         elements.put(StructureEnum.REPORT_HEADER, baseModel);
         elements.put(StructureEnum.REPORT_HEADER, webModel);
         elements.put(StructureEnum.REPORT_HEADER, stockholderModel);
+        elements.put(StructureEnum.REPORT_HEADER, investModel);
+        elements.put(StructureEnum.REPORT_HEADER, assetsModel);
         
         ReportEngine re = new ReportEngine();
         re.generateReport(source, elements, null, ExportEnum.PDF, out);
@@ -188,10 +216,53 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             info.setLine(++count);
             Date sub = temp.get(i).getSubCronDate();
             Date ac = temp.get(i).getAcCronDate();
-            info.setSubCronDate(DateUtil.formatDateByPatten(sub, "yyyy-MM-dd"));
-            info.setAcCronDate(DateUtil.formatDateByPatten(ac, DateUtil.formatDateByPatten(ac, "yyyy-MM-dd")));
+            info.setSubCronDate(DateUtil.formatDateByPatten(sub, "yyyy年MM月dd日"));
+            info.setAcCronDate(DateUtil.formatDateByPatten(ac, DateUtil.formatDateByPatten(ac, "yyyy年MM月dd日")));
         }
         return rs;
+    }
+    
+    // 企业资产状况信息
+    private List<AssetsInfo> getAssetsInfo(String nbxh, String serialNo) {
+        
+        List<AssetsInfo> rs = Lists.newArrayList();
+        Integer property = annualService.getCompanyProperty(nbxh);
+        
+        EnterpriseAssetVo vo = annualService.queryEnterpriAssetInfo(serialNo);
+        if(Sets.newHashSet(1, 2, 3).contains(property)) {            
+            AssetsInfoQY info = BeanMapperUtil.map(vo, AssetsInfoQY.class);
+            rs.add(info);
+            return rs;
+        } else if(4 == property) {
+            AssetsInfoNZ info = BeanMapperUtil.map(vo, AssetsInfoNZ.class);
+            rs.add(info);
+            return rs;
+        } else if(5 == property) {
+            AssetsInfoGT info = BeanMapperUtil.map(vo, AssetsInfoGT.class);
+            rs.add(info);
+            return rs;
+        }
+        return rs;
+    }
+    
+    // 对外投资信息
+    private List<InvestInfo> getInvestInfo(String serialNo) {
+        int count = 0;
+        Joiner joiner = Joiner.on(" / ").skipNulls();
+        List<OutInvesInfoVo> dbList = annualService.getOutInvesInfo(serialNo);
+        List<InvestInfo> rs = BeanMapperUtil.mapList(dbList, InvestInfo.class);
+        for (int i = 0; i < rs.size(); i++) {
+            InvestInfo info = rs.get(i);
+            OutInvesInfoVo vo = dbList.get(i);
+            info.setLine(++count);
+            info.setCode(joiner.join(vo.getCreditCode(), vo.getRegno()));
+        } 
+        return rs;
+    }
+    
+    // 对外提供担保保证信息
+    private List<GuaranteeInfo> getGuaranteeInfo(String serialNo) {
+        return null;
     }
     
     // 构建二维数组

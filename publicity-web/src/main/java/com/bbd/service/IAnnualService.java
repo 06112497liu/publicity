@@ -42,6 +42,13 @@ public interface IAnnualService {
     Map<String, Object> getAnnualYearInfoByNbxh(String nbxh);
     
     /**
+     * 根据nbxh获取企业性质
+     * @param nbxh           企业nbxh
+     * @return
+     */
+    Integer getCompanyProperty(String nbxh);
+    
+    /**
      * 根据企业nbxh，年报年度查询企业某年年报基本信息
      * @param nbxh           企业nbxh
      * @param year           年报年度
