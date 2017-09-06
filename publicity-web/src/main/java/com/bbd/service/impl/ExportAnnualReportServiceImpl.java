@@ -7,6 +7,7 @@
 
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,10 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bbd.dao.AnnualWebInfoDao;
+import com.bbd.dao.AnnualStockholderDao;
 import com.bbd.dao.PubCompanyInfoDao;
-import com.bbd.domain.AnnualWebInfo;
-import com.bbd.domain.AnnualWebInfoExample;
+import com.bbd.domain.AnnualStockholder;
+import com.bbd.domain.AnnualStockholderExample;
 import com.bbd.domain.PubCompanyInfo;
 import com.bbd.domain.PubCompanyInfoExample;
 import com.bbd.report.ReportEngine;
@@ -29,13 +30,16 @@ import com.bbd.report.model.TableDataModel;
 import com.bbd.service.IAnnualService;
 import com.bbd.service.IExportAnnualReportService;
 import com.bbd.service.param.AnnualBaseInfoVo;
+import com.bbd.service.param.StockholderInfosVo;
 import com.bbd.service.param.WebInfoVo;
 import com.bbd.service.param.report.BaseInfo;
 import com.bbd.service.param.report.BaseInfoGT;
 import com.bbd.service.param.report.BaseInfoNZ;
 import com.bbd.service.param.report.BaseInfoQY;
+import com.bbd.service.param.report.StockholderInfo;
 import com.bbd.service.param.report.Title;
 import com.bbd.service.param.report.WebInfo;
+import com.bbd.util.DateUtil;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
@@ -59,6 +63,9 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     @Autowired
     private PubCompanyInfoDao companyDao;
     
+    @Autowired
+    private AnnualStockholderDao stockholderDao;
+    
     private static final Optional<String> source = Optional.of("report/AnnualReport_QY.prpt");
     
     
@@ -72,8 +79,8 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         ArrayListMultimap<StructureEnum, ReportElementModel> elements = ArrayListMultimap.create();
         
         ReportElementModel baseModel = new ReportElementModel(); // 企业年报基本信息        
-        BaseInfo baseInfo = getAnnualBaseInfo(nbxh, year);
-        Object[][] baseArr = buildTwoArray(Lists.newArrayList(baseInfo));
+        List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year);
+        Object[][] baseArr = buildTwoArray(baseInfo);
         TableDataModel baseDataModel = new TableDataModel(baseArr, Title.baseInfoTitle);        
         baseModel.setName("BaseInfo");
         baseModel.setDataName("BaseData");
@@ -89,15 +96,29 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         webModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
         webModel.setDataModel(webDataModel);
         
+        ReportElementModel stockholderModel = new ReportElementModel(); // 股东及出资信息
+        List<StockholderInfo> stockholderInfo = getStockholderInfo(serialNo);
+        Object[][] stockholderArr = buildTwoArray(stockholderInfo);
+        TableDataModel stockholderDataModel = new TableDataModel(stockholderArr, Title.stockholderInfoTitle);
+        stockholderModel.setName("StockholderInfo");
+        stockholderModel.setDataName("StockholderData");
+        stockholderModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        stockholderModel.setDataModel(stockholderDataModel);
+        
         elements.put(StructureEnum.REPORT_HEADER, baseModel);
         elements.put(StructureEnum.REPORT_HEADER, webModel);
+        elements.put(StructureEnum.REPORT_HEADER, stockholderModel);
+        
         ReportEngine re = new ReportEngine();
         re.generateReport(source, elements, null, ExportEnum.PDF, out);
         
     }
     
     // 获取年报基本信息
-    private BaseInfo getAnnualBaseInfo(String nbxh, String year) {
+    private List<BaseInfo> getAnnualBaseInfo(String nbxh, String year) {
+        
+        List<BaseInfo> list = Lists.newArrayList();
+        
         AnnualBaseInfoVo baseInfo = annualService.getAnnualBaseInfo(nbxh, year);
         PubCompanyInfoExample exam = new PubCompanyInfoExample();
         exam.createCriteria().andNbxhEqualTo(nbxh);
@@ -124,18 +145,23 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             info.setHaveGuarantee(haveGuarantee == true ? "是" : "否");
             boolean haveEqTrans = baseInfo.isHaveEqTrans(); 
             info.setHaveEqTrans(haveEqTrans == true ? "是" : "否");
-            return info;
+            list.add(info);
+            return list;
         } else if(4 == property) {
             BaseInfoNZ info = new BaseInfoNZ();
             info = BeanMapperUtil.map(baseInfo, BaseInfoNZ.class);
             info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
+            list.add(info);
+            return list;
         } else if(5 == property) {
             BaseInfoGT info = new BaseInfoGT();
             info = BeanMapperUtil.map(baseInfo, BaseInfoGT.class);
             info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
+            list.add(info);
+            return list;
         }
 
-        return null;
+        return list;
     }
     
     // 获取网站网店信息
@@ -149,12 +175,31 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         return rs;
     }
     
+    // 股东及出资信息
+    private List<StockholderInfo> getStockholderInfo(String serialNo) {
+        int count = 0;
+        AnnualStockholderExample exam = new AnnualStockholderExample();
+        exam.createCriteria().andSerialNoEqualTo(serialNo);
+        List<AnnualStockholder> dbList = stockholderDao.selectByExample(exam);
+        List<StockholderInfosVo> temp = BeanMapperUtil.mapList(dbList, StockholderInfosVo.class);
+        List<StockholderInfo> rs = BeanMapperUtil.mapList(temp, StockholderInfo.class);
+        for (int i = 0; i < rs.size(); i++) {
+            StockholderInfo info = rs.get(i);
+            info.setLine(++count);
+            Date sub = temp.get(i).getSubCronDate();
+            Date ac = temp.get(i).getAcCronDate();
+            info.setSubCronDate(DateUtil.formatDateByPatten(sub, "yyyy-MM-dd"));
+            info.setAcCronDate(DateUtil.formatDateByPatten(ac, DateUtil.formatDateByPatten(ac, "yyyy-MM-dd")));
+        }
+        return rs;
+    }
+    
     // 构建二维数组
     private <T> Object[][] buildTwoArray(List<T> datas) {
         
         Integer rows = datas.size();
         if(rows == 0) {
-            return null;
+            return new Object[][]{};
         }
         
         Field[] declaredFields = datas.get(0).getClass().getDeclaredFields();
