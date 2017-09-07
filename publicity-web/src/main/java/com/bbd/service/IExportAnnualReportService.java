@@ -19,7 +19,7 @@ public interface IExportAnnualReportService {
      *
      * @param out
      */
-    void getAnnualQY(OutputStream out, String nbxh, String year, String serialNO);
+    void getAnnualQY(OutputStream out, String nbxh, String year);
     
 }
 

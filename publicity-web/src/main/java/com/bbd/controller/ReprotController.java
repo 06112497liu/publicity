@@ -97,8 +97,7 @@ public class ReprotController extends AbstractController {
      @ApiOperation(value = "年报导出", httpMethod = "GET")
      @ApiImplicitParams({ 
          @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, paramType = "query", dataType = "String"),
-         @ApiImplicitParam(name = "annualYear", value = "年报年度", required = true, paramType = "query", dataType = "String"),
-         @ApiImplicitParam(name = "serialNo", value = "流水号", required = true, paramType = "query", dataType = "String")
+         @ApiImplicitParam(name = "annualYear", value = "年报年度", required = true, paramType = "query", dataType = "String")
      })
      @RequestMapping(value = "/annual/download.do")    
      public void ExportAnnual(String nbxh, String annualYear, String serialNo) throws IOException {
@@ -106,7 +105,7 @@ public class ReprotController extends AbstractController {
          HttpServletResponse response = SessionContext.getResponse();
          String fileName = "企业年报报告.pdf";
          OutputStream out = buildResponse(fileName, request, response);
-         annualReportService.getAnnualQY(out, nbxh, annualYear, serialNo);
+         annualReportService.getAnnualQY(out, nbxh, annualYear);
      }
      
      // 处理下载文件问题

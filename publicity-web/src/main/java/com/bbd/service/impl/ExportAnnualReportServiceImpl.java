@@ -9,15 +9,28 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bbd.dao.AnnualAdminLicenseDao;
+import com.bbd.dao.AnnualBaseDao;
+import com.bbd.dao.AnnualBranchDao;
+import com.bbd.dao.AnnualEquityChangeDao;
 import com.bbd.dao.AnnualExtProvGuarInfoDao;
 import com.bbd.dao.AnnualStockholderDao;
 import com.bbd.dao.PubCompanyInfoDao;
+import com.bbd.domain.AnnualAdminLicense;
+import com.bbd.domain.AnnualAdminLicenseExample;
+import com.bbd.domain.AnnualBase;
+import com.bbd.domain.AnnualBaseExample;
+import com.bbd.domain.AnnualBranch;
+import com.bbd.domain.AnnualBranchExample;
+import com.bbd.domain.AnnualEquityChange;
+import com.bbd.domain.AnnualEquityChangeExample;
 import com.bbd.domain.AnnualExtProvGuarInfo;
 import com.bbd.domain.AnnualExtProvGuarInfoExample;
 import com.bbd.domain.AnnualStockholder;
@@ -31,12 +44,14 @@ import com.bbd.report.enums.StructureEnum;
 import com.bbd.report.model.ReportElementModel;
 import com.bbd.report.model.TableDataModel;
 import com.bbd.service.IAnnualService;
+import com.bbd.service.IDictionaryService;
 import com.bbd.service.IExportAnnualReportService;
 import com.bbd.service.param.AnnualBaseInfoVo;
 import com.bbd.service.param.EnterpriseAssetVo;
 import com.bbd.service.param.OutInvesInfoVo;
 import com.bbd.service.param.StockholderInfosVo;
 import com.bbd.service.param.WebInfoVo;
+import com.bbd.service.param.report.AdminLicInfo;
 import com.bbd.service.param.report.AssetsInfo;
 import com.bbd.service.param.report.AssetsInfoGT;
 import com.bbd.service.param.report.AssetsInfoNZ;
@@ -45,6 +60,8 @@ import com.bbd.service.param.report.BaseInfo;
 import com.bbd.service.param.report.BaseInfoGT;
 import com.bbd.service.param.report.BaseInfoNZ;
 import com.bbd.service.param.report.BaseInfoQY;
+import com.bbd.service.param.report.BranchInfo;
+import com.bbd.service.param.report.ChangeInfo;
 import com.bbd.service.param.report.GuaranteeInfo;
 import com.bbd.service.param.report.InvestInfo;
 import com.bbd.service.param.report.StockholderInfo;
@@ -72,13 +89,28 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     private IAnnualService annualService;
     
     @Autowired
+    private AnnualBaseDao baseDao;
+    
+    @Autowired
     private PubCompanyInfoDao companyDao;
     
     @Autowired
     private AnnualStockholderDao stockholderDao;
     
     @Autowired
-    private AnnualExtProvGuarInfoDao    extProvGuarInfoDao;
+    private AnnualExtProvGuarInfoDao extProvGuarInfoDao;
+    
+    @Autowired
+    private AnnualEquityChangeDao equityChangeDao;
+    
+    @Autowired
+    private AnnualAdminLicenseDao adminLicenseDao;
+    
+    @Autowired
+    private IDictionaryService dictionaryService;
+    
+    @Autowired
+    private AnnualBranchDao branchDao;
     
     private static final Optional<String> source = Optional.of("report/AnnualReport_QY.prpt");
     
@@ -87,7 +119,16 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
      * 企业年报报告
      */
     @Override
-    public void getAnnualQY(OutputStream out, String nbxh, String year, String serialNo) {
+    public void getAnnualQY(OutputStream out, String nbxh, String year) {
+        
+        AnnualBaseExample exam = new AnnualBaseExample();
+        exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
+        List<AnnualBase> list = baseDao.selectByExample(exam);
+        String serialNo = null;
+        if(!list.isEmpty()) {
+            AnnualBase base = list.get(0);
+            serialNo = base.getSerialNo();
+        }
         
         // 报告元素集合
         ArrayListMultimap<StructureEnum, ReportElementModel> elements = ArrayListMultimap.create();
@@ -120,7 +161,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         stockholderModel.setDataModel(stockholderDataModel);
         
         ReportElementModel investModel = new ReportElementModel(); // 对外投资信息
-        List<InvestInfo> investInfo = getInvestInfo(serialNo);
+        List<InvestInfo> investInfo = getInvestInfo(serialNo, nbxh);
         Object[][] investArr = buildTwoArray(investInfo);
         TableDataModel investDataModel = new TableDataModel(investArr, Title.investInfoTitle);
         investModel.setName("InvestmentInfo");
@@ -137,7 +178,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         assetsModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
         assetsModel.setDataModel(assetsDataModel);  
         
-        ReportElementModel guaranteeModel = new ReportElementModel(); // 资产状况信息
+        ReportElementModel guaranteeModel = new ReportElementModel(); // 对外提供担保保证信息
         List<GuaranteeInfo> guaranteeInfo = getGuaranteeInfo(serialNo);
         Object[][] guaranteeArr = buildTwoArray(guaranteeInfo);
         TableDataModel guaranteeDataModel = new TableDataModel(guaranteeArr, Title.guaranteeInfoTitle);
@@ -146,12 +187,22 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         guaranteeModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
         guaranteeModel.setDataModel(guaranteeDataModel);  
         
+        ReportElementModel changeModel = new ReportElementModel(); // 股权变更信息
+        List<ChangeInfo> changeInfo = getChangeInfo(serialNo);
+        Object[][] changeArr = buildTwoArray(changeInfo);
+        TableDataModel changeDataModel = new TableDataModel(changeArr, Title.changeInfoTitle);
+        changeModel.setName("EquityChangeInfo");
+        changeModel.setDataName("EquityChangeData");
+        changeModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        changeModel.setDataModel(changeDataModel);
+        
         elements.put(StructureEnum.REPORT_HEADER, baseModel);
         elements.put(StructureEnum.REPORT_HEADER, webModel);
         elements.put(StructureEnum.REPORT_HEADER, stockholderModel);
         elements.put(StructureEnum.REPORT_HEADER, investModel);
         elements.put(StructureEnum.REPORT_HEADER, assetsModel);
         elements.put(StructureEnum.REPORT_HEADER, guaranteeModel);
+        elements.put(StructureEnum.REPORT_HEADER, changeModel);
         
         ReportEngine re = new ReportEngine();
         re.generateReport(source, elements, null, ExportEnum.PDF, out);
@@ -161,26 +212,14 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     // 获取年报基本信息
     private List<BaseInfo> getAnnualBaseInfo(String nbxh, String year) {
         
-        List<BaseInfo> list = Lists.newArrayList();
-        
+        List<BaseInfo> list = Lists.newArrayList();        
         AnnualBaseInfoVo baseInfo = annualService.getAnnualBaseInfo(nbxh, year);
-        PubCompanyInfoExample exam = new PubCompanyInfoExample();
-        exam.createCriteria().andNbxhEqualTo(nbxh);
-        List<PubCompanyInfo> c = companyDao.selectByExample(exam);
-        Integer property = null;
-        if(!c.isEmpty()) {
-            PubCompanyInfo v = c.get(0);
-            property = v.getCompanyProperty();
-            baseInfo.setCreditCode(v.getCreditCode());
-            baseInfo.setRegno(v.getRegno());
-        }       
-        
-        Joiner joiner = Joiner.on(" / ").skipNulls();
+        Integer property = annualService.getCompanyProperty(nbxh);     
         
         if(Sets.newHashSet(1, 2, 3).contains(property)) {
             BaseInfoQY info = new BaseInfoQY();
             info = BeanMapperUtil.map(baseInfo, BaseInfoQY.class);
-            info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
+            info.setCode(getRegnoCode(nbxh));
             boolean haveInvest = baseInfo.isHaveEqTrans();
             info.setHaveInvest(haveInvest == true ? "是" : "否");
             boolean haveWeb = baseInfo.isHaveEqTrans();
@@ -194,13 +233,13 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         } else if(4 == property) {
             BaseInfoNZ info = new BaseInfoNZ();
             info = BeanMapperUtil.map(baseInfo, BaseInfoNZ.class);
-            info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
+            info.setCode(getRegnoCode(nbxh));
             list.add(info);
             return list;
         } else if(5 == property) {
             BaseInfoGT info = new BaseInfoGT();
             info = BeanMapperUtil.map(baseInfo, BaseInfoGT.class);
-            info.setCode(joiner.join(baseInfo.getRegno(), baseInfo.getCreditCode()));
+            info.setCode(getRegnoCode(nbxh));
             list.add(info);
             return list;
         }
@@ -262,16 +301,14 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     }
     
     // 对外投资信息
-    private List<InvestInfo> getInvestInfo(String serialNo) {
+    private List<InvestInfo> getInvestInfo(String serialNo, String nbxh) {
         int count = 0;
-        Joiner joiner = Joiner.on(" / ").skipNulls();
         List<OutInvesInfoVo> dbList = annualService.getOutInvesInfo(serialNo);
         List<InvestInfo> rs = BeanMapperUtil.mapList(dbList, InvestInfo.class);
         for (int i = 0; i < rs.size(); i++) {
             InvestInfo info = rs.get(i);
-            OutInvesInfoVo vo = dbList.get(i);
             info.setLine(++count);
-            info.setCode(joiner.join(vo.getCreditCode(), vo.getRegno()));
+            info.setCode(getRegnoCode(nbxh));
         } 
         return rs;
     }
@@ -294,6 +331,66 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             vo.setLine(++count);
         }
         return list;
+    }
+    
+    // 股权变更信息
+    private List<ChangeInfo> getChangeInfo(String serialNo) {
+        int count = 0;
+        List<ChangeInfo> list = Lists.newArrayList();
+        AnnualEquityChangeExample exam = new AnnualEquityChangeExample();
+        exam.createCriteria().andSerialNoEqualTo(serialNo);
+        List<AnnualEquityChange> dbList = equityChangeDao.selectByExample(exam);
+        for (int i = 0; i < dbList.size(); i++) {
+            AnnualEquityChange vo = dbList.get(i);
+            ChangeInfo info = new ChangeInfo();
+            info.setLine(++count);
+            info.setPreEquityRatio(vo.getPreEquityRatio() + "%");
+            info.setAftEquityRatio(vo.getAftEquityRatio() + "%");
+            info.setChangeDate(DateUtil.formatDateByPatten(vo.getChangeDate(), "yyyy/MM/dd"));
+            list.add(info);
+        }
+        return list;
+    }
+    
+    // 行政许可信息
+    private List<AdminLicInfo> getadminLicInfo(String serialNO) {
+        Map<String, String> typeMap = dictionaryService.getFileTypeItem();
+        List<AdminLicInfo> list = Lists.newArrayList();
+        AnnualAdminLicenseExample exam = new AnnualAdminLicenseExample();
+        exam.createCriteria().andSerialNoEqualTo(serialNO);
+        List<AnnualAdminLicense> dbList = adminLicenseDao.selectByExample(exam);
+        for (int i = 0; i < dbList.size(); i++) {
+            AdminLicInfo info = new AdminLicInfo();
+            AnnualAdminLicense vo = dbList.get(0);
+            info.setValidityTo(DateUtil.formatDateByPatten(vo.getValidityTo(), "yyyy/MM/dd"));
+            String name = vo.getLicenseName();
+            info.setLicenseNameDesc(typeMap.get(name));
+            list.add(info);
+        }
+        return list;
+    }
+    
+    // 分之机构情况
+    private List<BranchInfo> getBranchInfo(String serialNo) {
+        AnnualBranchExample example = new AnnualBranchExample();
+        example.createCriteria().andSerialNoEqualTo(serialNo);
+        List<AnnualBranch> dbList = branchDao.selectByExample(example);
+        List<BranchInfo> rs = BeanMapperUtil.mapList(dbList, BranchInfo.class);
+        return rs;
+    }
+   
+    // 获取注册号和信用代码
+    private String getRegnoCode(String nbxh) {
+        String str = "";
+        Joiner joiner = Joiner.on(" / ").skipNulls();
+        PubCompanyInfoExample exam = new PubCompanyInfoExample();
+        exam.createCriteria().andNbxhEqualTo(nbxh);
+        List<PubCompanyInfo> list = companyDao.selectByExample(exam);
+        if(!list.isEmpty()) {
+            PubCompanyInfo info = list.get(0);
+            str = joiner.join(info.getRegno(), info.getCreditCode());
+        }
+        return str;
     }
     
     // 构建二维数组

@@ -27,7 +27,8 @@ public class Title {
             new Object[]{"assTotal", "ownEquity", "grossRevenue", "proTotal", "mainGrossRevenue", "proNet", "taxTotal", "liabTotal"};
     public static final Object[] guaranteeInfoTitle = 
             new Object[]{"line", "creditor", "debitor", "priCalSecKind", "priCalSecAm", "pefPerLimit", "guarantePeriod", "guaranteType"};
-    
+    public static final Object[] changeInfoTitle = 
+            new Object[]{"line", "shareholder", "preEquityRatio", "aftEquityRatio", "changeDate"};
     
     
 }
