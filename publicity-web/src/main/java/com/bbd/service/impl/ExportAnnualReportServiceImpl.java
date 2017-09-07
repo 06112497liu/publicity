@@ -15,8 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bbd.dao.AnnualExtProvGuarInfoDao;
 import com.bbd.dao.AnnualStockholderDao;
 import com.bbd.dao.PubCompanyInfoDao;
+import com.bbd.domain.AnnualExtProvGuarInfo;
+import com.bbd.domain.AnnualExtProvGuarInfoExample;
 import com.bbd.domain.AnnualStockholder;
 import com.bbd.domain.AnnualStockholderExample;
 import com.bbd.domain.PubCompanyInfo;
@@ -73,6 +76,9 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     
     @Autowired
     private AnnualStockholderDao stockholderDao;
+    
+    @Autowired
+    private AnnualExtProvGuarInfoDao    extProvGuarInfoDao;
     
     private static final Optional<String> source = Optional.of("report/AnnualReport_QY.prpt");
     
@@ -131,11 +137,21 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         assetsModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
         assetsModel.setDataModel(assetsDataModel);  
         
+        ReportElementModel guaranteeModel = new ReportElementModel(); // 资产状况信息
+        List<GuaranteeInfo> guaranteeInfo = getGuaranteeInfo(serialNo);
+        Object[][] guaranteeArr = buildTwoArray(guaranteeInfo);
+        TableDataModel guaranteeDataModel = new TableDataModel(guaranteeArr, Title.guaranteeInfoTitle);
+        guaranteeModel.setName("ProvGuarInfo");
+        guaranteeModel.setDataName("ProvGuarData");
+        guaranteeModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        guaranteeModel.setDataModel(guaranteeDataModel);  
+        
         elements.put(StructureEnum.REPORT_HEADER, baseModel);
         elements.put(StructureEnum.REPORT_HEADER, webModel);
         elements.put(StructureEnum.REPORT_HEADER, stockholderModel);
         elements.put(StructureEnum.REPORT_HEADER, investModel);
         elements.put(StructureEnum.REPORT_HEADER, assetsModel);
+        elements.put(StructureEnum.REPORT_HEADER, guaranteeModel);
         
         ReportEngine re = new ReportEngine();
         re.generateReport(source, elements, null, ExportEnum.PDF, out);
@@ -216,8 +232,8 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             info.setLine(++count);
             Date sub = temp.get(i).getSubCronDate();
             Date ac = temp.get(i).getAcCronDate();
-            info.setSubCronDate(DateUtil.formatDateByPatten(sub, "yyyy年MM月dd日"));
-            info.setAcCronDate(DateUtil.formatDateByPatten(ac, DateUtil.formatDateByPatten(ac, "yyyy年MM月dd日")));
+            info.setSubCronDate(DateUtil.formatDateByPatten(sub, "yyyy/MM/dd"));
+            info.setAcCronDate(DateUtil.formatDateByPatten(ac, DateUtil.formatDateByPatten(ac, "yyyy/MM/dd")));
         }
         return rs;
     }
@@ -262,7 +278,22 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     
     // 对外提供担保保证信息
     private List<GuaranteeInfo> getGuaranteeInfo(String serialNo) {
-        return null;
+        int count = 0;
+        Joiner joiner = Joiner.on(" 至 ").skipNulls();
+        List<GuaranteeInfo> list = Lists.newArrayList();
+        AnnualExtProvGuarInfoExample exam = new AnnualExtProvGuarInfoExample();
+        exam.createCriteria().andSerialNoEqualTo(serialNo);
+        List<AnnualExtProvGuarInfo> dbList = extProvGuarInfoDao.selectByExample(exam);
+        list = BeanMapperUtil.mapList(dbList, GuaranteeInfo.class);
+        for (int i = 0; i < list.size(); i++) {
+            AnnualExtProvGuarInfo info = dbList.get(i);
+            String from = DateUtil.formatDateByPatten(info.getPefPerFrom(), "yyyy/MM/dd");
+            String to = DateUtil.formatDateByPatten(info.getPefPerTo(), "yyyy/MM/dd");
+            GuaranteeInfo vo = list.get(i);
+            vo.setPefPerLimit(joiner.join(from, to));
+            vo.setLine(++count);
+        }
+        return list;
     }
     
     // 构建二维数组
