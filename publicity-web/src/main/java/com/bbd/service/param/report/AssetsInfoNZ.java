@@ -12,57 +12,57 @@
 public class AssetsInfoNZ extends AssetsInfo {
     
     /** 销售额或营业收入   */
-    private Double grossRevenue;
+    private String grossRevenue;
     
     /** 纳税情况   */
-    private Double taxTotal;
+    private String taxTotal;
     
     /** 金融贷款  */
-    private Double loan;
+    private String loan;
     
     /** 盈余总额   */
-    private Double proTotalNet;
+    private String proTotalNet;
     
     /** 获得政府扶持基金、补助   */
-    private Double supFund;
+    private String supFund;
 
-    public Double getGrossRevenue() {
+    public String getGrossRevenue() {
         return grossRevenue;
     }
 
-    public void setGrossRevenue(Double grossRevenue) {
+    public void setGrossRevenue(String grossRevenue) {
         this.grossRevenue = grossRevenue;
     }
 
-    public Double getTaxTotal() {
+    public String getTaxTotal() {
         return taxTotal;
     }
 
-    public void setTaxTotal(Double taxTotal) {
+    public void setTaxTotal(String taxTotal) {
         this.taxTotal = taxTotal;
     }
 
-    public Double getLoan() {
+    public String getLoan() {
         return loan;
     }
 
-    public void setLoan(Double loan) {
+    public void setLoan(String loan) {
         this.loan = loan;
     }
 
-    public Double getProTotalNet() {
+    public String getProTotalNet() {
         return proTotalNet;
     }
 
-    public void setProTotalNet(Double proTotalNet) {
+    public void setProTotalNet(String proTotalNet) {
         this.proTotalNet = proTotalNet;
     }
 
-    public Double getSupFund() {
+    public String getSupFund() {
         return supFund;
     }
 
-    public void setSupFund(Double supFund) {
+    public void setSupFund(String supFund) {
         this.supFund = supFund;
     }
     

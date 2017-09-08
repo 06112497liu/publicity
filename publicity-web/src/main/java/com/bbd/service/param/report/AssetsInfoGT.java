@@ -12,24 +12,24 @@
 public class AssetsInfoGT extends AssetsInfo {
     
     /** 销售额或营业收入   */
-    private Double grossRevenue;
+    private String grossRevenue;
     
     /** 纳税总额   */
-    private Double taxTotal;
+    private String taxTotal;
 
-    public Double getGrossRevenue() {
+    public String getGrossRevenue() {
         return grossRevenue;
     }
 
-    public void setGrossRevenue(Double grossRevenue) {
+    public void setGrossRevenue(String grossRevenue) {
         this.grossRevenue = grossRevenue;
     }
 
-    public Double getTaxTotal() {
+    public String getTaxTotal() {
         return taxTotal;
     }
 
-    public void setTaxTotal(Double taxTotal) {
+    public void setTaxTotal(String taxTotal) {
         this.taxTotal = taxTotal;
     }
     

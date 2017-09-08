@@ -216,7 +216,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         AnnualBaseInfoVo baseInfo = annualService.getAnnualBaseInfo(nbxh, year);
         Integer property = annualService.getCompanyProperty(nbxh);  
         
-        Optional<PubCompanyInfo> op = getOne(nbxh);
+        Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
         String regno = null;
         String code = null;
         if(op.isPresent()) {
@@ -311,21 +311,22 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     
     // 对外投资信息
     private List<InvestInfo> getInvestInfo(String serialNo, String nbxh) {
-        Optional<PubCompanyInfo> op = getOne(nbxh);
-        String regno = null;
-        String code = null;
-        if(op.isPresent()) {
-            PubCompanyInfo v = op.get();
-            regno = v.getRegno();
-            code = v.getCreditCode();
-        }
+
         int count = 0;
         List<OutInvesInfoVo> dbList = annualService.getOutInvesInfo(serialNo);
         List<InvestInfo> rs = BeanMapperUtil.mapList(dbList, InvestInfo.class);
         for (int i = 0; i < rs.size(); i++) {
             InvestInfo info = rs.get(i);
+            OutInvesInfoVo vo = dbList.get(i);
+            String re = vo.getRegno();
+            Optional<PubCompanyInfo> op = getOneByRegno(re);
+            String code = null;
+            if(op.isPresent()) {
+                PubCompanyInfo c = op.get();
+                code = c.getCreditCode();
+            }
             info.setLine(++count);
-            info.setCode(getRegnoCode(code, regno));
+            info.setCode(getRegnoCode(code, re));
         } 
         return rs;
     }
@@ -403,12 +404,22 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         return str;
     }
     
-    // 获取企业详情
-    private Optional<PubCompanyInfo> getOne(String nbxh) {
+    // 获取企业详情(根据企业nbxh)
+    private Optional<PubCompanyInfo> getOneByNbxh(String nbxh) {
         PubCompanyInfoExample exam = new PubCompanyInfoExample();
         exam.createCriteria().andNbxhEqualTo(nbxh);
         List<PubCompanyInfo> dbList = companyDao.selectByExample(exam);
         return Optional.of(dbList.get(0));
+    }
+    
+    // 获取企业详情(根据企业注册号)
+    private Optional<PubCompanyInfo> getOneByRegno(String regno) {
+        PubCompanyInfoExample exam = new PubCompanyInfoExample();
+        exam.createCriteria().andRegnoEqualTo(regno);
+        List<PubCompanyInfo> dbList = companyDao.selectByExample(exam);
+        PubCompanyInfo info = null;
+        if(!dbList.isEmpty()) info = dbList.get(0);
+        return Optional.fromNullable(info);
     }
     
     // 构建二维数组

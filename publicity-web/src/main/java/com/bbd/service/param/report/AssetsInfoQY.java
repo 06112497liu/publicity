@@ -12,92 +12,92 @@
 public class AssetsInfoQY extends AssetsInfo {
     
     /** 资产总额   */
-    private Double assTotal;
+    private String assTotal;
     
     /** 所有者权益合计   */
-    private Double ownEquity;
+    private String ownEquity;
     
     /** 营业总收入   */
-    private Double grossRevenue;
+    private String grossRevenue;
     
     /** 利润总额   */
-    private Double proTotal;
+    private String proTotal;
     
     /** 营业总收入中主营业务收入   */
-    private Double mainGrossRevenue;
+    private String mainGrossRevenue;
     
     /** 净利润   */
-    private Double proNet;
+    private String proNet;
     
     /** 纳税总额   */
-    private Double taxTotal;
+    private String taxTotal;
     
     /** 负债总额   */
-    private Double liabTotal;
+    private String liabTotal;
 
-    public Double getAssTotal() {
+    public String getAssTotal() {
         return assTotal;
     }
 
-    public void setAssTotal(Double assTotal) {
+    public void setAssTotal(String assTotal) {
         this.assTotal = assTotal;
     }
 
-    public Double getOwnEquity() {
+    public String getOwnEquity() {
         return ownEquity;
     }
 
-    public void setOwnEquity(Double ownEquity) {
+    public void setOwnEquity(String ownEquity) {
         this.ownEquity = ownEquity;
     }
 
-    public Double getGrossRevenue() {
+    public String getGrossRevenue() {
         return grossRevenue;
     }
 
-    public void setGrossRevenue(Double grossRevenue) {
+    public void setGrossRevenue(String grossRevenue) {
         this.grossRevenue = grossRevenue;
     }
 
-    public Double getProTotal() {
+    public String getProTotal() {
         return proTotal;
     }
 
-    public void setProTotal(Double proTotal) {
+    public void setProTotal(String proTotal) {
         this.proTotal = proTotal;
     }
 
-    public Double getMainGrossRevenue() {
+    public String getMainGrossRevenue() {
         return mainGrossRevenue;
     }
 
-    public void setMainGrossRevenue(Double mainGrossRevenue) {
+    public void setMainGrossRevenue(String mainGrossRevenue) {
         this.mainGrossRevenue = mainGrossRevenue;
     }
 
-    public Double getProNet() {
+    public String getProNet() {
         return proNet;
     }
 
-    public void setProNet(Double proNet) {
+    public void setProNet(String proNet) {
         this.proNet = proNet;
     }
 
-    public Double getTaxTotal() {
+    public String getTaxTotal() {
         return taxTotal;
     }
 
-    public void setTaxTotal(Double taxTotal) {
+    public void setTaxTotal(String taxTotal) {
         this.taxTotal = taxTotal;
     }
 
-    public Double getLiabTotal() {
+    public String getLiabTotal() {
         return liabTotal;
     }
 
-    public void setLiabTotal(Double liabTotal) {
+    public void setLiabTotal(String liabTotal) {
         this.liabTotal = liabTotal;
     }
-    
+
 }
 

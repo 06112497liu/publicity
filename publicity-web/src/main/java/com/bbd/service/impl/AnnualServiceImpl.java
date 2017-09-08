@@ -361,14 +361,13 @@ public class AnnualServiceImpl implements IAnnualService {
         List<AnnualOutboundInvestment> dbList = investmentDao.selectByExample(example);
         List<OutInvesInfoVo> rs = BeanMapperUtil.mapList(dbList, OutInvesInfoVo.class);
         for (OutInvesInfoVo vo : rs) {
-            String nbxh = vo.getNbxh();
+            String re = vo.getRegno();
             PubCompanyInfoExample exam = new PubCompanyInfoExample();
-            exam.createCriteria().andNbxhEqualTo(nbxh);
+            exam.createCriteria().andRegnoEqualTo(re);
             List<PubCompanyInfo> list = companyInfoDao.selectByExample(exam);
             if(!list.isEmpty()) {
                 PubCompanyInfo info = list.get(0);
                 vo.setCreditCode(info.getCreditCode());
-                vo.setRegno(info.getRegno());
             }
         }
         return rs;
