@@ -214,12 +214,21 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         
         List<BaseInfo> list = Lists.newArrayList();        
         AnnualBaseInfoVo baseInfo = annualService.getAnnualBaseInfo(nbxh, year);
-        Integer property = annualService.getCompanyProperty(nbxh);     
+        Integer property = annualService.getCompanyProperty(nbxh);  
+        
+        Optional<PubCompanyInfo> op = getOne(nbxh);
+        String regno = null;
+        String code = null;
+        if(op.isPresent()) {
+            PubCompanyInfo v = op.get();
+            regno = v.getRegno();
+            code = v.getCreditCode();
+        }
         
         if(Sets.newHashSet(1, 2, 3).contains(property)) {
             BaseInfoQY info = new BaseInfoQY();
             info = BeanMapperUtil.map(baseInfo, BaseInfoQY.class);
-            info.setCode(getRegnoCode(nbxh));
+            info.setCode(getRegnoCode(code, regno));
             boolean haveInvest = baseInfo.isHaveEqTrans();
             info.setHaveInvest(haveInvest == true ? "是" : "否");
             boolean haveWeb = baseInfo.isHaveEqTrans();
@@ -233,13 +242,13 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         } else if(4 == property) {
             BaseInfoNZ info = new BaseInfoNZ();
             info = BeanMapperUtil.map(baseInfo, BaseInfoNZ.class);
-            info.setCode(getRegnoCode(nbxh));
+            info.setCode(getRegnoCode(code, regno));
             list.add(info);
             return list;
         } else if(5 == property) {
             BaseInfoGT info = new BaseInfoGT();
             info = BeanMapperUtil.map(baseInfo, BaseInfoGT.class);
-            info.setCode(getRegnoCode(nbxh));
+            info.setCode(getRegnoCode(code, regno));
             list.add(info);
             return list;
         }
@@ -302,13 +311,21 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     
     // 对外投资信息
     private List<InvestInfo> getInvestInfo(String serialNo, String nbxh) {
+        Optional<PubCompanyInfo> op = getOne(nbxh);
+        String regno = null;
+        String code = null;
+        if(op.isPresent()) {
+            PubCompanyInfo v = op.get();
+            regno = v.getRegno();
+            code = v.getCreditCode();
+        }
         int count = 0;
         List<OutInvesInfoVo> dbList = annualService.getOutInvesInfo(serialNo);
         List<InvestInfo> rs = BeanMapperUtil.mapList(dbList, InvestInfo.class);
         for (int i = 0; i < rs.size(); i++) {
             InvestInfo info = rs.get(i);
             info.setLine(++count);
-            info.setCode(getRegnoCode(nbxh));
+            info.setCode(getRegnoCode(code, regno));
         } 
         return rs;
     }
@@ -380,17 +397,18 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     }
    
     // 获取注册号和信用代码
-    private String getRegnoCode(String nbxh) {
-        String str = "";
+    private String getRegnoCode(String...params) {
         Joiner joiner = Joiner.on(" / ").skipNulls();
+        String str = joiner.join(params);
+        return str;
+    }
+    
+    // 获取企业详情
+    private Optional<PubCompanyInfo> getOne(String nbxh) {
         PubCompanyInfoExample exam = new PubCompanyInfoExample();
         exam.createCriteria().andNbxhEqualTo(nbxh);
-        List<PubCompanyInfo> list = companyDao.selectByExample(exam);
-        if(!list.isEmpty()) {
-            PubCompanyInfo info = list.get(0);
-            str = joiner.join(info.getRegno(), info.getCreditCode());
-        }
-        return str;
+        List<PubCompanyInfo> dbList = companyDao.selectByExample(exam);
+        return Optional.of(dbList.get(0));
     }
     
     // 构建二维数组
