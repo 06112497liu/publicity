@@ -16,8 +16,8 @@ public class BranchInfo {
     private String name;
 
     
-    /** 分支机构注册号   */
-    private String regno;
+    /** 分支机构信用代码或注册号   */
+    private String code;
 
 
     public String getName() {
@@ -30,14 +30,14 @@ public class BranchInfo {
     }
 
 
-    public String getRegno() {
-        return regno;
+    public String getCode() {
+        return code;
     }
 
 
-    public void setRegno(String regno) {
-        this.regno = regno;
+    public void setCode(String code) {
+        this.code = code;
     }
-    
+
 }
 

@@ -27,6 +27,9 @@ public class BranchVo {
 
     @ApiModelProperty(value = "分支机构注册号", required = false)
     private String regno;
+    
+    @ApiModelProperty(value = "分支机构社会信用代码", required = false)
+    private String creditCode;
 
     public String getSerialNo() {
         return serialNo;
@@ -59,10 +62,19 @@ public class BranchVo {
     public void setRegno(String regno) {
         this.regno = regno;
     }
+    
+    public String getCreditCode() {
+        return creditCode;
+    }
+
+    public void setCreditCode(String creditCode) {
+        this.creditCode = creditCode;
+    }
 
     @Override
     public String toString() {
-        return "BranchVo [serialNo=" + serialNo + ", nbxh=" + nbxh + ", name=" + name + ", regno=" + regno + "]";
+        return "BranchVo [serialNo=" + serialNo + ", nbxh=" + nbxh + ", name=" + name + ", regno=" + regno + ", creditCode=" + creditCode + "]";
     }
+
 }
 

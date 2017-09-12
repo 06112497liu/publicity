@@ -29,6 +29,10 @@ public class Title {
             new Object[]{"line", "creditor", "debitor", "priCalSecKind", "priCalSecAm", "pefPerLimit", "guarantePeriod", "guaranteType"};
     public static final Object[] changeInfoTitle = 
             new Object[]{"line", "shareholder", "preEquityRatio", "aftEquityRatio", "changeDate"};
+    public static final Object[] adminLicInfoTile = 
+            new Object[]{"licenseName", "type"};
+    public static final Object[] branchInfo = 
+            new Object[]{"name", "code"};
     
     
 }

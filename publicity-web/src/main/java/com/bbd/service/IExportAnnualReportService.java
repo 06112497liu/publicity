@@ -17,9 +17,40 @@ public interface IExportAnnualReportService {
     /**
      * 企业年报报告
      *
-     * @param out
+     * @param out 输出流
+     * @param nbxh 企业nbxh
+     * @param year 年报年度
      */
     void getAnnualQY(OutputStream out, String nbxh, String year);
     
+    /**
+     * 个体年报报告
+     *
+     * @param out 输出流
+     * @param nbxh 企业nbxh
+     * @param year 年报年度
+     */
+    void getAnnualGT(OutputStream out, String nbxh, String year);
+    
+    /**
+     * 农专年报报告
+     *
+     * @param out 输出流
+     * @param nbxh 企业nbxh
+     * @param year 年报年度
+     */
+    void getAnnualNZ(OutputStream out, String nbxh, String year);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

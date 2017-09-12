@@ -72,6 +72,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.utils.BeanMapperUtil;
 
@@ -113,14 +114,11 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     private AnnualBranchDao branchDao;
     
     private static final Optional<String> source = Optional.of("report/AnnualReport_QY.prpt");
-    
-    
-    /**
-     * 企业年报报告
-     */
+
     @Override
     public void getAnnualQY(OutputStream out, String nbxh, String year) {
         
+        // 获取流水号
         AnnualBaseExample exam = new AnnualBaseExample();
         exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
         List<AnnualBase> list = baseDao.selectByExample(exam);
@@ -130,83 +128,160 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             serialNo = base.getSerialNo();
         }
         
-        // 报告元素集合
-        ArrayListMultimap<StructureEnum, ReportElementModel> elements = ArrayListMultimap.create();
+        // 获取年报年度、公司名称、注册号
+        Map<String, Object> params = Maps.newHashMap();
+        Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
+        if(op.isPresent()) {
+            PubCompanyInfo c = op.get();
+            params.put("year", year);
+            params.put("companyName", c.getCompanyName());
+            params.put("regno", getRegnoCode(c.getCreditCode(), c.getCreditCode()));
+        }
         
-        ReportElementModel baseModel = new ReportElementModel(); // 企业年报基本信息        
-        List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year);
-        Object[][] baseArr = buildTwoArray(baseInfo);
-        TableDataModel baseDataModel = new TableDataModel(baseArr, Title.baseInfoTitle);        
-        baseModel.setName("BaseInfo");
-        baseModel.setDataName("BaseData");
-        baseModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        baseModel.setDataModel(baseDataModel);
+        // 年报基本信息
+        List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
+        ReportElementModel baseModel = 
+                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 7, Title.baseInfoTitle);
         
-        ReportElementModel webModel = new ReportElementModel(); // 网站网店信息
-        List<WebInfo> webInfo = getWebInfo(serialNo);
-        Object[][] webArr = buildTwoArray(webInfo);
-        TableDataModel webDataModel = new TableDataModel(webArr, Title.webInfoTitle);
-        webModel.setName("WebInfo");
-        webModel.setDataName("WebData");
-        webModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        webModel.setDataModel(webDataModel);
-        
-        ReportElementModel stockholderModel = new ReportElementModel(); // 股东及出资信息
-        List<StockholderInfo> stockholderInfo = getStockholderInfo(serialNo);
-        Object[][] stockholderArr = buildTwoArray(stockholderInfo);
-        TableDataModel stockholderDataModel = new TableDataModel(stockholderArr, Title.stockholderInfoTitle);
-        stockholderModel.setName("StockholderInfo");
-        stockholderModel.setDataName("StockholderData");
-        stockholderModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        stockholderModel.setDataModel(stockholderDataModel);
-        
-        ReportElementModel investModel = new ReportElementModel(); // 对外投资信息
-        List<InvestInfo> investInfo = getInvestInfo(serialNo, nbxh);
-        Object[][] investArr = buildTwoArray(investInfo);
-        TableDataModel investDataModel = new TableDataModel(investArr, Title.investInfoTitle);
-        investModel.setName("InvestmentInfo");
-        investModel.setDataName("InvestmentData");
-        investModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        investModel.setDataModel(investDataModel);
-        
-        ReportElementModel assetsModel = new ReportElementModel(); // 资产状况信息
+        // 资产状况信息
         List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
-        Object[][] assetsArr = buildTwoArray(assetsInfo);
-        TableDataModel assetsDataModel = new TableDataModel(assetsArr, Title.assetsInfoTitle);
-        assetsModel.setName("AssetsInfo");
-        assetsModel.setDataName("AssetsData");
-        assetsModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        assetsModel.setDataModel(assetsDataModel);  
+        ReportElementModel assetsModel = 
+                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 7, Title.assetsInfoTitle);
         
-        ReportElementModel guaranteeModel = new ReportElementModel(); // 对外提供担保保证信息
+        // 网站网店信息
+        List<WebInfo> webInfo = getWebInfo(serialNo);
+        ReportElementModel webModel = 
+                buildReportElementModel("WebInfo", "WebData", webInfo, 6, Title.webInfoTitle);
+        
+        // 股东及出资信息
+        List<StockholderInfo> stockholderInfo = getStockholderInfo(serialNo);
+        ReportElementModel stockholderModel = 
+                buildReportElementModel("StockholderInfo", "StockholderData", stockholderInfo, 5, Title.stockholderInfoTitle);
+        
+        // 对外投资信息
+        List<InvestInfo> investInfo = getInvestInfo(serialNo, nbxh);
+        ReportElementModel investModel = 
+                buildReportElementModel("InvestmentInfo", "InvestmentData", investInfo, 4, Title.investInfoTitle);
+        
+        // 对外提供担保保证信息
         List<GuaranteeInfo> guaranteeInfo = getGuaranteeInfo(serialNo);
-        Object[][] guaranteeArr = buildTwoArray(guaranteeInfo);
-        TableDataModel guaranteeDataModel = new TableDataModel(guaranteeArr, Title.guaranteeInfoTitle);
-        guaranteeModel.setName("ProvGuarInfo");
-        guaranteeModel.setDataName("ProvGuarData");
-        guaranteeModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        guaranteeModel.setDataModel(guaranteeDataModel);  
+        ReportElementModel guaranteeModel = 
+                buildReportElementModel("ProvGuarInfo", "ProvGuarData", guaranteeInfo, 3, Title.guaranteeInfoTitle);
         
-        ReportElementModel changeModel = new ReportElementModel(); // 股权变更信息
+        // 股权变更信息
         List<ChangeInfo> changeInfo = getChangeInfo(serialNo);
-        Object[][] changeArr = buildTwoArray(changeInfo);
-        TableDataModel changeDataModel = new TableDataModel(changeArr, Title.changeInfoTitle);
-        changeModel.setName("EquityChangeInfo");
-        changeModel.setDataName("EquityChangeData");
-        changeModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        changeModel.setDataModel(changeDataModel);
+        ReportElementModel changeModel = 
+                buildReportElementModel("EquityChangeInfo", "EquityChangeData", changeInfo, 2, Title.changeInfoTitle);
         
-        elements.put(StructureEnum.REPORT_HEADER, baseModel);
-        elements.put(StructureEnum.REPORT_HEADER, webModel);
-        elements.put(StructureEnum.REPORT_HEADER, stockholderModel);
-        elements.put(StructureEnum.REPORT_HEADER, investModel);
-        elements.put(StructureEnum.REPORT_HEADER, assetsModel);
-        elements.put(StructureEnum.REPORT_HEADER, guaranteeModel);
-        elements.put(StructureEnum.REPORT_HEADER, changeModel);
+        ArrayListMultimap<StructureEnum, ReportElementModel> elements = 
+                buildArrayListMultimap(baseModel, assetsModel, webModel, stockholderModel, investModel, guaranteeModel, changeModel);
         
         ReportEngine re = new ReportEngine();
-        re.generateReport(source, elements, null, ExportEnum.PDF, out);
+        re.generateReport(source, elements, params, ExportEnum.PDF, out);
         
+    }
+
+    @Override
+    public void getAnnualGT(OutputStream out, String nbxh, String year) {
+        
+        // 获取流水号
+        AnnualBaseExample exam = new AnnualBaseExample();
+        exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
+        List<AnnualBase> list = baseDao.selectByExample(exam);
+        String serialNo = null;
+        if(!list.isEmpty()) {
+            AnnualBase base = list.get(0);
+            serialNo = base.getSerialNo();
+        }
+        
+        // 获取年报年度、公司名称、注册号
+        Map<String, Object> params = Maps.newHashMap();
+        Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
+        if(op.isPresent()) {
+            PubCompanyInfo c = op.get();
+            params.put("year", year);
+            params.put("companyName", c.getCompanyName());
+            params.put("regno", getRegnoCode(c.getCreditCode(), c.getCreditCode()));
+        }
+        
+        // 年报基本信息
+        List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
+        ReportElementModel baseModel = 
+                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 4, Title.baseInfoTitle);
+        
+        // 资产状况信息
+        List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
+        ReportElementModel assetsModel = 
+                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 4, Title.assetsInfoTitle);
+        
+        // 行政许可信息
+        List<AdminLicInfo> adminLicInfo = getadminLicInfo(serialNo);
+        ReportElementModel adminLicModel = 
+                buildReportElementModel("AdminLicInfo", "AdminLicData", adminLicInfo, 3, Title.adminLicInfoTile);
+        
+        // 网站网店信息
+        List<WebInfo> webInfo = getWebInfo(serialNo);
+        ReportElementModel webModel = 
+                buildReportElementModel("WebInfo", "WebData", webInfo, 2, Title.webInfoTitle);
+        
+        ArrayListMultimap<StructureEnum, ReportElementModel> elements = 
+                buildArrayListMultimap(baseModel, assetsModel, adminLicModel, webModel);
+        ReportEngine re = new ReportEngine();
+        re.generateReport(source, elements, params, ExportEnum.PDF, out);
+    }
+
+    @Override
+    public void getAnnualNZ(OutputStream out, String nbxh, String year) {
+        
+        // 获取流水号
+        AnnualBaseExample exam = new AnnualBaseExample();
+        exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
+        List<AnnualBase> list = baseDao.selectByExample(exam);
+        String serialNo = null;
+        if(!list.isEmpty()) {
+            AnnualBase base = list.get(0);
+            serialNo = base.getSerialNo();
+        }
+        
+        // 获取年报年度、公司名称、注册号
+        Map<String, Object> params = Maps.newHashMap();
+        Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
+        if(op.isPresent()) {
+            PubCompanyInfo c = op.get();
+            params.put("year", year);
+            params.put("companyName", c.getCompanyName());
+            params.put("regno", getRegnoCode(c.getCreditCode(), c.getCreditCode()));
+        }
+        
+        // 年报基本信息
+        List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
+        ReportElementModel baseModel = 
+                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 6, Title.baseInfoTitle);
+        
+        // 资产状况信息
+        List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
+        ReportElementModel assetsModel = 
+                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 6, Title.assetsInfoTitle);
+        
+        // 行政许可信息
+        List<AdminLicInfo> adminLicInfo = getadminLicInfo(serialNo);
+        ReportElementModel adminLicModel = 
+                buildReportElementModel("AdminLicInfo", "AdminLicData", adminLicInfo, 5, Title.adminLicInfoTile);
+        
+        // 网站网店信息
+        List<WebInfo> webInfo = getWebInfo(serialNo);
+        ReportElementModel webModel = 
+                buildReportElementModel("WebInfo", "WebData", webInfo, 4, Title.webInfoTitle);
+        
+        // 分之机构情况
+        List<BranchInfo> branchInfo = getBranchInfo(serialNo); 
+        ReportElementModel branchModel = 
+                buildReportElementModel("BranchInfo", "BranchData", branchInfo, 3, Title.branchInfo);
+        
+        ArrayListMultimap<StructureEnum, ReportElementModel> elements = 
+                buildArrayListMultimap(baseModel, assetsModel, adminLicModel, webModel, branchModel);
+        ReportEngine re = new ReportEngine();
+        re.generateReport(source, elements, params, ExportEnum.PDF, out);
     }
     
     // 获取年报基本信息
@@ -296,17 +371,36 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         if(Sets.newHashSet(1, 2, 3).contains(property)) {            
             AssetsInfoQY info = BeanMapperUtil.map(vo, AssetsInfoQY.class);
             rs.add(info);
+            addUnit(rs, "万元");
             return rs;
         } else if(4 == property) {
             AssetsInfoNZ info = BeanMapperUtil.map(vo, AssetsInfoNZ.class);
             rs.add(info);
+            addUnit(rs, "万元");
             return rs;
         } else if(5 == property) {
             AssetsInfoGT info = BeanMapperUtil.map(vo, AssetsInfoGT.class);
             rs.add(info);
+            addUnit(rs, "万元");
             return rs;
         }
         return rs;
+    }
+    
+    private <T> void addUnit(List<T> datas, String unit) {
+        for (T t : datas) {
+            Field[] field = t.getClass().getDeclaredFields();
+            for (int i = 0; i < field.length; i++) {
+                Field f = field[i];
+                
+                f.setAccessible(true);
+                try {
+                    f.set(t, f.get(t) + unit);
+                } catch (IllegalArgumentException | IllegalAccessException e) {
+                    logger.info("转换异常", e);
+                }
+            }
+        }
     }
     
     // 对外投资信息
@@ -371,11 +465,11 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     }
     
     // 行政许可信息
-    private List<AdminLicInfo> getadminLicInfo(String serialNO) {
+    private List<AdminLicInfo> getadminLicInfo(String serialNo) {
         Map<String, String> typeMap = dictionaryService.getFileTypeItem();
         List<AdminLicInfo> list = Lists.newArrayList();
         AnnualAdminLicenseExample exam = new AnnualAdminLicenseExample();
-        exam.createCriteria().andSerialNoEqualTo(serialNO);
+        exam.createCriteria().andSerialNoEqualTo(serialNo);
         List<AnnualAdminLicense> dbList = adminLicenseDao.selectByExample(exam);
         for (int i = 0; i < dbList.size(); i++) {
             AdminLicInfo info = new AdminLicInfo();
@@ -393,13 +487,28 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         AnnualBranchExample example = new AnnualBranchExample();
         example.createCriteria().andSerialNoEqualTo(serialNo);
         List<AnnualBranch> dbList = branchDao.selectByExample(example);
-        List<BranchInfo> rs = BeanMapperUtil.mapList(dbList, BranchInfo.class);
+        List<BranchInfo> rs = Lists.newArrayList();
+        for (AnnualBranch info : dbList) {
+            BranchInfo vo = new BranchInfo();
+            String nb = info.getNbxh();
+            Optional<PubCompanyInfo> op = getOneByNbxh(nb);
+            String re = null;
+            String co = null;
+            if(op.isPresent()) {
+                PubCompanyInfo companyInfo = op.get();
+                re = companyInfo.getRegno();
+                co = companyInfo.getCreditCode();
+            }
+            vo.setName(info.getName());
+            vo.setCode(getRegnoCode(re, co));
+            rs.add(vo);
+        }
         return rs;
     }
    
     // 获取注册号和信用代码
     private String getRegnoCode(String...params) {
-        Joiner joiner = Joiner.on(" / ").skipNulls();
+        Joiner joiner = Joiner.on("/").skipNulls();
         String str = joiner.join(params);
         return str;
     }
@@ -409,7 +518,9 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         PubCompanyInfoExample exam = new PubCompanyInfoExample();
         exam.createCriteria().andNbxhEqualTo(nbxh);
         List<PubCompanyInfo> dbList = companyDao.selectByExample(exam);
-        return Optional.of(dbList.get(0));
+        PubCompanyInfo info = null;
+        if(!dbList.isEmpty()) info = dbList.get(0);
+        return Optional.fromNullable(info);
     }
     
     // 获取企业详情(根据企业注册号)
@@ -420,6 +531,31 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         PubCompanyInfo info = null;
         if(!dbList.isEmpty()) info = dbList.get(0);
         return Optional.fromNullable(info);
+    }
+    
+    private <T> ReportElementModel buildReportElementModel(String name, 
+                                                       String dataName,
+                                                       List<T> lists,
+                                                       int index,
+                                                       Object[] title) {
+        ReportElementModel model = new ReportElementModel();
+        Object[][] arrays = buildTwoArray(lists);
+        TableDataModel dataModel = new TableDataModel(arrays, title);
+        model.setName(name);
+        model.setDataName(dataName);
+        model.setIndex(index);
+        model.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        model.setDataModel(dataModel);
+        return model;
+        
+    }
+    
+    private ArrayListMultimap<StructureEnum, ReportElementModel> buildArrayListMultimap(ReportElementModel...params) {
+        ArrayListMultimap<StructureEnum, ReportElementModel> list = ArrayListMultimap.create();
+        for (ReportElementModel model : params) {
+            list.put(StructureEnum.GROUP_FOOTER, model);
+        }
+        return list;
     }
     
     // 构建二维数组
