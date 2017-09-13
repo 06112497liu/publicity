@@ -196,9 +196,15 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
         List<AnnualBase> list = baseDao.selectByExample(exam);
         String serialNo = null;
+        String regno = null;
+        String code = null;
+        String companyName = null;
         if(!list.isEmpty()) {
             AnnualBase base = list.get(0);
             serialNo = base.getSerialNo();
+            regno = base.getRegno();
+            code = base.getCreditCode();
+            companyName = base.getCompanyName();
         }
         
         // 获取年报年度、公司名称、注册号
@@ -207,8 +213,8 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         if(op.isPresent()) {
             PubCompanyInfo c = op.get();
             params.put("year", year);
-            params.put("companyName", c.getCompanyName());
-            params.put("regno", getRegnoCode(c.getCreditCode(), c.getCreditCode()));
+            params.put("companyName", companyName == null ? c.getCompanyName() : companyName);
+            params.put("regno", getRegnoCode(code == null ? c.getCreditCode() : code, regno == null ? c.getCreditCode() : code));
         }
         
         // 年报基本信息
