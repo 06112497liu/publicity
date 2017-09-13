@@ -55,79 +55,63 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     @Override
     public void cmpStaReport(OutputStream out) {
         
-        // 报告元素集合
-        ArrayListMultimap<StructureEnum, ReportElementModel> elements = ArrayListMultimap.create();
-        
-        ReportElementModel eleModel1 = new ReportElementModel(); // 公示异常企业区域列表分布
-        ReportElementModel eleModel2 = new ReportElementModel(); // 公示异常企业区域条形图
         Object[][] data1 = buildTwoArray(getDistrictReport(1));
-        TableDataModel dataModel1 = new TableDataModel(data1, Title.nameValueTitle);
-        
-        eleModel1.setName("RegionDistribute");
-        eleModel1.setDataName("RegionDistributionData");
-        eleModel1.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        eleModel1.setDataModel(dataModel1);
-        
-        eleModel2.setName("RegionDistributeMap");
-        eleModel2.setDataName("RegionDistributeMapData");
-        eleModel2.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        eleModel2.setDataModel(dataModel1);
-        
+        // 公示异常企业区域列表分布
+        ReportElementModel eleModel1 = 
+                buildReportElementModel("RegionDistribute", "RegionDistributionData", data1, Title.nameValueTitle);
+        // 公示异常企业区域条形图
+        ReportElementModel eleModel2 = 
+                buildReportElementModel("RegionDistributeMap", "RegionDistributeMapData", data1, Title.nameValueTitle);        
         // 分区域条形图
         Map<String, Object[][]> areaData = getArea();
         List<ReportElementModel> areaReportModel = Lists.newArrayList();
         for(Map.Entry<String, Object[][]> entry : areaData.entrySet()) {
             String key = entry.getKey();
-            System.out.println(key);
             Object[][] o = entry.getValue();
-            ReportElementModel rm = new ReportElementModel();
-            TableDataModel tm = new TableDataModel(o, Title.nameValueTitle);
-            rm.setName(key);
-            rm.setDataName(key);
-            rm.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-            rm.setDataModel(tm);
+            ReportElementModel rm = buildReportElementModel(key, key, o, Title.nameValueTitle);
             areaReportModel.add(rm);
-        }
-        
+        }        
         // 分区占比排行
-        ReportElementModel eleModel3 = new ReportElementModel();
         Object[][] data3 = buildTwoArray(getDistrictReport(2));
-        TableDataModel model3 = new TableDataModel(data3, Title.nameValueTitle);
-        eleModel3.setName("DistrictRatio");
-        eleModel3.setDataName("DistrictRatio");
-        eleModel3.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        eleModel3.setDataModel(model3);
+        ReportElementModel eleModel3 = buildReportElementModel("DistrictRatio", "DistrictRatio", data3, Title.nameValueTitle);
         
         // 行业占比排行
-        ReportElementModel eleModel4 = new ReportElementModel();
         Object[][] data4 = buildTwoArray(getIndustryReport());
-        TableDataModel model4 = new TableDataModel(data4, Title.nameValueTitle);
-        eleModel4.setName("IndustryRatio");
-        eleModel4.setDataName("IndustryRatio");
-        eleModel4.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        eleModel4.setDataModel(model4);
+        ReportElementModel eleModel4 = buildReportElementModel("IndustryRatio", "IndustryRatio", data4, Title.nameValueTitle);
         
         // 企业性质饼状图
-        ReportElementModel eleModel5 = new ReportElementModel();
         Object[][] data5 = buildTwoArray(getCompanyPropertyReport());
-        TableDataModel model5 = new TableDataModel(data5, Title.nameValuePerTitle);
-        eleModel5.setName("CompanyProp");
-        eleModel5.setDataName("CompanyProp");
-        eleModel5.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        eleModel5.setDataModel(model5);
+        ReportElementModel eleModel5 = buildReportElementModel("CompanyProp", "CompanyProp", data5, Title.nameValuePerTitle);
         
-        
-        elements.put(StructureEnum.REPORT_HEADER, eleModel1);
-        elements.put(StructureEnum.REPORT_HEADER, eleModel2);
+        ArrayListMultimap<StructureEnum, ReportElementModel> elements = 
+                buildArrayListMultimap(eleModel1, eleModel2, eleModel3, eleModel4, eleModel5);
         for(ReportElementModel e : areaReportModel) {
             elements.put(StructureEnum.REPORT_HEADER, e);
         }
-        elements.put(StructureEnum.REPORT_HEADER, eleModel3);
-        elements.put(StructureEnum.REPORT_HEADER, eleModel4);
-        elements.put(StructureEnum.REPORT_HEADER, eleModel5);
         
         ReportEngine re = new ReportEngine();
         re.generateReport(source, elements, null, ExportEnum.PDF, out);
+    }
+    
+    private ArrayListMultimap<StructureEnum, ReportElementModel> buildArrayListMultimap(ReportElementModel...params) {
+        ArrayListMultimap<StructureEnum, ReportElementModel> list = ArrayListMultimap.create();
+        for (ReportElementModel model : params) {
+            list.put(StructureEnum.REPORT_HEADER, model);
+        }
+        return list;
+    }
+    
+    private <T> ReportElementModel buildReportElementModel(String name,
+                                                       String dataName,
+                                                       Object[][] arrays,
+                                                       Object[] title) {
+        ReportElementModel model = new ReportElementModel();
+        TableDataModel dataModel = new TableDataModel(arrays, title);
+        model.setName(name);
+        model.setDataName(dataName);
+        model.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        model.setDataModel(dataModel);
+        return model;
     }
     
     // 获取贵阳市所有区域的公示异常企业数量
