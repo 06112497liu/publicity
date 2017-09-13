@@ -13,14 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bbd.service.IAnnualService;
 import com.bbd.service.IExportAnnualReportService;
 import com.bbd.service.IExportCmpStaReportService;
 import com.bbd.service.IExportExDetailReportService;
 import com.bbd.util.SessionContext;
 import com.bbd.util.ValidateUtil;
+import com.exception.ApplicationException;
 import com.exception.CommonErrorCode;
 
 import io.swagger.annotations.Api;
@@ -46,6 +49,9 @@ public class ReprotController extends AbstractController {
      
      @Autowired
      private IExportAnnualReportService annualReportService;
+     
+     @Autowired
+     private IAnnualService annualService;
      
      @ApiOperation(value = "企业信息比对详情报告导出", httpMethod = "GET")
      @ApiImplicitParams({ @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, paramType = "query", dataType = "String") })
@@ -97,15 +103,26 @@ public class ReprotController extends AbstractController {
      @ApiOperation(value = "年报导出", httpMethod = "GET")
      @ApiImplicitParams({ 
          @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, paramType = "query", dataType = "String"),
-         @ApiImplicitParam(name = "annualYear", value = "年报年度", required = true, paramType = "query", dataType = "String")
+         @ApiImplicitParam(name = "annualYear", value = "年报年度", required = true, paramType = "query", dataType = "String"),
+         @ApiImplicitParam(name = "companyProperty", value = "企业性质（企业性质：1-民营企业 2-国有企业 3-外资企业 4-农专社 5-个体户）", required = true, paramType = "query", dataType = "int")
      })
      @RequestMapping(value = "/annual/download.do")    
-     public void ExportAnnual(String nbxh, String annualYear, String serialNo) throws IOException {
+     public void ExportAnnual(String nbxh, String annualYear, Integer companyProperty) throws IOException {
+         ValidateUtil.checkAllNull(CommonErrorCode.PARAM_NULL, nbxh, annualYear, companyProperty);
+         Integer pro = annualService.getCompanyProperty(nbxh);
+         if(Integer.compare(companyProperty, pro) != 0) {
+             throw new ApplicationException(CommonErrorCode.COMPANY_PROPERTY_DONT_MATCH);
+         }
          HttpServletRequest request = SessionContext.getRequest();
          HttpServletResponse response = SessionContext.getResponse();
          String fileName = "企业年报报告.pdf";
          OutputStream out = buildResponse(fileName, request, response);
-         annualReportService.getAnnualQY(out, nbxh, annualYear);
+         if(4 == companyProperty)
+             annualReportService.getAnnualNZ(out, nbxh, annualYear);
+         if(5 == companyProperty)
+             annualReportService.getAnnualGT(out, nbxh, annualYear);
+         else
+             annualReportService.getAnnualQY(out, nbxh, annualYear);
      }
      
      // 处理下载文件问题

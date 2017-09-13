@@ -14,9 +14,13 @@ public class Title {
             new Object[]{"item", "itemValue"};
     public static final Object[] nameValuePerTitle = 
             new Object[]{"item", "num", "per"};
-    public static final Object[] baseInfoTitle = 
+    public static final Object[] baseInfoQYTitle = 
             new Object[]{"code", "companyName", "addr", "postalCode", "phones", "emails", "empnum", "womenNum", "opstateDesc", 
                          "holdings", "haveInvest", "haveWeb", "haveGuarantee", "haveEqTrans", "opActivity"};
+    public static final Object[] baseInfoNZTitle = 
+            new Object[]{"code", "companyName", "phones", "emails", "memnum", "holdings",  "empnum", "womenNum", "addr", "opActivity"};
+    public static final Object[] baseInfoGTTitle = 
+            new Object[]{"companyName", "opName", "code", "phones", "amountMon", "empnum"};
     public static final Object[] webInfoTitle = 
             new Object[]{"line", "name", "type", "url"};
     public static final Object[] stockholderInfoTitle = 

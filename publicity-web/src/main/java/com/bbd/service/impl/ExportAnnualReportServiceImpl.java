@@ -113,7 +113,14 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     @Autowired
     private AnnualBranchDao branchDao;
     
-    private static final Optional<String> source = Optional.of("report/AnnualReport_QY.prpt");
+    /** 企业  */
+    private static final Optional<String> sourceQY = Optional.of("report/AnnualReport_QY.prpt");
+    
+    /** 农专  */
+    private static final Optional<String> sourceNZ = Optional.of("report/AnnualReport_NZ.prpt");
+    
+    /** 个体  */
+    private static final Optional<String> sourceGT = Optional.of("report/AnnualReport_GT.prpt");
 
     @Override
     public void getAnnualQY(OutputStream out, String nbxh, String year) {
@@ -141,7 +148,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         // 年报基本信息
         List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
         ReportElementModel baseModel = 
-                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 7, Title.baseInfoTitle);
+                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 7, Title.baseInfoQYTitle);
         
         // 资产状况信息
         List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
@@ -177,7 +184,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
                 buildArrayListMultimap(baseModel, assetsModel, webModel, stockholderModel, investModel, guaranteeModel, changeModel);
         
         ReportEngine re = new ReportEngine();
-        re.generateReport(source, elements, params, ExportEnum.PDF, out);
+        re.generateReport(sourceQY, elements, params, ExportEnum.PDF, out);
         
     }
 
@@ -207,7 +214,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         // 年报基本信息
         List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
         ReportElementModel baseModel = 
-                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 4, Title.baseInfoTitle);
+                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 4, Title.baseInfoGTTitle);
         
         // 资产状况信息
         List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
@@ -227,7 +234,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         ArrayListMultimap<StructureEnum, ReportElementModel> elements = 
                 buildArrayListMultimap(baseModel, assetsModel, adminLicModel, webModel);
         ReportEngine re = new ReportEngine();
-        re.generateReport(source, elements, params, ExportEnum.PDF, out);
+        re.generateReport(sourceGT, elements, params, ExportEnum.PDF, out);
     }
 
     @Override
@@ -256,33 +263,34 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         // 年报基本信息
         List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
         ReportElementModel baseModel = 
-                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 6, Title.baseInfoTitle);
+                buildReportElementModel("BaseInfo", "BaseData", baseInfo, 5, Title.baseInfoNZTitle);
         
         // 资产状况信息
         List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
         ReportElementModel assetsModel = 
-                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 6, Title.assetsInfoTitle);
+                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 5, Title.assetsInfoTitle);
         
         // 行政许可信息
         List<AdminLicInfo> adminLicInfo = getadminLicInfo(serialNo);
         ReportElementModel adminLicModel = 
-                buildReportElementModel("AdminLicInfo", "AdminLicData", adminLicInfo, 5, Title.adminLicInfoTile);
+                buildReportElementModel("AdminLicInfo", "AdminLicData", adminLicInfo, 4, Title.adminLicInfoTile);
         
         // 网站网店信息
         List<WebInfo> webInfo = getWebInfo(serialNo);
         ReportElementModel webModel = 
-                buildReportElementModel("WebInfo", "WebData", webInfo, 4, Title.webInfoTitle);
+                buildReportElementModel("WebInfo", "WebData", webInfo, 3, Title.webInfoTitle);
         
         // 分之机构情况
         List<BranchInfo> branchInfo = getBranchInfo(serialNo); 
         ReportElementModel branchModel = 
-                buildReportElementModel("BranchInfo", "BranchData", branchInfo, 3, Title.branchInfo);
+                buildReportElementModel("BranchInfo", "BranchData", branchInfo, 2, Title.branchInfo);
         
         ArrayListMultimap<StructureEnum, ReportElementModel> elements = 
                 buildArrayListMultimap(baseModel, assetsModel, adminLicModel, webModel, branchModel);
         ReportEngine re = new ReportEngine();
-        re.generateReport(source, elements, params, ExportEnum.PDF, out);
+        re.generateReport(sourceNZ, elements, params, ExportEnum.PDF, out);
     }
+    
     
     // 获取年报基本信息
     private List<BaseInfo> getAnnualBaseInfo(String nbxh, String year) {
@@ -292,12 +300,12 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         Integer property = annualService.getCompanyProperty(nbxh);  
         
         Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
-        String regno = null;
-        String code = null;
+        String regno = baseInfo.getRegno();
+        String code = baseInfo.getCreditCode();
         if(op.isPresent()) {
             PubCompanyInfo v = op.get();
-            regno = v.getRegno();
-            code = v.getCreditCode();
+            if(regno == null) regno = v.getRegno();
+            if(code == null) code = v.getCreditCode();
         }
         
         if(Sets.newHashSet(1, 2, 3).contains(property)) {
@@ -456,6 +464,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             AnnualEquityChange vo = dbList.get(i);
             ChangeInfo info = new ChangeInfo();
             info.setLine(++count);
+            info.setShareholder(vo.getShareholder());
             info.setPreEquityRatio(vo.getPreEquityRatio() + "%");
             info.setAftEquityRatio(vo.getAftEquityRatio() + "%");
             info.setChangeDate(DateUtil.formatDateByPatten(vo.getChangeDate(), "yyyy/MM/dd"));
