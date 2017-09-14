@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import com.bbd.util.ReportUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,7 +198,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
                              OutputStream out) {
         
         Optional<String> resource = Optional.of(resourceURL);
-        Object[][] reportInfo = buildTwoArray(list);
+        Object[][] reportInfo = ReportUtils.buildTwoArray(list);
         TableDataModel tableDataModel = new TableDataModel(reportInfo, reportTitle);
         ReportElementModel elementModel = new ReportElementModel();
         elementModel.setDataName(reportName);
@@ -219,34 +220,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
                 logger.error("", e);
             }
         }
-    }
-    
-    // 构建二维数组
-    private <T> Object[][] buildTwoArray(List<T> datas) {
-        
-        Integer rows = datas.size();
-        if(rows == 0) {
-            return null;
-        }
-        
-        Field[] declaredFields = datas.get(0).getClass().getDeclaredFields();
-        Integer columns = declaredFields.length;
-        
-        Object[][] rs = new Object[rows][columns];
-        
-        for (int i = 0; i < rows; i++) {            
-            for (int j = 0; j < columns; j++) {
-                declaredFields[j].setAccessible(true);
-                try {
-                    rs[i][j] = declaredFields[j].get(datas.get(i));
-                } catch (IllegalArgumentException e) {
-                    logger.error("", e);
-                } catch (IllegalAccessException e) {
-                    logger.error("", e);
-                }
-            }
-        }
-        return rs;
     }
     
     private void sortExcel(List<ExDetailVo> list, Integer sortType) {

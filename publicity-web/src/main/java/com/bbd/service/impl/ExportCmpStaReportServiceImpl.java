@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.bbd.util.ReportUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.bbd.report.ReportEngine;
@@ -46,6 +48,9 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     
     @Autowired
     private IReportService reportService;
+
+    @Value("${report.regionDesc}")
+    private String desc;
     
     private static final Optional<String> source = Optional.of("report/StatisticalReport.prpt");
 
@@ -55,7 +60,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     @Override
     public void cmpStaReport(OutputStream out) {
         
-        Object[][] data1 = buildTwoArray(getDistrictReport(1));
+        Object[][] data1 = ReportUtils.buildTwoArray(getDistrictReport(1));
         // 公示异常企业区域列表分布
         ReportElementModel eleModel1 = 
                 buildReportElementModel("RegionDistribute", "RegionDistributionData", data1, Title.nameValueTitle);
@@ -72,15 +77,15 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
             areaReportModel.add(rm);
         }        
         // 分区占比排行
-        Object[][] data3 = buildTwoArray(getDistrictReport(2));
+        Object[][] data3 = ReportUtils.buildTwoArray(getDistrictReport(2));
         ReportElementModel eleModel3 = buildReportElementModel("DistrictRatio", "DistrictRatio", data3, Title.nameValueTitle);
         
         // 行业占比排行
-        Object[][] data4 = buildTwoArray(getIndustryReport());
+        Object[][] data4 = ReportUtils.buildTwoArray(getIndustryReport());
         ReportElementModel eleModel4 = buildReportElementModel("IndustryRatio", "IndustryRatio", data4, Title.nameValueTitle);
         
         // 企业性质饼状图
-        Object[][] data5 = buildTwoArray(getCompanyPropertyReport());
+        Object[][] data5 = ReportUtils.buildTwoArray(getCompanyPropertyReport());
         ReportElementModel eleModel5 = buildReportElementModel("CompanyProp", "CompanyProp", data5, Title.nameValuePerTitle);
         
         ArrayListMultimap<StructureEnum, ReportElementModel> elements = 
@@ -160,7 +165,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
                 }
                 areaList.add(info);
             }
-            rs.put(key, buildTwoArray(areaList));
+            rs.put(key, ReportUtils.buildTwoArray(areaList));
         }
         return rs;
     }
@@ -209,34 +214,8 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
             });
         }
     }
-    
-    // 构建二维数组
-    private <T> Object[][] buildTwoArray(List<T> datas) {
-        
-        Integer rows = datas.size();
-        if(rows == 0) {
-            return null;
-        }
-        
-        Field[] declaredFields = datas.get(0).getClass().getDeclaredFields();
-        Integer columns = declaredFields.length;
-        
-        Object[][] rs = new Object[rows][columns];
-        
-        for (int i = 0; i < rows; i++) {            
-            for (int j = 0; j < columns; j++) {
-                declaredFields[j].setAccessible(true);
-                try {
-                    rs[i][j] = declaredFields[j].get(datas.get(i));
-                } catch (IllegalArgumentException e) {
-                    logger.error("", e);
-                } catch (IllegalAccessException e) {
-                    logger.error("", e);
-                }
-            }
-        }
-        return rs;
-    }
+
+
 
 }
 

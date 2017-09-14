@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.bbd.util.ReportUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,24 +127,10 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     public void getAnnualQY(OutputStream out, String nbxh, String year) {
         
         // 获取流水号
-        AnnualBaseExample exam = new AnnualBaseExample();
-        exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
-        List<AnnualBase> list = baseDao.selectByExample(exam);
-        String serialNo = null;
-        if(!list.isEmpty()) {
-            AnnualBase base = list.get(0);
-            serialNo = base.getSerialNo();
-        }
+        String serialNo = getSerialNo(nbxh, year);
         
         // 获取年报年度、公司名称、注册号
-        Map<String, Object> params = Maps.newHashMap();
-        Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
-        if(op.isPresent()) {
-            PubCompanyInfo c = op.get();
-            params.put("year", year);
-            params.put("companyName", c.getCompanyName());
-            params.put("regno", getRegnoCode(c.getCreditCode(), c.getCreditCode()));
-        }
+        Map<String, Object> params = getParams(nbxh, year);
         
         // 年报基本信息
         List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
@@ -192,30 +179,10 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     public void getAnnualGT(OutputStream out, String nbxh, String year) {
         
         // 获取流水号
-        AnnualBaseExample exam = new AnnualBaseExample();
-        exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
-        List<AnnualBase> list = baseDao.selectByExample(exam);
-        String serialNo = null;
-        String regno = null;
-        String code = null;
-        String companyName = null;
-        if(!list.isEmpty()) {
-            AnnualBase base = list.get(0);
-            serialNo = base.getSerialNo();
-            regno = base.getRegno();
-            code = base.getCreditCode();
-            companyName = base.getCompanyName();
-        }
+        String serialNo = getSerialNo(nbxh, year);
         
         // 获取年报年度、公司名称、注册号
-        Map<String, Object> params = Maps.newHashMap();
-        Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
-        if(op.isPresent()) {
-            PubCompanyInfo c = op.get();
-            params.put("year", year);
-            params.put("companyName", companyName == null ? c.getCompanyName() : companyName);
-            params.put("regno", getRegnoCode(code == null ? c.getCreditCode() : code, regno == null ? c.getCreditCode() : code));
-        }
+        Map<String, Object> params = getParams(nbxh, year);
         
         // 年报基本信息
         List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
@@ -243,10 +210,8 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         re.generateReport(sourceGT, elements, params, ExportEnum.PDF, out);
     }
 
-    @Override
-    public void getAnnualNZ(OutputStream out, String nbxh, String year) {
-        
-        // 获取流水号
+    //获取年报流水号
+    private String getSerialNo(String nbxh, String year) {
         AnnualBaseExample exam = new AnnualBaseExample();
         exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
         List<AnnualBase> list = baseDao.selectByExample(exam);
@@ -255,16 +220,42 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             AnnualBase base = list.get(0);
             serialNo = base.getSerialNo();
         }
-        
-        // 获取年报年度、公司名称、注册号
+        return serialNo;
+    }
+
+    // 获取年报年度、公司名称、注册号
+    private Map<String, Object> getParams(String nbxh, String year) {
         Map<String, Object> params = Maps.newHashMap();
+        AnnualBaseExample exam = new AnnualBaseExample();
+        exam.createCriteria().andNbxhEqualTo(nbxh).andAnnualYearEqualTo(year);
+        List<AnnualBase> list = baseDao.selectByExample(exam);
+        String companyName = null;
+        String regno = null;
+        String code = null;
+        if(!list.isEmpty()) {
+            AnnualBase base = list.get(0);
+            companyName = base.getCompanyName();
+            regno = base.getRegno();
+            code = base.getCreditCode();
+        }
         Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
         if(op.isPresent()) {
             PubCompanyInfo c = op.get();
             params.put("year", year);
-            params.put("companyName", c.getCompanyName());
-            params.put("regno", getRegnoCode(c.getCreditCode(), c.getCreditCode()));
+            params.put("companyName", companyName == null ? c.getCompanyName() : companyName);
+            params.put("regno", getRegnoCode(code == null ? c.getCreditCode() : code, regno == null ? c.getCreditCode() : code));
         }
+        return params;
+    }
+
+    @Override
+    public void getAnnualNZ(OutputStream out, String nbxh, String year) {
+        
+        // 获取流水号
+        String serialNo = getSerialNo(nbxh, year);
+        
+        // 获取年报年度、公司名称、注册号
+        Map<String, Object> params = getParams(nbxh, year);
         
         // 年报基本信息
         List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
@@ -554,7 +545,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
                                                        int index,
                                                        Object[] title) {
         ReportElementModel model = new ReportElementModel();
-        Object[][] arrays = buildTwoArray(lists);
+        Object[][] arrays = ReportUtils.buildTwoArray(lists);
         TableDataModel dataModel = new TableDataModel(arrays, title);
         model.setName(name);
         model.setDataName(dataName);
@@ -571,34 +562,6 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             list.put(StructureEnum.GROUP_FOOTER, model);
         }
         return list;
-    }
-    
-    // 构建二维数组
-    private <T> Object[][] buildTwoArray(List<T> datas) {
-        
-        Integer rows = datas.size();
-        if(rows == 0) {
-            return new Object[][]{};
-        }
-        
-        Field[] declaredFields = datas.get(0).getClass().getDeclaredFields();
-        Integer columns = declaredFields.length;
-        
-        Object[][] rs = new Object[rows][columns];
-        
-        for (int i = 0; i < rows; i++) {            
-            for (int j = 0; j < columns; j++) {
-                declaredFields[j].setAccessible(true);
-                try {
-                    rs[i][j] = declaredFields[j].get(datas.get(i));
-                } catch (IllegalArgumentException e) {
-                    logger.error("", e);
-                } catch (IllegalAccessException e) {
-                    logger.error("", e);
-                }
-            }
-        }
-        return rs;
     }
 
 }
