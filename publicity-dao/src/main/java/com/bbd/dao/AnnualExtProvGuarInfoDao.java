@@ -4,6 +4,7 @@ import com.bbd.domain.AnnualExtProvGuarInfo;
 import com.bbd.domain.AnnualExtProvGuarInfoExample;
 import com.mybatis.domain.PageBounds;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

@@ -32,8 +32,9 @@ import com.bbd.service.compare.PropertyEnum;
 import com.bbd.service.param.ExDetailVo;
 import com.bbd.service.param.report.ExDetailReportVo;
 import com.google.common.base.Optional;
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+
+import javax.annotation.Resource;
 
 /** 
  * 异常详情报告服务层
@@ -47,7 +48,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     
     @Autowired
     private ICompareExceptionService compareExceptionService;
-    
+
     @Autowired
     private PubCompanyInfoDao companyInfoDao;
     

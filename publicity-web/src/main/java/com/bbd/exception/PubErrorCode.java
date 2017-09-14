@@ -14,7 +14,8 @@ import com.exception.ErrorCode;
  */
 public enum PubErrorCode implements ErrorCode {
     
-    OPERATION_RUNDATE_ERROR(6001, "查询对象不存在");
+    OPERATION_RUNDATE_ERROR(6001, "查询对象不存在"),
+    COMPANY_PROPERTY_DONT_MATCH(6002, "企业性质不匹配");
 
     private int    status;
     private String message;    

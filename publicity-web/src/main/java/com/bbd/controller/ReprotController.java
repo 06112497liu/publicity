@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bbd.exception.PubErrorCode;
 import com.bbd.service.IAnnualService;
 import com.bbd.service.IExportAnnualReportService;
 import com.bbd.service.IExportCmpStaReportService;
@@ -111,7 +111,7 @@ public class ReprotController extends AbstractController {
          ValidateUtil.checkAllNull(CommonErrorCode.PARAM_NULL, nbxh, annualYear, companyProperty);
          Integer pro = annualService.getCompanyProperty(nbxh);
          if(Integer.compare(companyProperty, pro) != 0) {
-             throw new ApplicationException(CommonErrorCode.COMPANY_PROPERTY_DONT_MATCH);
+             throw new ApplicationException(PubErrorCode.COMPANY_PROPERTY_DONT_MATCH);
          }
          HttpServletRequest request = SessionContext.getRequest();
          HttpServletResponse response = SessionContext.getResponse();
