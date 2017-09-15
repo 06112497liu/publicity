@@ -105,6 +105,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         return list;
     }
 
+    // TableDataModel --> ReportElementModel
     private <T> ReportElementModel buildReportElementModel(String name, String dataName, Object[][] arrays, Object[] title) {
         ReportElementModel model = new ReportElementModel();
         TableDataModel dataModel = new TableDataModel(arrays, title);
@@ -115,6 +116,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         return model;
     }
 
+    // TextDataModel --> ReportElementModel
     private ReportElementModel buildReportElemtModel(String name, Optional<String> source) {
         ReportElementModel model = new ReportElementModel();
         TextDataModel dataModel = new TextDataModel(source);
