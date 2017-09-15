@@ -46,9 +46,8 @@ public class RedisConfig {
         JedisConnectionFactory factory = new JedisConnectionFactory();
 
         factory.setPoolConfig(poolConfig);
-        factory.setHostName("10.10.20.158");
+        factory.setHostName("10.28.200.241");
         factory.setPort(6379);
-        factory.setPassword("123456");
         factory.setUsePool(true);
         factory.setDatabase(1);
 
