@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import com.bbd.util.ReportUtils;
+import com.google.common.collect.ComparisonChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,36 +226,22 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     private void sortExcel(List<ExDetailVo> list, Integer sortType) {
         if(1 == sortType) {
             list.sort((x, y) -> {
-                Integer rs = x.getSubmodule().compareTo(y.getSubmodule());
-                if (rs != 0) {
-                    return rs;
-                } else {
-                    return x.getPropName().compareTo(y.getPropName());
-                }
+                return ComparisonChain.start()
+                               .compare(x.getSubmodule(), y.getSubmodule())
+                               .compare(x.getPropName(), y.getPropName())
+                               .result();
             });
         }
         if(2 == sortType) {
             list.sort((x, y) -> {
-//                return ComparisonChain.start()
-//                                      .compare(x.getNbxh(), y.getBase())
-//                                      .compare(x.getSubmodule(), y.getSubmodule())
-//                                      .compare(x.getPropName(), y.getPropName())
-//                                      .result();
-                Integer a = x.getNbxh().compareTo(y.getNbxh());
-                if(a != 0) {
-                    return a;
-                } else {
-                    Integer b = x.getSubmodule().compareTo(y.getSubmodule());
-                    if(b != 0) {
-                        return b;
-                    } else {
-                        return x.getPropName().compareTo(y.getPropName());
-                    }                
-                }
+                return ComparisonChain.start()
+                                      .compare(x.getNbxh(), y.getBase())
+                                      .compare(x.getSubmodule(), y.getSubmodule())
+                                      .compare(x.getPropName(), y.getPropName())
+                                      .result();
             });
         }
     }
-
 }
 
 

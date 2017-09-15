@@ -237,7 +237,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         sortList(ds, 2);
         ds.forEach(p -> {
             CmpStaReportPropVo vo = new CmpStaReportPropVo();
-            vo.setItem(p.getItemDesc() + "" + p.getTotal() + "户，占比所有公示异常企业" + NumUtils.trimPer(p.getPercent()) + "%");
+            vo.setItem(p.getItemDesc() + "" + p.getTotal() + "户，占公示异常企业" + NumUtils.trimPer(p.getPercent()) + "%");
             vo.setNum(p.getTotal());
             vo.setPer(NumUtils.trimPer(p.getPercent()));
             rs.add(vo);
