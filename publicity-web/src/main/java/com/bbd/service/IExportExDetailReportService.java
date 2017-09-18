@@ -35,6 +35,36 @@ public interface IExportExDetailReportService {
      * @param param
      */
     void exDetailAll(int type, OutputStream out, ExceptionSearchParam param);
+
+    /**
+     * 企业信息对比详情报告（异常项数量全量）
+     * @param type
+     * @param count
+     * @param sortType
+     * @param sort
+     */
+    void exDetailAll(Integer type, Integer count, Integer sortType, String sort, OutputStream out);
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
