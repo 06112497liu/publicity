@@ -184,7 +184,8 @@ public class CompareExceptionController extends AbstractController {
     }
 
     @ApiOperation(value = "根据区域、行业类型、对比项、异常原因查询完整异常企业列表", httpMethod = "GET", response = ExceptionCompanyVo.class)
-    @ApiImplicitParams({@ApiImplicitParam(name = "region", value = "区域编码（如：520102代表南明区）", required = false, dataType = "String", paramType = "query"),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "region", value = "区域编码（如：520102代表南明区）", required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "primaryIndustry", value = "所属行业（如：A、B）", required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "exType", value = "异常原因（1.隐瞒未报；2.登记不一致；4.格式错误）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),

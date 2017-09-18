@@ -12,6 +12,7 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bbd.service.param.ExceptionSearchParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,28 +69,38 @@ public class ReprotController extends AbstractController {
      @ApiOperation(value = "企业信息比对详情报告批量导出", httpMethod = "GET")
      @ApiImplicitParams({ 
          @ApiImplicitParam(name = "nbxhs", value = "企业nbxh数组", required = true, paramType = "query", dataType = "String"),
-         @ApiImplicitParam(name = "exType", value = "异常类型（1-年报信息公示异常，2-即时信息公示异常，3-完整异常）", required = true, paramType = "query", dataType = "String")
+         @ApiImplicitParam(name = "type", value = "异常类型（1-年报信息公示异常，2-即时信息公示异常，3-完整异常）", required = true, paramType = "query", dataType = "String")
      })
      @RequestMapping(value = "/exception/detail/batch/download.do")
-     public void exportExDetailByNbhxs(String[] nbxhs, Integer exType) throws IOException {
-         ValidateUtil.checkAllNull(CommonErrorCode.PARAM_NULL, exType, nbxhs);
+     public void exportExDetailByNbhxs(String[] nbxhs, Integer type) throws IOException {
+         ValidateUtil.checkAllNull(CommonErrorCode.PARAM_NULL, type, nbxhs);
          HttpServletRequest request = SessionContext.getRequest();
          HttpServletResponse response = SessionContext.getResponse();
          String fileName = "企业信息对比详情报告.xlsx";
          OutputStream out = buildResponse(fileName, request, response);
-         exDetailreportService.exDetailByNbxhs(nbxhs, out, exType);
+         exDetailreportService.exDetailByNbxhs(nbxhs, out, type);
      }
-     
-     @ApiOperation(value = "企业信息比对详情报告全量导出", httpMethod = "GET")
-     @ApiImplicitParams({ 
-         @ApiImplicitParam(name = "nbxhs", value = "企业nbxh数组", required = true, paramType = "query", dataType = "String"),
-         @ApiImplicitParam(name = "exType", value = "异常类型（1-年报信息公示异常，2-即时信息公示异常，3-完整异常）", required = true, paramType = "query", dataType = "String")
-     })
-     @RequestMapping(value = "/exception/detail/all/download.do")
-     public void ExportExDetailByAll() throws IOException {
-         
-     }
-     
+
+    @ApiOperation(value = "企业信息比对详情报告全量导出（多条件）", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "异常类型（1-年报信息公示异常，2-即时信息公示异常，3-完整异常）", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "region", value = "区域编码（如：520100代表直管区）", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "primaryIndustry", value = "所属行业（如：A、B）", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "moduleType", value = "对比项（年报和即时信息有，完整名单没有）", required = false, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "exType", value = "异常原因", required = false, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
+    })
+    @RequestMapping(value = "/exception/detail/all/params/download.do")
+    public void exportExDetailAll(Integer type, ExceptionSearchParam param) throws IOException {
+        ValidateUtil.checkNull(type, CommonErrorCode.PARAM_NULL);
+        HttpServletRequest request = SessionContext.getRequest();
+        HttpServletResponse response = SessionContext.getResponse();
+        String fileName = "企业信息对比详情报告.xlsx";
+        OutputStream out = buildResponse(fileName, request, response);
+        exDetailreportService.exDetailAll(type, out, param);
+    }
+
      @ApiOperation(value = "比对分析报告导出", httpMethod = "GET")
      @RequestMapping(value = "/statistics/download.do")    
      public void ExportCompareStatistics() throws IOException {

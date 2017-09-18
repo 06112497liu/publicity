@@ -5,6 +5,8 @@
  */
  package com.bbd.service;
 
+import com.bbd.service.param.ExceptionSearchParam;
+
 import java.io.OutputStream;
 
 /** 
@@ -27,7 +29,12 @@ public interface IExportExDetailReportService {
      * @param out
      */
     void exDetailByNbxhs(String[] nbxhs, OutputStream out, Integer exType);
-    
+
+    /**
+     * 企业信息对比详情报告（多条件全量）
+     * @param param
+     */
+    void exDetailAll(int type, OutputStream out, ExceptionSearchParam param);
     
 }
 
