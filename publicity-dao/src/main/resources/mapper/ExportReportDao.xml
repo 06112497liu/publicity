@@ -27,7 +27,7 @@
         select
           <include refid="Base_Column_List" />
         from
-          bbd_pub_annual_ex_detail
+        bbd_pub_annual_ex_prev_detail
         WHERE
           1=1
         AND nbxh IN (${nbxhs})
@@ -36,7 +36,7 @@
         select
         <include refid="Base_Column_List" />
         from
-        bbd_pub_instantly_ex_detail
+        bbd_pub_instantly_ex_prev_detail
         WHERE
         1=1
         AND nbxh IN (${nbxhs})

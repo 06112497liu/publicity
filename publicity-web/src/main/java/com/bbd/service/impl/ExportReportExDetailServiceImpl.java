@@ -16,9 +16,11 @@ import com.bbd.enums.ExReasonEnum;
 import com.bbd.report.ReportEngine;
 import com.bbd.report.enums.ElementEnum;
 import com.bbd.report.enums.ExportEnum;
+import com.bbd.report.enums.StructureEnum;
 import com.bbd.report.model.ReportElementModel;
 import com.bbd.report.model.TableDataModel;
 import com.bbd.service.ICompareExceptionService;
+import com.bbd.service.IDictionaryService;
 import com.bbd.service.IExportExDetailReportService;
 import com.bbd.service.compare.AnnualModule;
 import com.bbd.service.compare.InstantlyModule;
@@ -26,19 +28,16 @@ import com.bbd.service.compare.PropertyEnum;
 import com.bbd.service.param.ExDetailVo;
 import com.bbd.service.param.ExceptionSearchParam;
 import com.bbd.service.param.report.ExDetailReportVo;
+import com.bbd.util.DateUtil;
 import com.bbd.util.ReportUtils;
-import com.bbd.util.StringUtils;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mybatis.domain.PageBounds;
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import com.utils.BeanMapperUtil;
-import jdk.nashorn.internal.scripts.JO;
-import org.apache.commons.beanutils.BeanMap;
-import org.apache.commons.collections.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,10 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
 
     private static final Object[] reportTitle =
             new Object[]{"companyName", "regno", "adress", "phone", "email", "exType", "exClass", "exItem", "base", "other", "exReason"};
+
+    private static final Optional<String> resource = Optional.of("report/ExceptionList.prpt");
+    private static final Optional<String> resourceAll = Optional.of("report/ExceptionListAll.prpt");
+    private static final String updateDate = DateUtil.formatDateByPatten(new Date(), "yyyy-MM-dd HH:mm");
     
     @Autowired
     private ICompareExceptionService compareExceptionService;
@@ -72,21 +75,23 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
 
     @Autowired
     private ExportReportDao exportReportDao;
+
+    @Autowired
+    private IDictionaryService dictionaryService;
     
     /**
      * 企业信息比对详情报告（单个）
      */
     @Override
     public void exDetailByNbxh(String nbxh, OutputStream out) {
-        
+
         // 1.查询某个企业的 年报 信息对比详情
         List<ExDetailVo> annualList = compareExceptionService.getCompanyAnnualExDetails(nbxh);
         sortExcel(annualList);
         // 2.查询某个企业的 即时 信息对比详情
-        List<ExDetailVo> insList = compareExceptionService.getCompanyInstantlyExDetails(nbxh);                
-        sortExcel(insList);
+        List<ExDetailVo> insList = compareExceptionService.getCompanyInstantlyExDetails(nbxh);
         // 3.导出报告
-        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
+        generatExport(resource, annualList, insList, out, null);
     }
    
 
@@ -119,7 +124,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         // 排序
         sortExcel(annualList);
         sortExcel(insList);
-        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
+        generatExport(resource, annualList, insList, out, null);
     }
 
     /**
@@ -146,7 +151,8 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         // 排序
         sortExcel(annualList);
         sortExcel(insList);
-        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
+
+        generatExport(resourceAll, annualList, insList, out, getParams(param, type));
     }
 
     /**
@@ -154,9 +160,11 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
      */
     @Override
     public void exDetailAll(Integer type, Integer count, Integer sortType, String sort, OutputStream out) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("count", count);
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
-        List<String> nbxhList = Lists.newLinkedList();
+        List<String> nbxhList;
         if(1 == type) {
             nbxhList = compareExceptionService.searchAnnualByExCount(count, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList,1);
@@ -173,7 +181,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         // 排序
         sortExcel(annualList);
         sortExcel(insList);
-        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
+        generatExport(resourceAll, annualList, insList, out, params);
     }
 
     /**
@@ -181,9 +189,11 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
      */
     @Override
     public void exDetailAll(Integer type, String companyName, Integer sortType, String sort, OutputStream out) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("companyName", companyName);
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
-        List<String> nbxhList = Lists.newLinkedList();
+        List<String> nbxhList;
         if(type == 1) {
             nbxhList = compareExceptionService.searchAnnualByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList, 1);
@@ -200,8 +210,36 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         // 排序
         sortExcel(annualList);
         sortExcel(insList);
-        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
+        generatExport(resourceAll, annualList, insList, out, params);
     }
+
+    private Map<String, Object> getParams(ExceptionSearchParam param, int type) {
+        Map<String, String> disMap = dictionaryService.getDistrict();
+        Map<String, String> industryMap = dictionaryService.getIndustry();
+        Map<String, Object> map = Maps.newHashMap();
+        String nameType;
+        String region = param.getRegion() == null ? "全市" : disMap.get(param.getRegion());
+        String industry = param.getPrimaryIndustry() == null ? "所有行业" : industryMap.get(param.getPrimaryIndustry() == null);
+        String moduleType;
+        String exType = param.getExType() == 0 ? "全部异常原因" : ExReasonEnum.getDescByCode(param.getExType());
+        if(type == 1) {
+            nameType = "年报信息公示异常名单";
+            moduleType = param.getModuleType() == 0 ? "全部年报对比项" : AnnualModule.getDescByCode(param.getModuleType());
+        } else if(type == 2) {
+            nameType = "即时信息公示异常名单";
+            moduleType = param.getModuleType() == 0 ? "全部即时信息对比项" : AnnualModule.getDescByCode(param.getModuleType());
+        } else {
+            nameType = "完整异常名单";
+            moduleType = "";
+        }
+        map.put("type", nameType);
+        map.put("date", updateDate);
+        map.put("region", region);
+        map.put("primaryIndustry", industry);
+        map.put("moduleType", moduleType);
+        return map;
+    }
+
     // 获取满足条件企业的nbxh集合
     private List<String> getNbxhList(ExceptionSearchParam param, int type) {
 
@@ -256,7 +294,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
                 int yu = size % splitLength;
                 int chu = size / splitLength;
                 for (int i=0; i<=chu; i++) {
-                    List<String> sublist = new ArrayList<>(300);
+                    List<String> sublist;
                     if(i == chu) {
                         if(yu == 0) break;
                         sublist = list.subList(i * splitLength, i * splitLength + yu);
@@ -273,21 +311,21 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     }
 
     //生成报告
-    private void generatExport(String source, String dataName, List<ExDetailVo> annualList, List<ExDetailVo> insList, OutputStream out) {
+    private void generatExport(Optional<String> resource, List<ExDetailVo> annualList, List<ExDetailVo> insList, OutputStream out, Map<String, Object> params) {
         // 构建excel导出对象
         List<ExDetailReportVo> sourceList = Lists.newLinkedList();
         List<ExDetailReportVo> list1 = buildOneExDetailReportVo(annualList, 1);
         List<ExDetailReportVo> list2 = buildOneExDetailReportVo(insList, 2);
         sourceList.addAll(list1);
         sourceList.addAll(list2);
-        exportExcel("report/ExceptionList.prpt", "ExceptionData", sourceList, reportTitle, out);
+        exportExcel(resource, sourceList, reportTitle, out, params);
     }
 
     // 分类构建excel对象（1-年报异常，2-即时信息异常）
     private List<ExDetailReportVo> buildOneExDetailReportVo(List<ExDetailVo> list, Integer exType) {
         
         PubCompanyInfoExample example = new PubCompanyInfoExample();
-        PubCompanyInfo info = null;
+        PubCompanyInfo info;
         
         List<ExDetailReportVo> rs = Lists.newLinkedList();
         String baseNbxh = null;        
@@ -346,35 +384,38 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     }
     
     // 导出excel
-    private void exportExcel(String resourceURL, 
-                             String reportName, 
-                             List<ExDetailReportVo> list, 
-                             Object[] reportTitle,  
-                             OutputStream out) {
-        
-        Optional<String> resource = Optional.of(resourceURL);
-        Object[][] reportInfo = ReportUtils.buildTwoArray(list);
-        TableDataModel tableDataModel = new TableDataModel(reportInfo, reportTitle);
-        ReportElementModel elementModel = new ReportElementModel();
-        elementModel.setDataName(reportName);
-        elementModel.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
-        elementModel.setDataModel(tableDataModel);
+    private void exportExcel(Optional<String> resource, List<ExDetailReportVo> list, Object[] reportTitle, OutputStream out, Map<String, Object> params) {
+
+        ArrayListMultimap<StructureEnum, ReportElementModel> elements = ArrayListMultimap.create();
+        ReportElementModel model = buildReportElementModel("listInfo", "listData", list, reportTitle);
+        elements.put(StructureEnum.REPORT_HEADER, model);
         //封装文件
         ReportEngine re = new ReportEngine();
-        re.generateReport(resource, elementModel,ExportEnum.EXCEL_07, out);
-        
+        re.generateReport(resource, elements, params, ExportEnum.EXCEL_07, out);
         //使用输出流返回文件
         try {
             out.flush();
         } catch (IOException e) {
-            logger.error("", e);
+            logger.info("导出失败", e.getMessage());
         } finally{
             try {
                 out.close();
             } catch (IOException e) {
-                logger.error("", e);
+                logger.info("导出失败", e.getMessage());
             }
         }
+    }
+
+    private <T> ReportElementModel buildReportElementModel(String name, String dataName, List<T> lists, Object[] title) {
+        ReportElementModel model = new ReportElementModel();
+        Object[][] arrays = ReportUtils.buildTwoArray(lists);
+        TableDataModel dataModel = new TableDataModel(arrays, title);
+        model.setName(name);
+        model.setDataName(dataName);
+        model.setElementEnum(ElementEnum.REPORT_DEFINITION_TABLE);
+        model.setDataModel(dataModel);
+        return model;
+
     }
     
     private void sortExcel(List<ExDetailVo> list) {

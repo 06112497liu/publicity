@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.bbd.util.ReportUtils;
 import org.slf4j.Logger;
@@ -373,6 +374,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         Integer property = annualService.getCompanyProperty(nbxh);
         
         EnterpriseAssetVo vo = annualService.queryEnterpriAssetInfo(serialNo);
+        if(Objects.isNull(vo)) return rs;
         if(Sets.newHashSet(1, 2, 3).contains(property)) {            
             AssetsInfoQY info = BeanMapperUtil.map(vo, AssetsInfoQY.class);
             rs.add(info);
@@ -397,7 +399,6 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             Field[] field = t.getClass().getDeclaredFields();
             for (int i = 0; i < field.length; i++) {
                 Field f = field[i];
-                
                 f.setAccessible(true);
                 try {
                     f.set(t, f.get(t) + unit);
@@ -538,12 +539,8 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         if(!dbList.isEmpty()) info = dbList.get(0);
         return Optional.fromNullable(info);
     }
-    
-    private <T> ReportElementModel buildReportElementModel(String name, 
-                                                       String dataName,
-                                                       List<T> lists,
-                                                       int index,
-                                                       Object[] title) {
+
+    private <T> ReportElementModel buildReportElementModel(String name, String dataName, List<T> lists, int index, Object[] title) {
         ReportElementModel model = new ReportElementModel();
         Object[][] arrays = ReportUtils.buildTwoArray(lists);
         TableDataModel dataModel = new TableDataModel(arrays, title);
