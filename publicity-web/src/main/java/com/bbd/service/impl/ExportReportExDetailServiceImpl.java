@@ -163,6 +163,11 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         exportExcel("report/ExceptionList.prpt", "ExceptionData", sourceList, reportTitle, out);
     }
 
+    @Override
+    public void exDetailAll(Integer type, Integer count, Integer sortType, String sort, OutputStream out) {
+
+    }
+
     // 构建excel对象
     private List<ExDetailVo> buildExDetailVoList(ExceptionSearchParam param, int type) {
 
