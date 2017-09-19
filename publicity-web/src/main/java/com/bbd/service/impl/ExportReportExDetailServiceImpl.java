@@ -85,14 +85,8 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         // 2.查询某个企业的 即时 信息对比详情
         List<ExDetailVo> insList = compareExceptionService.getCompanyInstantlyExDetails(nbxh);                
         sortExcel(insList);
-        // 3.构建excel导出对象
-        List<ExDetailReportVo> sourceList = Lists.newLinkedList();
-        List<ExDetailReportVo> list1 = buildOneExDetailReportVo(annualList, 1);
-        List<ExDetailReportVo> list2 = buildOneExDetailReportVo(insList, 2);
-        sourceList.addAll(list1);
-        sourceList.addAll(list2);
-        // 4.导出
-        exportExcel("report/ExceptionList.prpt", "ExceptionData", sourceList, reportTitle, out);
+        // 3.导出报告
+        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
     }
    
 
@@ -125,15 +119,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         // 排序
         sortExcel(annualList);
         sortExcel(insList);
-        // 构建excel导出对象
-        List<ExDetailReportVo> sourceList = Lists.newLinkedList();
-        List<ExDetailReportVo> list1 = buildOneExDetailReportVo(annualList, 1);
-        List<ExDetailReportVo> list2 = buildOneExDetailReportVo(insList, 2);
-        sourceList.addAll(list1);
-        sourceList.addAll(list2);
-
-        // 导出
-        exportExcel("report/ExceptionList.prpt", "ExceptionData", sourceList, reportTitle, out);
+        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
     }
 
     /**
@@ -144,32 +130,80 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
 
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
-        if(1 == type) annualList = buildExDetailVoList(param, 1);
-        if(2 == type) insList = buildExDetailVoList(param, 2);
+        if(1 == type) {
+            List<String> nbxhList = getNbxhList(param, 1);
+            annualList = getExDetailVoList(nbxhList, 1);
+        }
+        if(2 == type) {
+            List<String> nbxhList = getNbxhList(param, 2);
+            insList = getExDetailVoList(nbxhList, 2);
+        }
         if(3 == type) {
-            annualList = buildExDetailVoList(param, 1);
-            insList = buildExDetailVoList(param, 2);
+            List<String> nbxhList = getNbxhList(param, 3);
+            annualList = getExDetailVoList(nbxhList, 1);
+            insList = getExDetailVoList(nbxhList, 2);
         }
         // 排序
         sortExcel(annualList);
         sortExcel(insList);
-        // 构建excel导出对象
-        List<ExDetailReportVo> sourceList = Lists.newLinkedList();
-        List<ExDetailReportVo> list1 = buildOneExDetailReportVo(annualList, 1);
-        List<ExDetailReportVo> list2 = buildOneExDetailReportVo(insList, 2);
-        sourceList.addAll(list1);
-        sourceList.addAll(list2);
-        // 导出
-        exportExcel("report/ExceptionList.prpt", "ExceptionData", sourceList, reportTitle, out);
+        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
     }
 
+    /**
+     * 根据企业异常项数量导出报告
+     */
     @Override
     public void exDetailAll(Integer type, Integer count, Integer sortType, String sort, OutputStream out) {
-
+        List<ExDetailVo> annualList = Lists.newLinkedList();
+        List<ExDetailVo> insList = Lists.newLinkedList();
+        List<String> nbxhList = Lists.newLinkedList();
+        if(1 == type) {
+            nbxhList = compareExceptionService.searchAnnualByExCount(count, sort, sortType, new PageBounds(1, 1500));
+            annualList = getExDetailVoList(nbxhList,1);
+        }
+        if(2 == type) {
+            nbxhList = compareExceptionService.searchInstantlyByExCount(count, sort, sortType, new PageBounds(1, 1500));
+            insList = getExDetailVoList(nbxhList, 2);
+        }
+        if(3 == type) {
+            nbxhList = compareExceptionService.searchAllByExCount(count, sort, sortType, new PageBounds(1, 1500));
+            annualList = getExDetailVoList(nbxhList, 1);
+            insList = getExDetailVoList(nbxhList, 2);
+        }
+        // 排序
+        sortExcel(annualList);
+        sortExcel(insList);
+        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
     }
 
-    // 构建excel对象
-    private List<ExDetailVo> buildExDetailVoList(ExceptionSearchParam param, int type) {
+    /**
+     * 根据企业名称导出
+     */
+    @Override
+    public void exDetailAll(Integer type, String companyName, Integer sortType, String sort, OutputStream out) {
+        List<ExDetailVo> annualList = Lists.newLinkedList();
+        List<ExDetailVo> insList = Lists.newLinkedList();
+        List<String> nbxhList = Lists.newLinkedList();
+        if(type == 1) {
+            nbxhList = compareExceptionService.searchAnnualByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
+            annualList = getExDetailVoList(nbxhList, 1);
+        }
+        if(type == 2) {
+            nbxhList = compareExceptionService.searchInstantlyByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
+            insList = getExDetailVoList(nbxhList, 2);
+        }
+        if(type == 3) {
+            nbxhList = compareExceptionService.searchAllByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
+            annualList = getExDetailVoList(nbxhList, 1);
+            insList = getExDetailVoList(nbxhList, 2);
+        }
+        // 排序
+        sortExcel(annualList);
+        sortExcel(insList);
+        generatExport("report/ExceptionList.prpt", "ExceptionData", annualList, insList, out);
+    }
+    // 获取满足条件企业的nbxh集合
+    private List<String> getNbxhList(ExceptionSearchParam param, int type) {
 
         String region = param.getRegion();
         String primaryIndustry = param.getPrimaryIndustry();
@@ -178,7 +212,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         int sortType = param.getSortType();
         String sort = param.getSort();
 
-        List<ExDetailVo> rs = Lists.newLinkedList();
         List<String> nbxhList = Lists.newLinkedList();
         if(type == 1)
             nbxhList = companyExItemExtDao.queryAnnualByParam(region, primaryIndustry, moduleType, exType, sortType, sort, new PageBounds(1, 1500));
@@ -186,7 +219,12 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             nbxhList = companyExItemExtDao.queryInstantlyByParam(region, primaryIndustry, moduleType, exType, sort, sortType, new PageBounds(1, 1500));
         if(type == 3)
             nbxhList = companyExItemExtDao.queryAllByParam(region, primaryIndustry, exType, sort, sortType, new PageBounds(1, 1500));
+        return nbxhList;
+    }
 
+    // 构建excel对象(原始)
+    private List<ExDetailVo> getExDetailVoList(List<String> nbxhList, int type) {
+        List<ExDetailVo> rs = Lists.newLinkedList();
         Map<Integer, String> map = splitList(nbxhList, 300);
         Set<Integer> set = map.keySet();
         Iterator<Integer> it = set.iterator();
@@ -232,6 +270,17 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             }
         }
         return map;
+    }
+
+    //生成报告
+    private void generatExport(String source, String dataName, List<ExDetailVo> annualList, List<ExDetailVo> insList, OutputStream out) {
+        // 构建excel导出对象
+        List<ExDetailReportVo> sourceList = Lists.newLinkedList();
+        List<ExDetailReportVo> list1 = buildOneExDetailReportVo(annualList, 1);
+        List<ExDetailReportVo> list2 = buildOneExDetailReportVo(insList, 2);
+        sourceList.addAll(list1);
+        sourceList.addAll(list2);
+        exportExcel("report/ExceptionList.prpt", "ExceptionData", sourceList, reportTitle, out);
     }
 
     // 分类构建excel对象（1-年报异常，2-即时信息异常）

@@ -179,11 +179,13 @@ public class AnnualServiceImpl implements IAnnualService {
             String nb = p.getNbxh();
             String person = p.getLegalPerson();
             String creditCode = p.getCreditCode();
+            Integer property = p.getCompanyProperty();
             AnnualBase s = baseExtDao.selectRecentlyAnnualInfoByNbxh(nb);
             AnnualBaseInfoVo t = BeanMapperUtil.map(s, AnnualBaseInfoVo.class);
             if(null != t) {
                 t.setLegalPerson(person);
                 t.setCreditCode(creditCode);
+                t.setCompanyProperty(property);
                 temp.add(t);
             }
         }

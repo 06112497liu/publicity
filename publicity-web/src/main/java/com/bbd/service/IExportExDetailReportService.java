@@ -44,6 +44,16 @@ public interface IExportExDetailReportService {
      * @param sort
      */
     void exDetailAll(Integer type, Integer count, Integer sortType, String sort, OutputStream out);
+
+    /**
+     * 企业信息对比详情报告（企业名称全量）
+     * @param type
+     * @param companyName
+     * @param sortType
+     * @param sort
+     * @param out
+     */
+    void exDetailAll(Integer type, String companyName, Integer sortType, String sort, OutputStream out);
     
 }
 

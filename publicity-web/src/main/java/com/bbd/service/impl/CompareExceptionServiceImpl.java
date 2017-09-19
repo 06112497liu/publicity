@@ -107,17 +107,14 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
     public List<String> searchAnnualByCompanyName(String companyName, String sort, int sortType, PageBounds pb) {
         List<String> rs = Lists.newArrayList();
         String str = (sort == null ? "desc" : sort);
-        
         CompanyExItemExample exam = new CompanyExItemExample();
         if(sortType == 1) {
             exam.setOrderByClause("annual_num " + str);
         } else if(sortType == 1) {
             exam.setOrderByClause("annual_ex_modules_num " + str);
         }
-        
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
         criteria.andAnnualNumGreaterThan(0);
-        
         if (!StringUtils.isEmpty(companyName)) {
             criteria.andCompanyNameLike("%" + companyName + "%");
         }
@@ -125,9 +122,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         if (ds.size() == 0) {
             return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
         }
-
         ds.forEach(p -> rs.add(p.getNbxh()));
-
         return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
     }
 

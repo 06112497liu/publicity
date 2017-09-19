@@ -8,12 +8,16 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bbd.controller.vo.ExceptionCompanyVo;
+import com.bbd.pagin.PageListHelper;
 import com.bbd.service.param.ExceptionSearchParam;
+import com.bean.RestResult;
+import com.mybatis.domain.PageList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -93,7 +97,7 @@ public class ReprotController extends AbstractController {
             @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/exception/detail/all/excount/download.do")
+    @RequestMapping(value = "/exception/detail/all/params/download.do")
     public void exportExDetailAll(Integer type, ExceptionSearchParam param) throws IOException {
         ValidateUtil.checkNull(type, CommonErrorCode.PARAM_NULL);
         HttpServletRequest request = SessionContext.getRequest();
@@ -103,14 +107,14 @@ public class ReprotController extends AbstractController {
         exDetailreportService.exDetailAll(type, out, param);
     }
 
-    @ApiOperation(value = "根据异常项数量查询年报信息公示异常企业列表", httpMethod = "GET", response = ExceptionCompanyVo.class)
+    @ApiOperation(value = "企业信息比对详情报告全量导出（异常项数量）", httpMethod = "GET", response = ExceptionCompanyVo.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "异常类型（1-年报信息公示异常，2-即时信息公示异常，3-完整异常）", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "count", value = "异常项数量", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/annual/excount/search.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/exception/detail/all/count/download.do", method = RequestMethod.GET)
     public void exportExDetailAll(Integer type, Integer count, Integer sortType, String sort) throws IOException {
         ValidateUtil.checkNull(type, CommonErrorCode.PARAM_NULL);
         int num = (count == null ? 0 : count);
@@ -122,6 +126,23 @@ public class ReprotController extends AbstractController {
         exDetailreportService.exDetailAll(type, num, sType, sort, out);
     }
 
+    @ApiOperation(value = "企业信息比对详情报告全量导出（企业名称）", httpMethod = "GET", response = ExceptionCompanyVo.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "异常类型（1-年报信息公示异常，2-即时信息公示异常，3-完整异常）", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "companyName", value = "企业名称", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "sortType", value = "排序类别（1-异常项数，2-异常模块数）", required = false, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "sort", value = "对比项排序（desc-倒序，asc-正序）", required = false, dataType = "String", paramType = "query")
+    })
+    @RequestMapping(value = "/exception/detail/all/name/download.do", method = RequestMethod.GET)
+    public void exportExDetailAll(Integer type, String companyName, String sort, Integer sortType) throws IOException {
+        ValidateUtil.checkNull(type, CommonErrorCode.PARAM_NULL);
+        int sType = (sortType == null ? 1 : sortType);
+        HttpServletRequest request = SessionContext.getRequest();
+        HttpServletResponse response = SessionContext.getResponse();
+        String fileName = "企业信息对比详情报告（全量）.xlsx";
+        OutputStream out = buildResponse(fileName, request, response);
+        exDetailreportService.exDetailAll(type, companyName, sType, sort, out);
+    }
 
      @ApiOperation(value = "比对分析报告导出", httpMethod = "GET")
      @RequestMapping(value = "/statistics/download.do")    
