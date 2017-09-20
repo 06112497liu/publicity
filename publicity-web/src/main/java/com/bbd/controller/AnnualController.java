@@ -37,9 +37,11 @@ public class AnnualController extends AbstractController {
     private IAnnualService annualService;
 
     @ApiOperation(value = "根据企业名称（注册号）模糊（精确）查询企业年报列表信息", httpMethod = "GET", response = AnnualBaseInfoVo.class)
-    @ApiImplicitParams({ @ApiImplicitParam(name = "param", value = "企业名称或注册号", required = false, dataType = "String", paramType = "query"),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "param", value = "企业名称或注册号", required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query") })
+            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query")
+    })
     @RequestMapping(value = "/list.do", method = RequestMethod.GET)
     public RestResult getAnnualInfoList(String param) {
         List<AnnualBaseInfoVo> rs = annualService.getAnnualInfoList(param, getPageBounds());
@@ -56,8 +58,10 @@ public class AnnualController extends AbstractController {
     }
 
     @ApiOperation(value = "根据企业nbxh和年份查询企业年报基本信息", httpMethod = "GET", response = AnnualBaseInfoVo.class)
-    @ApiImplicitParams({ @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "year", value = "年报年度", required = true, dataType = "String", paramType = "query") })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "year", value = "年报年度", required = true, dataType = "String", paramType = "query")
+    })
     @RequestMapping(value = "/base.do")
     public RestResult getAnnualBaseInfo(String nbxh, String year) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(nbxh), "企业nbxh不能为空！");
@@ -76,9 +80,11 @@ public class AnnualController extends AbstractController {
     }
 
     @ApiOperation(value = "根据年报流水号查询股东及出资列表信息", httpMethod = "GET", response = StockholderInfosVo.class)
-    @ApiImplicitParams({ @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query") })
+            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query")
+    })
     @RequestMapping(value = "/shareholders.do", method = RequestMethod.GET)
     public RestResult getStockholderInfo(String serialNo) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(serialNo), "年报流水号不能为空！");
@@ -105,9 +111,11 @@ public class AnnualController extends AbstractController {
     }
 
     @ApiOperation(value = "根据年报流水号查询企业对外提供担保保证列表信息", httpMethod = "GET", response = ProvGuarVo.class)
-    @ApiImplicitParams({ @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query") })
+            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query")
+    })
     @RequestMapping(value = "/guarantee.do", method = RequestMethod.GET)
     public RestResult getProvGuarInfo(String serialNo) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(serialNo), "年报流水号不能为空！");
@@ -116,9 +124,11 @@ public class AnnualController extends AbstractController {
     }
 
     @ApiOperation(value = "根据年报流水号查询企业股权变更列表信息", httpMethod = "GET", response = EquityChangeVo.class)
-    @ApiImplicitParams({ @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query") })
+            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query")
+    })
     @RequestMapping(value = "/equity.do", method = RequestMethod.GET)
     public RestResult getEquityChangeInfo(String serialNo) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(serialNo), "年报流水号不能为空！");
@@ -127,9 +137,11 @@ public class AnnualController extends AbstractController {
     }
 
     @ApiOperation(value = "根据年报流水号查询企业行政许可情况列表信息", httpMethod = "GET", response = AdminLicVo.class)
-    @ApiImplicitParams({ @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query") })
+            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query")
+    })
     @RequestMapping(value = "/license.do", method = RequestMethod.GET)
     public RestResult getAdminLicInfo(String serialNo) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(serialNo), "年报流水号不能为空！");
@@ -138,9 +150,11 @@ public class AnnualController extends AbstractController {
     }
 
     @ApiOperation(value = "根据年报流水号查询企业分支机构列表信息", httpMethod = "GET", response = BranchVo.class)
-    @ApiImplicitParams({ @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "serialNo", value = "年报流水号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query") })
+            @ApiImplicitParam(name = "limit", value = "每页条数", required = false, dataType = "int", paramType = "query")
+    })
     @RequestMapping(value = "/branch.do", method = RequestMethod.GET)
     public RestResult getBranchInfo(String serialNo) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(serialNo), "年报流水号不能为空！");
