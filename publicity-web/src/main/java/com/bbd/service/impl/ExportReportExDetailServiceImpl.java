@@ -162,21 +162,25 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     public void exDetailAll(Integer type, Integer count, Integer sortType, String sort, OutputStream out) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("count", count);
+        params.put("date", updateDate);
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
         List<String> nbxhList;
         if(1 == type) {
             nbxhList = compareExceptionService.searchAnnualByExCount(count, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList,1);
+            params.put("nameType", "异常项数量查询年报信息异常名单");
         }
         if(2 == type) {
             nbxhList = compareExceptionService.searchInstantlyByExCount(count, sort, sortType, new PageBounds(1, 1500));
             insList = getExDetailVoList(nbxhList, 2);
+            params.put("nameType", "异常项数量查询及时信息异常名单");
         }
         if(3 == type) {
             nbxhList = compareExceptionService.searchAllByExCount(count, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList, 1);
             insList = getExDetailVoList(nbxhList, 2);
+            params.put("nameType", "异常项数量查询完整异常名单");
         }
         // 排序
         sortExcel(annualList);
@@ -191,21 +195,25 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     public void exDetailAll(Integer type, String companyName, Integer sortType, String sort, OutputStream out) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("companyName", companyName);
+        params.put("date", updateDate);
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
         List<String> nbxhList;
         if(type == 1) {
             nbxhList = compareExceptionService.searchAnnualByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList, 1);
+            params.put("nameType", "企业名称模糊查询年报信息异常名单");
         }
         if(type == 2) {
             nbxhList = compareExceptionService.searchInstantlyByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
             insList = getExDetailVoList(nbxhList, 2);
+            params.put("nameType", "企业名称模糊查询及时信息异常名单");
         }
         if(type == 3) {
             nbxhList = compareExceptionService.searchAllByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList, 1);
             insList = getExDetailVoList(nbxhList, 2);
+            params.put("nameType", "企业名称模糊查询完整异常名单");
         }
         // 排序
         sortExcel(annualList);
@@ -219,7 +227,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         Map<String, Object> map = Maps.newHashMap();
         String nameType;
         String region = param.getRegion() == null ? "全市" : disMap.get(param.getRegion());
-        String industry = param.getPrimaryIndustry() == null ? "所有行业" : industryMap.get(param.getPrimaryIndustry() == null);
+        String industry = param.getPrimaryIndustry() == null ? "所有行业" : industryMap.get(param.getPrimaryIndustry());
         String moduleType;
         String exType = param.getExType() == 0 ? "全部异常原因" : ExReasonEnum.getDescByCode(param.getExType());
         if(type == 1) {
@@ -232,7 +240,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             nameType = "完整异常名单";
             moduleType = "";
         }
-        map.put("type", nameType);
+        map.put("nameType", nameType);
         map.put("date", updateDate);
         map.put("region", region);
         map.put("primaryIndustry", industry);
