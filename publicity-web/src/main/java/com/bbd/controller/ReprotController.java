@@ -184,7 +184,7 @@ public class ReprotController extends AbstractController {
                                         HttpServletRequest request, 
                                         HttpServletResponse response) throws IOException {
          String agent = request.getHeader("USER-AGENT"); //处理IE乱码的问题
-         if(agent != null && agent.indexOf("MSIE") != -1) {
+         if((agent != null && agent.indexOf("MSIE") != -1) || agent.indexOf("like Gecko")>0) {
              fileName = URLEncoder.encode(fileName, "UTF-8");
              fileName = fileName.replaceAll("\\+", "%20");
          } else {
