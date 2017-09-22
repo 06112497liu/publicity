@@ -8,14 +8,18 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bbd.controller.vo.ExceptionCompanyVo;
+import com.bbd.domain.PubCompanyInfo;
 import com.bbd.pagin.PageListHelper;
+import com.bbd.service.*;
 import com.bbd.service.param.ExceptionSearchParam;
+import com.bbd.util.DateUtil;
 import com.bean.RestResult;
 import com.mybatis.domain.PageList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +28,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bbd.exception.PubErrorCode;
-import com.bbd.service.IAnnualService;
-import com.bbd.service.IExportAnnualReportService;
-import com.bbd.service.IExportCmpStaReportService;
-import com.bbd.service.IExportExDetailReportService;
 import com.bbd.util.SessionContext;
 import com.bbd.util.ValidateUtil;
 import com.exception.ApplicationException;
@@ -56,9 +56,14 @@ public class ReprotController extends AbstractController {
      
      @Autowired
      private IExportAnnualReportService annualReportService;
+
+     @Autowired
+     private ICompanyService companyService;
      
      @Autowired
      private IAnnualService annualService;
+
+     private static String date = DateUtil.formatDateByPatten(new Date(), "yyyyMMdd");
      
      @ApiOperation(value = "企业信息比对详情报告导出", httpMethod = "GET")
      @ApiImplicitParams({ @ApiImplicitParam(name = "nbxh", value = "企业nbxh", required = true, paramType = "query", dataType = "String") })
@@ -67,7 +72,8 @@ public class ReprotController extends AbstractController {
          ValidateUtil.checkNull(nbxh, CommonErrorCode.PARAM_NULL);
          HttpServletRequest request = SessionContext.getRequest();
          HttpServletResponse response = SessionContext.getResponse();
-         String fileName = "企业信息对比详情报告（单个）.xlsx";
+         String companyName = companyService.getByNbxh(nbxh).getCompanyName();
+         String fileName = companyName + "企业公示信息对比异常详情报告" + date + ".xlsx";
          OutputStream out = buildResponse(fileName, request, response);
          exDetailreportService.exDetailByNbxh(nbxh, out);
      }
@@ -82,7 +88,10 @@ public class ReprotController extends AbstractController {
          ValidateUtil.checkAllNull(CommonErrorCode.PARAM_NULL, type, nbxhs);
          HttpServletRequest request = SessionContext.getRequest();
          HttpServletResponse response = SessionContext.getResponse();
-         String fileName = "企业信息对比详情报告（批量）.xlsx";
+         String fileName;
+         if(type == 1) fileName = "年报公示信息异常企业名单（批量）" + date + ".xlsx";
+         else if(type == 2) fileName = "即时信息公示异常企业名单（批量）" + date + ".xlsx";
+         else fileName = "完整公示信息对比异常企业名单（批量）" + date + ".xlsx";
          OutputStream out = buildResponse(fileName, request, response);
          exDetailreportService.exDetailByNbxhs(nbxhs, out, type);
      }
@@ -102,7 +111,7 @@ public class ReprotController extends AbstractController {
         ValidateUtil.checkNull(type, CommonErrorCode.PARAM_NULL);
         HttpServletRequest request = SessionContext.getRequest();
         HttpServletResponse response = SessionContext.getResponse();
-        String fileName = "企业信息对比详情报告（全量）.xlsx";
+        String fileName = buildFileName(type);
         OutputStream out = buildResponse(fileName, request, response);
         exDetailreportService.exDetailAll(type, out, param);
     }
@@ -121,7 +130,7 @@ public class ReprotController extends AbstractController {
         int sType = (sortType == null ? 1 : sortType);
         HttpServletRequest request = SessionContext.getRequest();
         HttpServletResponse response = SessionContext.getResponse();
-        String fileName = "企业信息对比详情报告（全量）.xlsx";
+        String fileName = buildFileName(type);
         OutputStream out = buildResponse(fileName, request, response);
         exDetailreportService.exDetailAll(type, num, sType, sort, out);
     }
@@ -139,7 +148,7 @@ public class ReprotController extends AbstractController {
         int sType = (sortType == null ? 1 : sortType);
         HttpServletRequest request = SessionContext.getRequest();
         HttpServletResponse response = SessionContext.getResponse();
-        String fileName = "企业信息对比详情报告（全量）.xlsx";
+        String fileName = buildFileName(type);
         OutputStream out = buildResponse(fileName, request, response);
         exDetailreportService.exDetailAll(type, companyName, sType, sort, out);
     }
@@ -149,7 +158,7 @@ public class ReprotController extends AbstractController {
      public void ExportCompareStatistics() throws IOException {
          HttpServletRequest request = SessionContext.getRequest();
          HttpServletResponse response = SessionContext.getResponse();
-         String fileName = "比对统计分析报告.pdf";
+         String fileName = "贵阳市企业公示信息大数据对比统计分析报告" + date + ".pdf";
          OutputStream out = buildResponse(fileName, request, response);
          cmpStaReportService.cmpStaReport(out);
      }
@@ -163,13 +172,15 @@ public class ReprotController extends AbstractController {
      @RequestMapping(value = "/annual/download.do")    
      public void ExportAnnual(String nbxh, String annualYear, Integer companyProperty) throws IOException {
          ValidateUtil.checkAllNull(CommonErrorCode.PARAM_NULL, nbxh, annualYear, companyProperty);
-         Integer pro = annualService.getCompanyProperty(nbxh);
+         PubCompanyInfo companyInfo = companyService.getByNbxh(nbxh);
+         Integer pro = companyInfo.getCompanyProperty();
+         String companyName = companyInfo.getCompanyName();
          if(Integer.compare(companyProperty, pro) != 0) {
              throw new ApplicationException(PubErrorCode.COMPANY_PROPERTY_DONT_MATCH);
          }
          HttpServletRequest request = SessionContext.getRequest();
          HttpServletResponse response = SessionContext.getResponse();
-         String fileName = "企业年报报告.pdf";
+         String fileName = companyName + "企业" + annualYear + "年年度报告.pdf";
          OutputStream out = buildResponse(fileName, request, response);
          if(4 == companyProperty)
              annualReportService.getAnnualNZ(out, nbxh, annualYear);
@@ -193,6 +204,14 @@ public class ReprotController extends AbstractController {
          response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
          response.setContentType("application/x-msdownload;");
          return response.getOutputStream();
+     }
+
+     private static String buildFileName(Integer type) {
+         String fileName;
+         if(type == 1) fileName = "年报公示信息异常企业名单（全量）" + date + ".xlsx";
+         else if(type == 2) fileName = "即时信息公示异常企业名单（全量）" + date + ".xlsx";
+         else fileName = "完整公示信息对比异常企业名单（全量）" + date + ".xlsx";
+         return fileName;
      }
      
 }

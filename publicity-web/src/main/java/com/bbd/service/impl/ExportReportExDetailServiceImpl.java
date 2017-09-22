@@ -278,11 +278,11 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             String nbxhs = map.get(it.next());
             if(type == 1) {
                 List<AnnualExDetail> list = exportReportDao.queryAnnualAllByParam(nbxhs);
-                rs = BeanMapperUtil.mapList(list, ExDetailVo.class);
+                rs.addAll(BeanMapperUtil.mapList(list, ExDetailVo.class));
             }
             if(type == 2) {
                 List<InstantlyExDetail> list = exportReportDao.queryInsAllByparam(nbxhs);
-                rs = BeanMapperUtil.mapList(list, ExDetailVo.class);
+                rs.addAll(BeanMapperUtil.mapList(list, ExDetailVo.class));
             }
         }
         return rs;

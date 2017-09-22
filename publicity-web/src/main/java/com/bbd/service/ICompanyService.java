@@ -14,6 +14,11 @@ import com.bbd.domain.PubCompanyInfo;
  */
 public interface ICompanyService {
 
+    /**
+     * 根据nbxh查询企业信息
+     * @param nbxh
+     * @return
+     */
     PubCompanyInfo getByNbxh(String nbxh);
 
     /**
