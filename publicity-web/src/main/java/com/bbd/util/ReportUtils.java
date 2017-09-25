@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReportUtils {
 
@@ -28,7 +30,11 @@ public class ReportUtils {
             for (int j = 0; j < columns; j++) {
                 declaredFields[j].setAccessible(true);
                 try {
-                    rs[i][j] = declaredFields[j].get(datas.get(i));
+                    Object obj = declaredFields[j].get(datas.get(i));
+                    if(obj instanceof String)
+                        rs[i][j] = replaceBlank((String) obj);
+                    else
+                        rs[i][j] = obj;
                 } catch (IllegalArgumentException e) {
                     logger.error("", e);
                 } catch (IllegalAccessException e) {
@@ -37,6 +43,16 @@ public class ReportUtils {
             }
         }
         return rs;
+    }
+
+    public static String replaceBlank(String str) {
+        String dest = "";
+        if (str!=null) {
+            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
     }
 
 

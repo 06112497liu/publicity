@@ -169,18 +169,18 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         if(1 == type) {
             nbxhList = compareExceptionService.searchAnnualByExCount(count, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList,1);
-            params.put("nameType", "异常项数量查询年报信息异常名单");
+            params.put("nameType", "年报公示信息异常企业名单（全量）");
         }
         if(2 == type) {
             nbxhList = compareExceptionService.searchInstantlyByExCount(count, sort, sortType, new PageBounds(1, 1500));
             insList = getExDetailVoList(nbxhList, 2);
-            params.put("nameType", "异常项数量查询及时信息异常名单");
+            params.put("nameType", "即时信息公示异常企业名单（全量）");
         }
         if(3 == type) {
             nbxhList = compareExceptionService.searchAllByExCount(count, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList, 1);
             insList = getExDetailVoList(nbxhList, 2);
-            params.put("nameType", "异常项数量查询完整异常名单");
+            params.put("nameType", "完整公示信息对比异常企业名单（全量）");
         }
         // 排序
         sortExcel(annualList);
@@ -202,18 +202,18 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         if(type == 1) {
             nbxhList = compareExceptionService.searchAnnualByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList, 1);
-            params.put("nameType", "企业名称模糊查询年报信息异常名单");
+            params.put("nameType", "年报公示信息异常企业名单（全量）");
         }
         if(type == 2) {
             nbxhList = compareExceptionService.searchInstantlyByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
             insList = getExDetailVoList(nbxhList, 2);
-            params.put("nameType", "企业名称模糊查询及时信息异常名单");
+            params.put("nameType", "即时信息公示异常企业名单（全量）");
         }
         if(type == 3) {
             nbxhList = compareExceptionService.searchAllByCompanyName(companyName, sort, sortType, new PageBounds(1, 1500));
             annualList = getExDetailVoList(nbxhList, 1);
             insList = getExDetailVoList(nbxhList, 2);
-            params.put("nameType", "企业名称模糊查询完整异常名单");
+            params.put("nameType", "完整公示信息对比异常企业名单（全量）");
         }
         // 排序
         sortExcel(annualList);
@@ -231,13 +231,13 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         String moduleType;
         String exType = param.getExType() == 0 ? "全部异常原因" : ExReasonEnum.getDescByCode(param.getExType());
         if(type == 1) {
-            nameType = "年报信息公示异常名单";
+            nameType = "年报公示信息异常企业名单（全量）";
             moduleType = param.getModuleType() == 0 ? "全部年报对比项" : AnnualModule.getDescByCode(param.getModuleType());
         } else if(type == 2) {
-            nameType = "即时信息公示异常名单";
+            nameType = "即时信息公示异常企业名单（全量）";
             moduleType = param.getModuleType() == 0 ? "全部即时信息对比项" : AnnualModule.getDescByCode(param.getModuleType());
         } else {
-            nameType = "完整异常名单";
+            nameType = "完整公示信息对比异常企业名单（全量）";
             moduleType = "";
         }
         map.put("nameType", nameType);
