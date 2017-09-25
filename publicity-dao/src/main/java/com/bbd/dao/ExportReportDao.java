@@ -1,7 +1,6 @@
 package com.bbd.dao;
 
-import com.bbd.domain.AnnualExDetail;
-import com.bbd.domain.InstantlyExDetail;
+import com.bbd.vo.ExDetailVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,14 +17,14 @@ public interface ExportReportDao {
      * @param nbxhs
      * @return
      */
-    List<AnnualExDetail> queryAnnualAllByParam(@Param("nbxhs") String nbxhs);
+    List<ExDetailVo> queryAnnualAllByParam(@Param("nbxhs") String nbxhs);
 
     /**
      * 查询指定nbxh的企业异常详情(年报)
      * @param nbxhs
      * @return
      */
-    List<InstantlyExDetail> queryInsAllByparam(@Param("nbxhs") String nbxhs);
+    List<ExDetailVo> queryInsAllByparam(@Param("nbxhs") String nbxhs);
 }
     
     

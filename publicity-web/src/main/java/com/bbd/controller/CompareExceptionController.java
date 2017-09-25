@@ -24,7 +24,7 @@ import com.bbd.service.ICompareExceptionService;
 import com.bbd.service.compare.AnnualModule;
 import com.bbd.service.compare.InstantlyModule;
 import com.bbd.service.compare.PropertyEnum;
-import com.bbd.service.param.ExDetailVo;
+import com.bbd.vo.ExDetailVo;
 import com.bbd.service.param.ExceptionSearchParam;
 import com.bbd.util.DateUtil;
 import com.bbd.util.NumUtils;

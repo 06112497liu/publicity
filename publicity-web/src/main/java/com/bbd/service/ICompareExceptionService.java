@@ -7,7 +7,7 @@ package com.bbd.service;
 import java.util.List;
 import java.util.Map;
 
-import com.bbd.service.param.ExDetailVo;
+import com.bbd.vo.ExDetailVo;
 import com.bbd.service.param.ExceptionSearchParam;
 import com.mybatis.domain.PageBounds;
 

@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bbd.dao.ExportReportDao">
-    <resultMap id="BaseResultMap" type="com.bbd.domain.AnnualExDetail">
+    <resultMap id="BaseResultMap" type="com.bbd.vo.ExDetailVo">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="nbxh" jdbcType="VARCHAR" property="nbxh" />
         <result column="prop_name" jdbcType="VARCHAR" property="propName" />
         <result column="submodule" jdbcType="TINYINT" property="submodule" />
-        <result column="company_name" jdbcType="VARCHAR" property="companyName" />
-        <result column="primary_industry" jdbcType="VARCHAR" property="primaryIndustry" />
         <result column="ex_type" jdbcType="TINYINT" property="exType" />
         <result column="compare_time" jdbcType="TIMESTAMP" property="compareTime" />
         <result column="base" jdbcType="VARCHAR" property="base" />
         <result column="other" jdbcType="VARCHAR" property="other" />
         <result column="unit" jdbcType="VARCHAR" property="unit" />
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
-        <result column="region" jdbcType="VARCHAR" property="region" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, nbxh, prop_name, submodule, company_name, primary_industry, ex_type, compare_time,
-        base, other, unit, gmt_create, gmt_modified, region
+        id, nbxh, prop_name, submodule, ex_type, compare_time, base, other, unit
     </sql>
 
     <select id="queryAnnualAllByParam" resultMap="BaseResultMap">

@@ -25,7 +25,7 @@ import com.bbd.service.IExportExDetailReportService;
 import com.bbd.service.compare.AnnualModule;
 import com.bbd.service.compare.InstantlyModule;
 import com.bbd.service.compare.PropertyEnum;
-import com.bbd.service.param.ExDetailVo;
+import com.bbd.vo.ExDetailVo;
 import com.bbd.service.param.ExceptionSearchParam;
 import com.bbd.service.param.report.ExDetailReportVo;
 import com.bbd.util.DateUtil;
@@ -84,7 +84,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
      */
     @Override
     public void exDetailByNbxh(String nbxh, OutputStream out) {
-
         // 1.查询某个企业的 年报 信息对比详情
         List<ExDetailVo> annualList = compareExceptionService.getCompanyAnnualExDetails(nbxh);
         sortExcel(annualList);
@@ -100,8 +99,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
      */
     @Override
     public void exDetailByNbxhs(String[] nbxhs, OutputStream out, Integer exType) {
-        
-        String nbxh = null;
+        String nbxh;
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
         if(exType == 1) { //即时信息异常详情            
@@ -132,7 +130,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
      */
     @Override
     public void exDetailAll(int type, OutputStream out, ExceptionSearchParam param) {
-
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
         if(1 == type) {
@@ -151,7 +148,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         // 排序
         sortExcel(annualList);
         sortExcel(insList);
-
         generatExport(resourceAll, annualList, insList, out, getParams(param, type));
     }
 
@@ -238,7 +234,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             moduleType = param.getModuleType() == 0 ? "全部即时信息对比项" : AnnualModule.getDescByCode(param.getModuleType());
         } else {
             nameType = "完整公示信息对比异常企业名单（全量）";
-            moduleType = "";
+            moduleType = "年报信息和即时信息全部对比项";
         }
         map.put("nameType", nameType);
         map.put("date", updateDate);
@@ -250,14 +246,12 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
 
     // 获取满足条件企业的nbxh集合
     private List<String> getNbxhList(ExceptionSearchParam param, int type) {
-
         String region = param.getRegion();
         String primaryIndustry = param.getPrimaryIndustry();
         int moduleType = param.getModuleType();
         int exType = param.getExType();
         int sortType = param.getSortType();
         String sort = param.getSort();
-
         List<String> nbxhList = Lists.newLinkedList();
         if(type == 1)
             nbxhList = companyExItemExtDao.queryAnnualByParam(region, primaryIndustry, moduleType, exType, sortType, sort, new PageBounds(1, 1500));
@@ -277,12 +271,12 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         while (it.hasNext()) {
             String nbxhs = map.get(it.next());
             if(type == 1) {
-                List<AnnualExDetail> list = exportReportDao.queryAnnualAllByParam(nbxhs);
-                rs.addAll(BeanMapperUtil.mapList(list, ExDetailVo.class));
+                List<ExDetailVo> list = exportReportDao.queryAnnualAllByParam(nbxhs);
+                rs.addAll(list);
             }
             if(type == 2) {
-                List<InstantlyExDetail> list = exportReportDao.queryInsAllByparam(nbxhs);
-                rs.addAll(BeanMapperUtil.mapList(list, ExDetailVo.class));
+                List<ExDetailVo> list = exportReportDao.queryInsAllByparam(nbxhs);
+                rs.addAll(list);
             }
         }
         return rs;
