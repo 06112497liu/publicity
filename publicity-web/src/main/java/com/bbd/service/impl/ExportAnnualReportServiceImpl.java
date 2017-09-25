@@ -126,54 +126,42 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
 
     @Override
     public void getAnnualQY(OutputStream out, String nbxh, String year) {
-        
         // 获取流水号
         String serialNo = getSerialNo(nbxh, year);
-        
         // 获取年报年度、公司名称、注册号
         Map<String, Object> params = getParams(nbxh, year);
-        
         // 年报基本信息
         List<BaseInfo> baseInfo = getAnnualBaseInfo(nbxh, year); 
         ReportElementModel baseModel = 
                 buildReportElementModel("BaseInfo", "BaseData", baseInfo, 7, Title.baseInfoQYTitle);
-        
         // 资产状况信息
         List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
         ReportElementModel assetsModel = 
                 buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 7, Title.assetsInfoTitle);
-        
         // 网站网店信息
         List<WebInfo> webInfo = getWebInfo(serialNo);
         ReportElementModel webModel = 
                 buildReportElementModel("WebInfo", "WebData", webInfo, 6, Title.webInfoTitle);
-        
         // 股东及出资信息
         List<StockholderInfo> stockholderInfo = getStockholderInfo(serialNo);
         ReportElementModel stockholderModel = 
                 buildReportElementModel("StockholderInfo", "StockholderData", stockholderInfo, 5, Title.stockholderInfoTitle);
-        
         // 对外投资信息
         List<InvestInfo> investInfo = getInvestInfo(serialNo, nbxh);
         ReportElementModel investModel = 
                 buildReportElementModel("InvestmentInfo", "InvestmentData", investInfo, 4, Title.investInfoTitle);
-        
         // 对外提供担保保证信息
         List<GuaranteeInfo> guaranteeInfo = getGuaranteeInfo(serialNo);
         ReportElementModel guaranteeModel = 
                 buildReportElementModel("ProvGuarInfo", "ProvGuarData", guaranteeInfo, 3, Title.guaranteeInfoTitle);
-        
         // 股权变更信息
         List<ChangeInfo> changeInfo = getChangeInfo(serialNo);
         ReportElementModel changeModel = 
                 buildReportElementModel("EquityChangeInfo", "EquityChangeData", changeInfo, 2, Title.changeInfoTitle);
-        
-        ArrayListMultimap<StructureEnum, ReportElementModel> elements = 
+        ArrayListMultimap<StructureEnum, ReportElementModel> elements =
                 buildArrayListMultimap(baseModel, assetsModel, webModel, stockholderModel, investModel, guaranteeModel, changeModel);
-        
         ReportEngine re = new ReportEngine();
         re.generateReport(sourceQY, elements, params, ExportEnum.PDF, out);
-        
     }
 
     @Override
