@@ -532,6 +532,8 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     
     // 获取企业详情(根据企业注册号)
     private Optional<PubCompanyInfo> getOneByRegno(String regno) {
+        if(Objects.isNull(regno))
+            return Optional.fromNullable(null);
         PubCompanyInfoExample exam = new PubCompanyInfoExample();
         exam.createCriteria().andRegnoEqualTo(regno);
         List<PubCompanyInfo> dbList = companyDao.selectByExample(exam);

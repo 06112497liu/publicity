@@ -7,6 +7,7 @@ package com.bbd.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -364,9 +365,12 @@ public class AnnualServiceImpl implements IAnnualService {
         List<OutInvesInfoVo> rs = BeanMapperUtil.mapList(dbList, OutInvesInfoVo.class);
         for (OutInvesInfoVo vo : rs) {
             String re = vo.getRegno();
+            List<PubCompanyInfo> list = Lists.newArrayList();
             PubCompanyInfoExample exam = new PubCompanyInfoExample();
-            exam.createCriteria().andRegnoEqualTo(re);
-            List<PubCompanyInfo> list = companyInfoDao.selectByExample(exam);
+            if(Objects.nonNull(re)) {
+                exam.createCriteria().andRegnoEqualTo(re);
+                list = companyInfoDao.selectByExample(exam);
+            }
             if(!list.isEmpty()) {
                 PubCompanyInfo info = list.get(0);
                 vo.setCreditCode(info.getCreditCode());
