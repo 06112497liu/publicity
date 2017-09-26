@@ -1,38 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bbd.dao.ExportReportDao">
-    <resultMap id="BaseResultMap" type="com.bbd.vo.ExDetailVo">
+    <resultMap id="BaseResultMap" type="com.bbd.domain.CompanyExItem">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="nbxh" jdbcType="VARCHAR" property="nbxh" />
-        <result column="prop_name" jdbcType="VARCHAR" property="propName" />
-        <result column="submodule" jdbcType="TINYINT" property="submodule" />
-        <result column="ex_type" jdbcType="TINYINT" property="exType" />
-        <result column="compare_time" jdbcType="TIMESTAMP" property="compareTime" />
-        <result column="base" jdbcType="VARCHAR" property="base" />
-        <result column="other" jdbcType="VARCHAR" property="other" />
-        <result column="unit" jdbcType="VARCHAR" property="unit" />
+        <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+        <result column="annual_num" jdbcType="INTEGER" property="annualNum" />
+        <result column="instantly_num" jdbcType="INTEGER" property="instantlyNum" />
+        <result column="annual_ex_modules" jdbcType="INTEGER" property="annualExModules" />
+        <result column="annual_ex_modules_num" jdbcType="INTEGER" property="annualExModulesNum" />
+        <result column="ins_ex_modules" jdbcType="INTEGER" property="insExModules" />
+        <result column="ins_ex_modules_num" jdbcType="INTEGER" property="insExModulesNum" />
+        <result column="ex_modules_num" jdbcType="INTEGER" property="exModulesNum" />
+        <result column="num" jdbcType="INTEGER" property="num" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, nbxh, prop_name, submodule, ex_type, compare_time, base, other, unit
+        id, nbxh, company_name, annual_num, instantly_num, annual_ex_modules, annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num, ex_modules_num, num
     </sql>
 
-    <select id="queryAnnualAllByParam" resultMap="BaseResultMap">
+    <select id="queryAnnualExByParam" resultMap="BaseResultMap">
         select
-          <include refid="Base_Column_List" />
-        from
-        bbd_pub_annual_ex_prev_detail
-        WHERE
-          1=1
-        AND nbxh IN (${nbxhs})
+        <include refid="Base_Column_List"/>
+        from bbd_pub_company_ex_item
+        where annual_num &gt; 0
+        <if test="region != null">
+            and region = #{region}
+        </if>
+        <if test="primaryIndustry != null">
+            and primary_industry = #{primaryIndustry}
+        </if>
+        <if test="moduleType != 0">
+            and (annual_ex_modules div #{moduleType}) mod 2 = 1
+        </if>
+        <if test="exType != 0">
+            and (annual_ex_types div #{exType} mod 2 = 1)
+        </if>
+        order by
+        <if test="sortType == 1">
+            annual_num ${sort}
+        </if>
+        <if test="sortType == 2">
+            annual_ex_modules_num ${sort}
+        </if>
+        limit 5000
     </select>
-    <select id="queryInsAllByparam" resultMap="BaseResultMap">
+
+    <select id="queryInsExByParam" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
+        from bbd_pub_company_ex_item
+        where instantly_num &gt; 0
+        <if test="region != null">
+            and region = #{region}
+        </if>
+        <if test="primaryIndustry != null">
+            and primary_industry = #{primaryIndustry}
+        </if>
+        <if test="moduleType != 0">
+            and (ins_ex_modules div #{moduleType}) mod 2 = 1
+        </if>
+        <if test="exType != 0">
+            and (ins_ex_types div #{exType} mod 2 = 1)
+        </if>
+        order by
+        <if test="sortType == 1">
+            instantly_num ${sort}
+        </if>
+        <if test="sortType == 2">
+            ins_ex_modules_num ${sort}
+        </if>
+        limit 5000
+    </select>
+
+    <select id="queryAllExByParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bbd_pub_company_ex_item
+        where num > 0
+        <if test="region != null">
+            and region = #{region}
+        </if>
+        <if test="primaryIndustry != null">
+            and primary_industry = #{primaryIndustry}
+        </if>
+        <if test="exType != 0">
+            and ((annual_ex_types div #{exType} mod 2 = 1) or (ins_ex_types div #{exType} mod 2 = 1))
+        </if>
+        order by
+        <if test="sortType == 1">
+            num ${sort}
+        </if>
+        <if test="sortType == 2">
+            ex_modules_num ${sort}
+        </if>
+        limit 5000
+    </select>
+
+    <select id="queryExceptionByNum" resultMap="BaseResultMap">
+      select
+        <include refid="Base_Column_List"/>
+      from
+        bbd_pub_company_ex_item
+      where
+        <if test="type == 1"> annual_num > ${num} </if>
+        <if test="type == 2"> instantly_num &gt; ${num} </if>
+        <if test="type == 3"> num > ${num} </if>
+      order by
+        <if test="type == 1">
+            <if test="sortType == 1"> annual_num ${sort} </if>
+            <if test="sortType == 2"> annual_ex_modules_num ${sort} </if>
+        </if>
+        <if test="type == 2">
+            <if test="sortType == 1"> instantly_num ${sort} </if>
+            <if test="sortType == 2"> ins_ex_modules_num ${sort} </if>
+        </if>
+        <if test="type == 3">
+            <if test="sortType == 1"> num ${sort} </if>
+            <if test="sortType == 2"> ex_modules_num ${sort} </if>
+        </if>
+        limit 5000
+    </select>
+
+    <select id="queryExceptionByName" resultMap="BaseResultMap">
+        select
+          <include refid="Base_Column_List"/>
         from
-        bbd_pub_instantly_ex_prev_detail
-        WHERE
-        1=1
-        AND nbxh IN (${nbxhs})
+          bbd_pub_company_ex_item
+        where
+          <if test="type == 1"> annual_num > 0 </if>
+          <if test="type == 2"> instantly_num &gt; 0 </if>
+          <if test="type == 3"> num > 0 </if>
+        and
+          company_name like ${companyName}
+        order by
+          <if test="type == 1">
+              <if test="sortType == 1"> annual_num ${sort} </if>
+              <if test="sortType == 2"> annual_ex_modules_num ${sort} </if>
+          </if>
+          <if test="type == 2">
+              <if test="sortType == 1"> instantly_num ${sort} </if>
+              <if test="sortType == 2"> ins_ex_modules_num ${sort} </if>
+          </if>
+          <if test="type == 3">
+              <if test="sortType == 1"> num ${sort} </if>
+              <if test="sortType == 2"> ex_modules_num ${sort} </if>
+          </if>
+        limit 5000
     </select>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

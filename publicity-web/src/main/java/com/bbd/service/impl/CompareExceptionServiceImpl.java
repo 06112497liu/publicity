@@ -9,7 +9,7 @@ import com.bbd.domain.*;
 import com.bbd.pagin.PageListHelper;
 import com.bbd.service.ICompareExceptionService;
 import com.bbd.service.IDictionaryService;
-import com.bbd.vo.ExDetailVo;
+import com.bbd.service.param.ExDetailVo;
 import com.bbd.service.param.ExceptionSearchParam;
 import com.bbd.util.StringUtils;
 import com.google.common.base.Preconditions;

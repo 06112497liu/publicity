@@ -2,7 +2,7 @@
  * BBD Service Inc
  * All Rights Reserved @2016
  */
-package com.bbd.vo;
+package com.bbd.service.param;
 
 import com.bbd.util.StringUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;

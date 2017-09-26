@@ -126,13 +126,13 @@ public class ReprotController extends AbstractController {
     @RequestMapping(value = "/exception/detail/all/count/download.do", method = RequestMethod.GET)
     public void exportExDetailAll(Integer type, Integer count, Integer sortType, String sort) throws IOException {
         ValidateUtil.checkNull(type, CommonErrorCode.PARAM_NULL);
-        int num = (count == null ? 0 : count);
+        int num = (count == null ? 0 : count-1);
         int sType = (sortType == null ? 1 : sortType);
         HttpServletRequest request = SessionContext.getRequest();
         HttpServletResponse response = SessionContext.getResponse();
         String fileName = buildFileName(type);
         OutputStream out = buildResponse(fileName, request, response);
-        exDetailreportService.exDetailAll(type, num, sType, sort, out);
+        exDetailreportService.exDetailAll(type, num, sType, sort == null ? "desc" : sort, out);
     }
 
     @ApiOperation(value = "企业信息比对详情报告全量导出（企业名称）", httpMethod = "GET", response = ExceptionCompanyVo.class)
@@ -150,7 +150,7 @@ public class ReprotController extends AbstractController {
         HttpServletResponse response = SessionContext.getResponse();
         String fileName = buildFileName(type);
         OutputStream out = buildResponse(fileName, request, response);
-        exDetailreportService.exDetailAll(type, companyName, sType, sort, out);
+        exDetailreportService.exDetailAll(type, companyName, sType, sort == null ? "desc" : sort, out);
     }
 
      @ApiOperation(value = "比对分析报告导出", httpMethod = "GET")

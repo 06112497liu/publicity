@@ -1,13 +1,20 @@
 package com.bbd.util;
 
+import com.bbd.controller.vo.ExceptionCompanyVo;
+import com.bbd.domain.CompanyExItem;
+import com.bbd.service.compare.AnnualModule;
+import com.bbd.service.compare.InstantlyModule;
 import com.bbd.service.impl.ExportReportExDetailServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ReportUtils {
 
@@ -54,6 +61,4 @@ public class ReportUtils {
         }
         return dest;
     }
-
-
 }
