@@ -151,26 +151,13 @@ public class ReportServiceImpl implements IReportService {
             String k = entry.getKey();
             String v = entry.getValue();
             CompareReportVo vo = new CompareReportVo();
-            Integer total = totalMap.get(k);
-            if (total == null) {
-                total = 0;
-            }
-            Integer annual = annualMap.get(k);
-            if (annual == null) {
-                annual = 0;
-            }
-            Integer ins = insMap.get(k);
-            if (ins == null) {
-                ins = 0;
-            }
-            Integer both = bothMap.get(k);
-            if(both == null) {
-                both = 0;
-            }
-            String perc = null;
-            String insPer = null;
-            String annualPer = null;
-            String bothPer = null;
+
+            Integer total = totalMap.get(k) == null ? 0 : totalMap.get(k);
+            Integer annual = annualMap.get(k) == null ? 0 : annualMap.get(k);
+            Integer ins = insMap.get(k) == null ? 0 : insMap.get(k);
+            Integer both = bothMap.get(k) == null ? 0 : bothMap.get(k);
+
+            String perc = null, insPer = null, annualPer = null, bothPer = null;
             if (percentMap != null) {
                 int value = percentMap.get(k) == null ? 0 : percentMap.get(k);
                 perc = PercentUtil.calcIntPercent(value, total);
@@ -190,7 +177,6 @@ public class ReportServiceImpl implements IReportService {
             vo.setPercent(perc);
             result.add(vo);
         }
-
         return result;
     }
 
