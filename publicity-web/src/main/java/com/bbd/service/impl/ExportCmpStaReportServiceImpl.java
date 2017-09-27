@@ -23,6 +23,7 @@ import com.bbd.service.param.report.CmpStaReportVo;
 import com.bbd.service.param.report.Title;
 import com.bbd.util.NumUtils;
 import com.bbd.util.ReportUtils;
+import com.bbd.util.StringUtils;
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
@@ -158,16 +159,16 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
             for (String s : strs) {
                 CmpStaReportVo info = new CmpStaReportVo();
                 if (s.equals("annual")) {
-                    info.setItem("年报异常企业" + v.getAnnualNum() + "户");
+                    info.setItem("年报异常企业" + StringUtils.fmtMicrometer(String.valueOf(v.getAnnualNum())) + "户");
                     info.setItemvalue(NumUtils.trimPer(v.getAnnualPer()));
                 } else if (s.equals("ins")) {
-                    info.setItem("及时信息异常企业" + v.getInsNum() + "户");
+                    info.setItem("及时信息异常企业" + StringUtils.fmtMicrometer(String.valueOf(v.getInsNum())) + "户");
                     info.setItemvalue(NumUtils.trimPer(v.getInsPer()));
                 } else if (s.equals("both")) {
-                    info.setItem("两者均异常企业" + v.getBothNum() + "户");
+                    info.setItem("两者均异常企业" + StringUtils.fmtMicrometer(String.valueOf(v.getBothNum())) + "户");
                     info.setItemvalue(NumUtils.trimPer(v.getBothPer()));
                 } else if (s.equals("total")) {
-                    info.setItem("异常企业总量" + v.getTotal() + "户");
+                    info.setItem("异常企业总量" + StringUtils.fmtMicrometer(String.valueOf(v.getTotal())) + "户");
                     info.setItemvalue(NumUtils.trimPer(v.getPercent()));
                 }
                 areaList.add(info);
@@ -200,13 +201,13 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
             String value = DistrictEnum.getDescByCode(key);
             String resource = beanMap.get(value);
             List<Object> replace = Lists.newArrayList(
-                    String.valueOf(vo.getTotal()),
+                    StringUtils.fmtMicrometer(String.valueOf(vo.getTotal())),
                     vo.getPercent(),
-                    String.valueOf(vo.getAnnualNum()),
+                    StringUtils.fmtMicrometer(String.valueOf(vo.getAnnualNum())),
                     vo.getAnnualPer(),
-                    String.valueOf(vo.getInsNum()),
+                    StringUtils.fmtMicrometer(String.valueOf(vo.getInsNum())),
                     vo.getInsPer(),
-                    String.valueOf(vo.getBothNum()),
+                    StringUtils.fmtMicrometer(String.valueOf(vo.getBothNum())),
                     vo.getBothPer());
             String result = TextUtil.replaceParams(resource, replace);
             ReportElementModel reportModel = buildReportElemtModel(value, Optional.fromNullable(result));
@@ -237,7 +238,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
         sortList(ds, 2);
         ds.forEach(p -> {
             CmpStaReportPropVo vo = new CmpStaReportPropVo();
-            vo.setItem(p.getItemDesc() + "" + p.getTotal() + "户，占公示异常企业" + NumUtils.trimPer(p.getPercent()) + "%");
+            vo.setItem(p.getItemDesc() + "" + StringUtils.fmtMicrometer(String.valueOf(p.getTotal())) + "户，占公示异常企业" + NumUtils.trimPer(p.getPercent()) + "%");
             vo.setNum(p.getTotal());
             vo.setPer(NumUtils.trimPer(p.getPercent()));
             rs.add(vo);

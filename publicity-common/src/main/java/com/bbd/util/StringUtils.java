@@ -5,6 +5,7 @@ import com.exception.CommonErrorCode;
 import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -335,6 +336,33 @@ public class StringUtils {
             return defaultValue;
         }
         return intValue;
+    }
+
+    /**
+     * 添加千分位
+     * @param text
+     * @return
+     */
+    public static String fmtMicrometer(String text){
+        DecimalFormat df = null;
+        if(text.indexOf(".") > 0){
+            if(text.length() - text.indexOf(".")-1 == 0){
+                df = new DecimalFormat("###,##0.");
+            }else if(text.length() - text.indexOf(".")-1 == 1){
+                df = new DecimalFormat("###,##0.0");
+            }else{
+                df = new DecimalFormat("###,##0.00");
+            }
+        }else{
+            df = new DecimalFormat("###,##0");
+        }
+        double number = 0.0;
+        try {
+            number = Double.parseDouble(text);
+        } catch (Exception e) {
+            number = 0.0;
+        }
+        return df.format(number);
     }
 
     /**
