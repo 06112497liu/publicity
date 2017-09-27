@@ -8,7 +8,8 @@
 import com.bbd.dao.CompanyExItemExtDao;
 import com.bbd.dao.ExportReportDao;
 import com.bbd.dao.PubCompanyInfoDao;
-import com.bbd.domain.*;
+import com.bbd.domain.CompanyExItem;
+import com.bbd.domain.PubCompanyInfo;
 import com.bbd.enums.ExReasonEnum;
 import com.bbd.report.ReportEngine;
 import com.bbd.report.enums.ElementEnum;
@@ -36,7 +37,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mybatis.domain.PageBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /** 
@@ -66,7 +70,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     private static final Optional<String> resource = Optional.of("report/ExceptionList.prpt");
     private static final Optional<String> resourceAll = Optional.of("report/ExceptionListAll.prpt");
     private static final String updateDate = DateUtil.formatDateByPatten(new Date(), "yyyy-MM-dd HH:mm");
-    
+
     @Autowired
     private ICompareExceptionService compareExceptionService;
 
@@ -136,6 +140,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
      */
     @Override
     public void exDetailAll(int type, OutputStream out, ExceptionSearchParam param) {
+        long startTime = System.currentTimeMillis();
         // step1：构建入参
         String region = param.getRegion();
         String primaryIndustry = param.getPrimaryIndustry();
@@ -148,12 +153,20 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         if(1 == type) list = exportReportDao.queryAnnualExByParam(region, primaryIndustry, moduleType, exType, sortType, sort);
         else if(2 == type) list = exportReportDao.queryInsExByParam(region, primaryIndustry, moduleType, exType, sortType, sort);
         else list = exportReportDao.queryAllExByParam(region, primaryIndustry, exType, sortType, sort);
+        long endTime1 = System.currentTimeMillis();
+        logger.info("查询报告所需数据耗时：" + (endTime1 - startTime));
         // step3：构建excel（ExListReportVo）对象
         List<ExListReportVo> exList = buildExcelVo(list, type);
+        long endTime2 = System.currentTimeMillis();
+        logger.info("构建报告excel对象耗时：" + (endTime2 - endTime1));
         // step4：构建报表参数
         Map<String, Object> p = getParams(param, type);
+        long endTime3 = System.currentTimeMillis();
+        logger.info("构建报表参数耗时：" + (endTime3 - endTime2));
         // step3：生成报告
         exportExcel(resourceAll, exList, reportTitleAll, out, p);
+        long endTime4 = System.currentTimeMillis();
+        logger.info("生成报告耗时：" + (endTime4 - endTime3));
     }
 
     private String buildExClass(int type, int exNum) {
@@ -167,10 +180,17 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     }
 
     private List<ExListReportVo> buildExcelVo(List<CompanyExItem> list, int type) {
+
         List<ExListReportVo> exList = Lists.newLinkedList();
         for (CompanyExItem c : list) {
+            long startTime = System.currentTimeMillis();
             PubCompanyInfo p = companyService.getByNbxh(c.getNbxh());
-            ExListReportVo v = new ExListReportVo(p.getCompanyName(), buildRegnoCode(p.getCreditCode(), p.getRegno()), p.getAddr(), p.getPhones(), p.getEmails());
+            ExListReportVo v =
+                    new ExListReportVo(p.getCompanyName(),
+                    buildRegnoCode(new String[]{p.getCreditCode(), p.getRegno()}, "/"),
+                    p.getAddr(),
+                    p.getPhones(),
+                    p.getEmails());
             if(1 == type) {
                 v.setNum(c.getAnnualNum());
                 v.setExType("年报信息异常");
@@ -184,16 +204,19 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             } else {
                 v.setNum(c.getNum());
                 v.setExType("完整异常");
-                String s = "【年报】" + buildExClass(1, c.getAnnualExModules()) + ";【即时信息】" + buildExClass(2, c.getInsExModules());
-                v.setExClass(s);
+                String annual = c.getAnnualExModules() == 0 ? null : "【年报】" + buildExClass(1, c.getAnnualExModules());
+                String ins = c.getInsExModules() == 0 ? null : "【即时信息】" + buildExClass(2, c.getInsExModules());
+                v.setExClass(buildRegnoCode(new String[]{annual, ins}, ";"));
             }
             exList.add(v);
+            long endTime = System.currentTimeMillis();
+            logger.info("构建一条excel对象耗时：" + (endTime - startTime));
         }
         return exList;
     }
 
-    private String buildRegnoCode(String...params) {
-        Joiner joiner = Joiner.on("/").skipNulls();
+    private String buildRegnoCode(String[] params, String split) {
+        Joiner joiner = Joiner.on(split).skipNulls();
         return joiner.join(params);
     }
 
@@ -204,7 +227,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     public void exDetailAll(Integer type, Integer count, Integer sortType, String sort, OutputStream out) {
         // step1：构建报表参数
         Map<String, Object> params = Maps.newHashMap();
-        params.put("count", count);
+        params.put("count", count + 1);
         params.put("date", updateDate);
         params.put("nameType", buildNameType(type));
         // step2：构建excel对象
@@ -284,7 +307,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             if(!nbxh.equals(baseNbxh)) {
                 p = companyService.getByNbxh(nbxh);
                 vo.setCompanyName(p.getCompanyName());
-                vo.setRegno(buildRegnoCode(p.getRegno(), p.getCreditCode()));
+                vo.setRegno(buildRegnoCode(new String[]{p.getRegno(), p.getCreditCode()}, "/"));
                 vo.setAdress(p.getAddr());
                 vo.setPhone(p.getPhones());
                 vo.setEmail(p.getEmails());

@@ -18,10 +18,13 @@ import com.bbd.controller.vo.ExceptionCompanyVo;
 import com.bbd.domain.PubCompanyInfo;
 import com.bbd.pagin.PageListHelper;
 import com.bbd.service.*;
+import com.bbd.service.impl.ExportReportExDetailServiceImpl;
 import com.bbd.service.param.ExceptionSearchParam;
 import com.bbd.util.DateUtil;
 import com.bean.RestResult;
 import com.mybatis.domain.PageList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,9 +62,6 @@ public class ReprotController extends AbstractController {
 
      @Autowired
      private ICompanyService companyService;
-     
-     @Autowired
-     private IAnnualService annualService;
 
      private static String date = DateUtil.formatDateByPatten(new Date(), "yyyyMMdd");
      
