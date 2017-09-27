@@ -170,7 +170,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         List<ExListReportVo> exList = Lists.newLinkedList();
         for (CompanyExItem c : list) {
             PubCompanyInfo p = companyService.getByNbxh(c.getNbxh());
-            ExListReportVo v = new ExListReportVo(p.getCompanyName(), buildRegnoCode(p.getRegno(), p.getCreditCode()), p.getAddr(), p.getPhones(), p.getEmails());
+            ExListReportVo v = new ExListReportVo(p.getCompanyName(), buildRegnoCode(p.getCreditCode(), p.getRegno()), p.getAddr(), p.getPhones(), p.getEmails());
             if(1 == type) {
                 v.setNum(c.getAnnualNum());
                 v.setExType("年报信息异常");
@@ -246,7 +246,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         String moduleType;
         String exType = param.getExType() == 0 ? "全部异常原因" : ExReasonEnum.getDescByCode(param.getExType());
         if(type == 1) moduleType = param.getModuleType() == 0 ? "全部年报对比项" : AnnualModule.getDescByCode(param.getModuleType());
-        else if(type == 2) moduleType = param.getModuleType() == 0 ? "全部即时信息对比项" : AnnualModule.getDescByCode(param.getModuleType());
+        else if(type == 2) moduleType = param.getModuleType() == 0 ? "全部即时信息对比项" : InstantlyModule.getDescByCode(param.getModuleType());
         else moduleType = "年报信息和即时信息全部对比项";
         map.put("nameType", buildNameType(type));
         map.put("date", updateDate);

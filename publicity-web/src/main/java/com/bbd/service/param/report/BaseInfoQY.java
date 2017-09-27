@@ -30,10 +30,10 @@ public class BaseInfoQY extends BaseInfo {
     private String emails;
     
     /** 从业人数   */
-    private Long empnum;
+    private String empnum;
     
     /** 女性从业人数   */
-    private Integer womenNum;
+    private String womenNum;
     
     /** 经营状态   */
     private String opstateDesc;
@@ -92,18 +92,23 @@ public class BaseInfoQY extends BaseInfo {
     public void setEmails(String emails) {
         this.emails = emails;
     }
-    public Long getEmpnum() {
+
+    public String getEmpnum() {
         return empnum;
     }
-    public void setEmpnum(Long empnum) {
+
+    public void setEmpnum(String empnum) {
         this.empnum = empnum;
     }
-    public Integer getWomenNum() {
+
+    public String getWomenNum() {
         return womenNum;
     }
-    public void setWomenNum(Integer womenNum) {
+
+    public void setWomenNum(String womenNum) {
         this.womenNum = womenNum;
     }
+
     public String getOpstateDesc() {
         return opstateDesc;
     }

@@ -24,16 +24,16 @@ public class BaseInfoNZ extends BaseInfo {
     private String emails;
     
     /** 成员人数   */
-    private Long memnum;
+    private String memnum;
     
     /** 控股情况   */
     private String holdings;
     
     /** 从业人数   */
-    private Long empnum;
+    private String empnum;
     
     /** 女性从业人数   */
-    private Integer womenNum;
+    private String womenNum;
     
     /** 地址   */
     private String addr;
@@ -73,14 +73,6 @@ public class BaseInfoNZ extends BaseInfo {
         this.emails = emails;
     }
 
-    public Long getMemnum() {
-        return memnum;
-    }
-
-    public void setMemnum(Long memnum) {
-        this.memnum = memnum;
-    }
-
     public String getHoldings() {
         return holdings;
     }
@@ -89,19 +81,27 @@ public class BaseInfoNZ extends BaseInfo {
         this.holdings = holdings;
     }
 
-    public Long getEmpnum() {
+    public String getMemnum() {
+        return memnum;
+    }
+
+    public void setMemnum(String memnum) {
+        this.memnum = memnum;
+    }
+
+    public String getEmpnum() {
         return empnum;
     }
 
-    public void setEmpnum(Long empnum) {
+    public void setEmpnum(String empnum) {
         this.empnum = empnum;
     }
 
-    public Integer getWomenNum() {
+    public String getWomenNum() {
         return womenNum;
     }
 
-    public void setWomenNum(Integer womenNum) {
+    public void setWomenNum(String womenNum) {
         this.womenNum = womenNum;
     }
 

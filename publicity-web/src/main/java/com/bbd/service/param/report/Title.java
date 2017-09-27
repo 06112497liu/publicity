@@ -27,8 +27,12 @@ public class Title {
             new Object[]{"line", "stockholder", "subCronCap", "subCronDate", "subCronFromDesc", "acCronCap", "acCronDate", "acCronFromDesc"};
     public static final Object[] investInfoTitle = 
             new Object[]{"line", "companyName", "regno"};
-    public static final Object[] assetsInfoTitle = 
+    public static final Object[] assetsInfoQYTitle =
             new Object[]{"assTotal", "ownEquity", "grossRevenue", "proTotal", "mainGrossRevenue", "proNet", "taxTotal", "liabTotal"};
+    public static final Object[] assetsInfoGTTitle =
+            new Object[]{"grossRevenue", "taxTotal"};
+    public static final Object[] assetsInfoNZTitle =
+            new Object[]{"grossRevenue", "taxTotal", "loan", "proTotalNet", "supFund"};
     public static final Object[] guaranteeInfoTitle = 
             new Object[]{"line", "creditor", "debitor", "priCalSecKind", "priCalSecAm", "pefPerLimit", "guarantePeriod", "guaranteType"};
     public static final Object[] changeInfoTitle = 

@@ -210,7 +210,6 @@ public class ReprotController extends AbstractController {
          response.setContentType("application/x-msdownload;");
          return response.getOutputStream();
      }
-     //headers.add("Content-disposition","attachment;filename="+URLEncoder.encode("中国","UTF-8")+".txt;filename*=UTF-8''"+URLEncoder.encode("中国","UTF-8")+".txt");
 
      private static String buildFileName(Integer type) {
          String fileName;

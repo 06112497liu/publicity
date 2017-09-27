@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import com.bbd.service.ICompanyService;
 import com.bbd.util.ReportUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,6 +115,9 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     
     @Autowired
     private AnnualBranchDao branchDao;
+
+    @Autowired
+    private ICompanyService companyService;
     
     /** 企业  */
     private static final Optional<String> sourceQY = Optional.of("report/AnnualReport_QY.prpt");
@@ -137,7 +141,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         // 资产状况信息
         List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
         ReportElementModel assetsModel = 
-                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 7, Title.assetsInfoTitle);
+                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 7, Title.assetsInfoQYTitle);
         // 网站网店信息
         List<WebInfo> webInfo = getWebInfo(serialNo);
         ReportElementModel webModel = 
@@ -181,7 +185,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         // 资产状况信息
         List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
         ReportElementModel assetsModel = 
-                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 4, Title.assetsInfoTitle);
+                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 4, Title.assetsInfoGTTitle);
         
         // 行政许可信息
         List<AdminLicInfo> adminLicInfo = getadminLicInfo(serialNo);
@@ -232,7 +236,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             PubCompanyInfo c = op.get();
             params.put("year", year);
             params.put("companyName", companyName == null ? c.getCompanyName() : companyName);
-            params.put("regno", getRegnoCode(code == null ? c.getCreditCode() : code, regno == null ? c.getCreditCode() : code));
+            params.put("regno", getRegnoCode(code == null ? c.getCreditCode() : code, regno == null ? c.getRegno() : regno));
         }
         return params;
     }
@@ -254,7 +258,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         // 资产状况信息
         List<AssetsInfo> assetsInfo = getAssetsInfo(nbxh, serialNo);
         ReportElementModel assetsModel = 
-                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 5, Title.assetsInfoTitle);
+                buildReportElementModel("AssetsInfo", "AssetsData", assetsInfo, 5, Title.assetsInfoNZTitle);
         
         // 行政许可信息
         List<AdminLicInfo> adminLicInfo = getadminLicInfo(serialNo);
@@ -283,21 +287,20 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         
         List<BaseInfo> list = Lists.newArrayList();        
         AnnualBaseInfoVo baseInfo = annualService.getAnnualBaseInfo(nbxh, year);
-        Integer property = annualService.getCompanyProperty(nbxh);  
-        
-        Optional<PubCompanyInfo> op = getOneByNbxh(nbxh);
+        Integer property = annualService.getCompanyProperty(nbxh);
+
+        PubCompanyInfo p = companyService.getByNbxh(nbxh);
         String regno = baseInfo.getRegno();
         String code = baseInfo.getCreditCode();
-        if(op.isPresent()) {
-            PubCompanyInfo v = op.get();
-            if(regno == null) regno = v.getRegno();
-            if(code == null) code = v.getCreditCode();
-        }
-        
+        if (regno == null) regno = p.getRegno();
+        if (code == null) code = p.getCreditCode();
+
         if(Sets.newHashSet(1, 2, 3).contains(property)) {
-            BaseInfoQY info = new BaseInfoQY();
+            BaseInfoQY info;
             info = BeanMapperUtil.map(baseInfo, BaseInfoQY.class);
             info.setCode(getRegnoCode(code, regno));
+            info.setEmpnum(baseInfo.getEmpnum() + "人");
+            info.setWomenNum(baseInfo.getWomenNum() + "人");
             boolean haveInvest = baseInfo.isHaveEqTrans();
             info.setHaveInvest(haveInvest == true ? "是" : "否");
             boolean haveWeb = baseInfo.isHaveEqTrans();
@@ -309,15 +312,19 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             list.add(info);
             return list;
         } else if(4 == property) {
-            BaseInfoNZ info = new BaseInfoNZ();
+            BaseInfoNZ info;
             info = BeanMapperUtil.map(baseInfo, BaseInfoNZ.class);
             info.setCode(getRegnoCode(code, regno));
+            info.setMemnum(baseInfo.getMemnum() + "人");
+            info.setEmpnum(baseInfo.getEmpnum() + "人");
+            info.setWomenNum(baseInfo.getWomenNum() + "人");
             list.add(info);
             return list;
         } else if(5 == property) {
-            BaseInfoGT info = new BaseInfoGT();
+            BaseInfoGT info;
             info = BeanMapperUtil.map(baseInfo, BaseInfoGT.class);
             info.setCode(getRegnoCode(code, regno));
+            info.setEmpnum(baseInfo.getEmpnum() + "人");
             list.add(info);
             return list;
         }

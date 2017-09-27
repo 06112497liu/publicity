@@ -27,7 +27,7 @@ public class BaseInfoGT extends BaseInfo {
     private Double amountMon;
     
     /** 从业人数   */
-    private Long empnum;
+    private String empnum;
     
     public String getCompanyName() {
         return companyName;
@@ -59,13 +59,13 @@ public class BaseInfoGT extends BaseInfo {
     public void setAmountMon(Double amountMon) {
         this.amountMon = amountMon;
     }
-    public Long getEmpnum() {
+
+    public String getEmpnum() {
         return empnum;
     }
-    public void setEmpnum(Long empnum) {
+
+    public void setEmpnum(String empnum) {
         this.empnum = empnum;
     }
-    
-    
 }
 
