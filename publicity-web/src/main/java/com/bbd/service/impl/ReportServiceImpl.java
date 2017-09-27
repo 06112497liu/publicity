@@ -140,14 +140,13 @@ public class ReportServiceImpl implements IReportService {
     }
 
     // 将map转化为页面对象
-    private List<CompareReportVo> getReportVos(Map<String, String> dicMap, 
-                                               Map<String, Integer> totalMap, 
-                                               Map<String, Integer> annualMap, 
+    private List<CompareReportVo> getReportVos(Map<String, String> dicMap,
+                                               Map<String, Integer> totalMap,
+                                               Map<String, Integer> annualMap,
                                                Map<String, Integer> insMap, 
                                                Map<String, Integer> bothMap,
                                                Map<String, Integer> percentMap) {
         List<CompareReportVo> result = Lists.newLinkedList();
-
         for (Map.Entry<String, String> entry : dicMap.entrySet()) {
             String k = entry.getKey();
             String v = entry.getValue();

@@ -108,21 +108,21 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         String nbxh;
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
-        if(exType == 1) { //即时信息异常详情            
+        if(exType == 1) { //年报信息异常详情
             for (int i = 0; i < nbxhs.length; i++) {
                 nbxh = nbxhs[i];
                 annualList.addAll(compareExceptionService.getCompanyAnnualExDetails(nbxh));
             }            
-        } else if(exType == 2) { //年报信息异常详情
+        } else if(exType == 2) { //即时信息异常详情
             for (int i = 0; i < nbxhs.length; i++) {
                 nbxh = nbxhs[i];
-                insList.addAll(compareExceptionService.getCompanyAnnualExDetails(nbxh));
+                insList.addAll(compareExceptionService.getCompanyInstantlyExDetails(nbxh));
             } 
         } else if(exType == 3) {
             for (int i = 0; i < nbxhs.length; i++) {
                 nbxh = nbxhs[i];
                 annualList.addAll(compareExceptionService.getCompanyAnnualExDetails(nbxh));
-                insList.addAll(compareExceptionService.getCompanyAnnualExDetails(nbxh));
+                insList.addAll(compareExceptionService.getCompanyInstantlyExDetails(nbxh));
             } 
         }
         // 排序
@@ -170,7 +170,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         List<ExListReportVo> exList = Lists.newLinkedList();
         for (CompanyExItem c : list) {
             PubCompanyInfo p = companyService.getByNbxh(c.getNbxh());
-            ExListReportVo v = new ExListReportVo(p.getCompanyName(), p.getRegno(), p.getAddr(), p.getPhones(), p.getEmails());
+            ExListReportVo v = new ExListReportVo(p.getCompanyName(), buildRegnoCode(p.getRegno(), p.getCreditCode()), p.getAddr(), p.getPhones(), p.getEmails());
             if(1 == type) {
                 v.setNum(c.getAnnualNum());
                 v.setExType("年报信息异常");
@@ -190,6 +190,11 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             exList.add(v);
         }
         return exList;
+    }
+
+    private String buildRegnoCode(String...params) {
+        Joiner joiner = Joiner.on("/").skipNulls();
+        return joiner.join(params);
     }
 
     /**
@@ -265,12 +270,10 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
 
     // 分类构建excel对象（1-年报异常，2-即时信息异常）
     private List<ExDetailReportVo> buildOneExDetailReportVo(List<ExDetailVo> list, Integer exType) {
-        
-        PubCompanyInfoExample example = new PubCompanyInfoExample();
-        PubCompanyInfo info;
-        
+
+        PubCompanyInfo p;
         List<ExDetailReportVo> rs = Lists.newLinkedList();
-        String baseNbxh = null;        
+        String baseNbxh = null;
         String baseExClass = null;
         String baseExItem = null;
         
@@ -279,19 +282,16 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             ExDetailVo exVo = list.get(i);
             String nbxh = exVo.getNbxh();
             if(!nbxh.equals(baseNbxh)) {
-                example.createCriteria().andNbxhEqualTo(nbxh);
-                info = companyInfoDao.selectByExample(example).get(0);
-                example.clear();
-                vo.setCompanyName(info.getCompanyName());
-                vo.setRegno(info.getRegno());
-                vo.setAdress(info.getAddr());
-                vo.setPhone(info.getPhones());
-                vo.setEmail(info.getEmails());
+                p = companyService.getByNbxh(nbxh);
+                vo.setCompanyName(p.getCompanyName());
+                vo.setRegno(buildRegnoCode(p.getRegno(), p.getCreditCode()));
+                vo.setAdress(p.getAddr());
+                vo.setPhone(p.getPhones());
+                vo.setEmail(p.getEmails());
                 if(exType == 1) vo.setExType("年报信息异常");
                 if(exType == 2) vo.setExType("即时信息异常");
             }         
-            baseNbxh = nbxh;  
-
+            baseNbxh = nbxh;
             if(exType == 1) {                     
                 String exClass = exVo.getSubmodule().toString() + exVo.getNbxh();
                 String exItem = exVo.getPropName();
@@ -316,7 +316,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
                 baseExClass = exClass;
                 baseExItem = exItem;
             }
-            
             vo.setExReason(ExReasonEnum.getDescByCode(exVo.getExType()));
             vo.setBase(exVo.getBase());
             vo.setOther(exVo.getOther());
