@@ -110,7 +110,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         CompanyExItemExample exam = new CompanyExItemExample();
         if(sortType == 1) {
             exam.setOrderByClause("annual_num " + str);
-        } else if(sortType == 1) {
+        } else if(sortType == 2) {
             exam.setOrderByClause("annual_ex_modules_num " + str);
         }
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
