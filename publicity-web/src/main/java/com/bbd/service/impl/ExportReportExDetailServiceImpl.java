@@ -129,9 +129,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
                 insList.addAll(compareExceptionService.getCompanyInstantlyExDetails(nbxh));
             } 
         }
-        // 排序
-        sortExcel(annualList);
-        sortExcel(insList);
         generatExport(resource, annualList, insList, out, null);
     }
 
@@ -148,6 +145,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         int exType = param.getExType();
         int sortType = param.getSortType();
         String sort = param.getSort();
+
         // step2：查询
         List<CompanyExItem> list;
         if(1 == type) list = exportReportDao.queryAnnualExByParam(region, primaryIndustry, moduleType, exType, sortType, sort);
@@ -155,14 +153,17 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         else list = exportReportDao.queryAllExByParam(region, primaryIndustry, exType, sortType, sort);
         long endTime1 = System.currentTimeMillis();
         logger.info("查询报告所需数据耗时：" + (endTime1 - startTime));
+
         // step3：构建excel（ExListReportVo）对象
         List<ExListReportVo> exList = buildExcelVo(list, type);
         long endTime2 = System.currentTimeMillis();
         logger.info("构建报告excel对象耗时：" + (endTime2 - endTime1));
+
         // step4：构建报表参数
         Map<String, Object> p = getParams(param, type);
         long endTime3 = System.currentTimeMillis();
         logger.info("构建报表参数耗时：" + (endTime3 - endTime2));
+
         // step3：生成报告
         exportExcel(resourceAll, exList, reportTitleAll, out, p);
         long endTime4 = System.currentTimeMillis();
@@ -183,7 +184,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
 
         List<ExListReportVo> exList = Lists.newLinkedList();
         for (CompanyExItem c : list) {
-            long startTime = System.currentTimeMillis();
             PubCompanyInfo p = companyService.getByNbxh(c.getNbxh());
             ExListReportVo v =
                     new ExListReportVo(p.getCompanyName(),
@@ -210,7 +210,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             }
             exList.add(v);
             long endTime = System.currentTimeMillis();
-            logger.info("构建一条excel对象耗时：" + (endTime - startTime));
         }
         return exList;
     }
