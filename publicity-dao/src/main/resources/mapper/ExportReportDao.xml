@@ -103,9 +103,9 @@
       from
         bbd_pub_company_ex_item
       where
-        <if test="type == 1"> annual_num > ${num}, id ${sort} </if>
-        <if test="type == 2"> instantly_num &gt; ${num}, id ${sort} </if>
-        <if test="type == 3"> num > ${num}, id ${sort} </if>
+        <if test="type == 1"> annual_num > ${num} </if>
+        <if test="type == 2"> instantly_num &gt; ${num} </if>
+        <if test="type == 3"> num > ${num} </if>
       order by
         <if test="type == 1">
             <if test="sortType == 1"> annual_num ${sort}, id ${sort} </if>

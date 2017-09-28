@@ -84,9 +84,9 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         
         CompanyExItemExample exam = new CompanyExItemExample();
         if(sortType == 1) {
-            exam.setOrderByClause("annual_num " + str + ", id" + str);
+            exam.setOrderByClause("annual_num " + str + ", id " + str);
         } else if(sortType == 2) {
-            exam.setOrderByClause("annual_ex_modules_num " + str + ", id" + str);
+            exam.setOrderByClause("annual_ex_modules_num " + str + ", id " + str);
         }        
         if(count > 0)
             exam.createCriteria().andAnnualNumGreaterThanOrEqualTo(count);
@@ -109,9 +109,9 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String str = (sort == null ? "desc" : sort);
         CompanyExItemExample exam = new CompanyExItemExample();
         if(sortType == 1) {
-            exam.setOrderByClause("annual_num " + str + ", id" + str);
+            exam.setOrderByClause("annual_num " + str + ", id " + str);
         } else if(sortType == 2) {
-            exam.setOrderByClause("annual_ex_modules_num " + str + ", id" + str);
+            exam.setOrderByClause("annual_ex_modules_num " + str + ", id " + str);
         }
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
         criteria.andAnnualNumGreaterThan(0);
@@ -153,8 +153,8 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        if(sortType == 1) exam.setOrderByClause("instantly_num " + str + ", id" + str);
-        if(sortType == 2) exam.setOrderByClause("ins_ex_modules_num " + str + ", id" + str);
+        if(sortType == 1) exam.setOrderByClause("instantly_num " + str + ", id " + str);
+        if(sortType == 2) exam.setOrderByClause("ins_ex_modules_num " + str + ", id " + str);
         
         if(count > 0)
             exam.createCriteria().andInstantlyNumGreaterThanOrEqualTo(count);
@@ -175,8 +175,8 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        if(sortType == 1) exam.setOrderByClause("instantly_num " + str + ", id" + str);
-        if(sortType == 2) exam.setOrderByClause("ins_ex_modules_num " + str + ", id" + str);
+        if(sortType == 1) exam.setOrderByClause("instantly_num " + str + ", id " + str);
+        if(sortType == 2) exam.setOrderByClause("ins_ex_modules_num " + str + ", id " + str);
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
         criteria.andInstantlyNumGreaterThan(0);
         
@@ -217,8 +217,8 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        if(sortType == 1) exam.setOrderByClause("num " + str + ", id" + str);
-        if(sortType == 2) exam.setOrderByClause("ex_modules_num " + str + ", id" + str);
+        if(sortType == 1) exam.setOrderByClause("num " + str + ", id " + str);
+        if(sortType == 2) exam.setOrderByClause("ex_modules_num " + str + ", id " + str);
         if(count > 0)
             exam.createCriteria().andNumGreaterThanOrEqualTo(count);
         else 
@@ -240,8 +240,8 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         String str = (sort == null ? "desc" : sort);
         
         CompanyExItemExample exam = new CompanyExItemExample();
-        if(sortType == 1) exam.setOrderByClause("num " + str + ", id" + str);
-        if(sortType == 2) exam.setOrderByClause("ex_modules_num " + str + ", id" + str);
+        if(sortType == 1) exam.setOrderByClause("num " + str + ", id " + str);
+        if(sortType == 2) exam.setOrderByClause("ex_modules_num " + str + ", id " + str);
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
         criteria.andNumGreaterThan(0);
         if(!StringUtils.isEmpty(companyName)) {

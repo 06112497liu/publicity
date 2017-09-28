@@ -44,8 +44,7 @@ public class WebInfo {
     }
 
     public void setType(String type) {
-        if("1".equals(type)) this.type = "网站";
-        else this.type = "网店";
+        this.type = type;
     }
 
     public String getUrl() {
