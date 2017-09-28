@@ -54,10 +54,10 @@
         </if>
         order by
         <if test="sortType == 1">
-            annual_num ${sort}
+            annual_num ${sort}, id ${sort}
         </if>
         <if test="sortType == 2">
-            annual_ex_modules_num ${sort}
+            annual_ex_modules_num ${sort}, id ${sort}
         </if>
     </select>
 
@@ -79,10 +79,10 @@
         </if>
         order by
         <if test="sortType == 1">
-            instantly_num ${sort}
+            instantly_num ${sort}, id ${sort}
         </if>
         <if test="sortType == 2">
-            ins_ex_modules_num ${sort}
+            ins_ex_modules_num ${sort}, id ${sort}
         </if>
     </select>
 
@@ -102,10 +102,10 @@
         </if>
         order by
         <if test="sortType == 1">
-            num ${sort}
+            num ${sort}, id ${sort}
         </if>
         <if test="sortType == 2">
-            ex_modules_num ${sort}
+            ex_modules_num ${sort}, id ${sort}
         </if>
     </select>
 

@@ -38,10 +38,10 @@
         </if>
         order by
         <if test="sortType == 1">
-            annual_num ${sort}
+            annual_num ${sort}, id ${sort}
         </if>
         <if test="sortType == 2">
-            annual_ex_modules_num ${sort}
+            annual_ex_modules_num ${sort}, id ${sort}
         </if>
         limit 2000
     </select>
@@ -65,10 +65,10 @@
         </if>
         order by
         <if test="sortType == 1">
-            instantly_num ${sort}
+            instantly_num ${sort}, id ${sort}
         </if>
         <if test="sortType == 2">
-            ins_ex_modules_num ${sort}
+            ins_ex_modules_num ${sort}, id ${sort}
         </if>
         limit 2000
     </select>
@@ -89,10 +89,10 @@
         </if>
         order by
         <if test="sortType == 1">
-            num ${sort}
+            num ${sort}, id ${sort}
         </if>
         <if test="sortType == 2">
-            ex_modules_num ${sort}
+            ex_modules_num ${sort}, id ${sort}
         </if>
         limit 2000
     </select>
@@ -103,21 +103,21 @@
       from
         bbd_pub_company_ex_item
       where
-        <if test="type == 1"> annual_num > ${num} </if>
-        <if test="type == 2"> instantly_num &gt; ${num} </if>
-        <if test="type == 3"> num > ${num} </if>
+        <if test="type == 1"> annual_num > ${num}, id ${sort} </if>
+        <if test="type == 2"> instantly_num &gt; ${num}, id ${sort} </if>
+        <if test="type == 3"> num > ${num}, id ${sort} </if>
       order by
         <if test="type == 1">
-            <if test="sortType == 1"> annual_num ${sort} </if>
-            <if test="sortType == 2"> annual_ex_modules_num ${sort} </if>
+            <if test="sortType == 1"> annual_num ${sort}, id ${sort} </if>
+            <if test="sortType == 2"> annual_ex_modules_num ${sort}, id ${sort} </if>
         </if>
         <if test="type == 2">
-            <if test="sortType == 1"> instantly_num ${sort} </if>
-            <if test="sortType == 2"> ins_ex_modules_num ${sort} </if>
+            <if test="sortType == 1"> instantly_num ${sort}, id ${sort} </if>
+            <if test="sortType == 2"> ins_ex_modules_num ${sort}, id ${sort} </if>
         </if>
         <if test="type == 3">
-            <if test="sortType == 1"> num ${sort} </if>
-            <if test="sortType == 2"> ex_modules_num ${sort} </if>
+            <if test="sortType == 1"> num ${sort}, id ${sort} </if>
+            <if test="sortType == 2"> ex_modules_num ${sort}, id ${sort} </if>
         </if>
         limit 2000
     </select>
@@ -135,16 +135,16 @@
           company_name like ${companyName}
         order by
           <if test="type == 1">
-              <if test="sortType == 1"> annual_num ${sort} </if>
-              <if test="sortType == 2"> annual_ex_modules_num ${sort} </if>
+              <if test="sortType == 1"> annual_num ${sort}, id ${sort} </if>
+              <if test="sortType == 2"> annual_ex_modules_num ${sort}, id ${sort} </if>
           </if>
           <if test="type == 2">
-              <if test="sortType == 1"> instantly_num ${sort} </if>
-              <if test="sortType == 2"> ins_ex_modules_num ${sort} </if>
+              <if test="sortType == 1"> instantly_num ${sort}, id ${sort} </if>
+              <if test="sortType == 2"> ins_ex_modules_num ${sort}, id ${sort} </if>
           </if>
           <if test="type == 3">
-              <if test="sortType == 1"> num ${sort} </if>
-              <if test="sortType == 2"> ex_modules_num ${sort} </if>
+              <if test="sortType == 1"> num ${sort}, id ${sort} </if>
+              <if test="sortType == 2"> ex_modules_num ${sort}, id ${sort} </if>
           </if>
         limit 2000
     </select>

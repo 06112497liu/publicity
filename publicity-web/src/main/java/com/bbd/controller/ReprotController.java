@@ -173,8 +173,12 @@ public class ReprotController extends AbstractController {
      public void ExportAnnual(String nbxh, String annualYear, Integer companyProperty) throws IOException {
          ValidateUtil.checkAllNull(CommonErrorCode.PARAM_NULL, nbxh, annualYear, companyProperty);
          PubCompanyInfo companyInfo = companyService.getByNbxh(nbxh);
+         Integer annualed = companyInfo.getAnnualed();
          Integer pro = companyInfo.getCompanyProperty();
          String companyName = companyInfo.getCompanyName();
+         if(annualed == 0) {
+             throw new ApplicationException(PubErrorCode.NO_ANNUALED);
+         }
          if(Integer.compare(companyProperty, pro) != 0) {
              throw new ApplicationException(PubErrorCode.COMPANY_PROPERTY_DONT_MATCH);
          }
