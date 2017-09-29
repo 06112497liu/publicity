@@ -44,7 +44,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -136,7 +135,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
      */
     @Override
     public void exDetailAll(int type, OutputStream out, ExceptionSearchParam param) {
-        long startTime = System.currentTimeMillis();
         // step1：构建入参
         String region = param.getRegion();
         String primaryIndustry = param.getPrimaryIndustry();
@@ -144,29 +142,17 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         int exType = param.getExType();
         int sortType = param.getSortType();
         String sort = param.getSort();
-
         // step2：查询
         List<CompanyExItem> list;
         if(1 == type) list = exportReportDao.queryAnnualExByParam(region, primaryIndustry, moduleType, exType, sortType, sort);
         else if(2 == type) list = exportReportDao.queryInsExByParam(region, primaryIndustry, moduleType, exType, sortType, sort);
         else list = exportReportDao.queryAllExByParam(region, primaryIndustry, exType, sortType, sort);
-        long endTime1 = System.currentTimeMillis();
-        logger.info("查询报告所需数据耗时：" + (endTime1 - startTime));
-
         // step3：构建excel（ExListReportVo）对象
         List<ExListReportVo> exList = buildExcelVo(list, type);
-        long endTime2 = System.currentTimeMillis();
-        logger.info("构建报告excel对象耗时：" + (endTime2 - endTime1));
-
         // step4：构建报表参数
         Map<String, Object> p = getParams(param, type);
-        long endTime3 = System.currentTimeMillis();
-        logger.info("构建报表参数耗时：" + (endTime3 - endTime2));
-
         // step3：生成报告
         exportExcel(resourceAll, exList, reportTitleAll, out, p);
-        long endTime4 = System.currentTimeMillis();
-        logger.info("生成报告耗时：" + (endTime4 - endTime3));
     }
 
     private String buildExClass(int type, int exNum) {
