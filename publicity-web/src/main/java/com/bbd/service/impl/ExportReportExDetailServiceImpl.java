@@ -103,8 +103,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         generatExport(resource, annualList, insList, out, null);
     }
 
-
-
     /**
      * 企业信息对比详情报告（批量）
      */
