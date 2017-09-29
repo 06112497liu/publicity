@@ -294,9 +294,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
 
         PubCompanyInfo p;
         List<ExDetailReportVo> rs = Lists.newLinkedList();
-        String baseNbxh = null;
-        String baseExClass = null;
-        String baseExItem = null;
+        String baseNbxh = null, baseExClass = null, baseExItem = null;
         
         for (int i = 0; i < list.size(); i++) {            
             ExDetailReportVo vo = new ExDetailReportVo();
@@ -316,24 +314,15 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
             if(exType == 1) {                     
                 String exClass = exVo.getSubmodule().toString() + exVo.getNbxh();
                 String exItem = exVo.getPropName();
-                if(!exClass.equals(baseExClass)) {
-                    vo.setExClass(AnnualModule.getDescByCode(exVo.getSubmodule()));                        
-                }
-                if(!exItem.equals(baseExItem)) {
-                    vo.setExItem(PropertyEnum.getNameByCode(exVo.getPropName()));
-                }
+                if(!exClass.equals(baseExClass)) vo.setExClass(AnnualModule.getDescByCode(exVo.getSubmodule()));
+                if(!exItem.equals(baseExItem)) vo.setExItem(PropertyEnum.getNameByCode(exVo.getPropName()));
                 baseExClass = exClass;
                 baseExItem = exItem;
-            }
-            if(exType == 2) {                  
+            } else if(exType == 2) {
                 String exClass = exVo.getSubmodule().toString() + exVo.getNbxh();
                 String exItem = exVo.getPropName();
-                if(!exClass.equals(baseExClass)) {
-                    vo.setExClass(InstantlyModule.getDescByCode(exVo.getSubmodule()));                        
-                }
-                if(!exItem.equals(baseExItem)) {
-                    vo.setExItem(PropertyEnum.getNameByCode(exVo.getPropName()));
-                }
+                if(!exClass.equals(baseExClass)) vo.setExClass(InstantlyModule.getDescByCode(exVo.getSubmodule()));
+                if(!exItem.equals(baseExItem)) vo.setExItem(PropertyEnum.getNameByCode(exVo.getPropName()));
                 baseExClass = exClass;
                 baseExItem = exItem;
             }
