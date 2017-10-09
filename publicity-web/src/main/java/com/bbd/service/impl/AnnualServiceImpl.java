@@ -457,10 +457,6 @@ public class AnnualServiceImpl implements IAnnualService {
         example.createCriteria().andSerialNoEqualTo(serialNo);
         List<AnnualBranch> dbList = branchDao.selectByExampleWithPageBounds(example, pb);
         List<BranchVo> temp = BeanMapperUtil.mapList(dbList, BranchVo.class);
-        for (BranchVo vo : temp) {
-            String nbxh = vo.getNbxh();
-            vo.setCreditCode(getCreditCode(nbxh));
-        }
         Paginator paginator = PageListHelper.getPaginator(dbList);
         PageList<BranchVo> rs = PageListHelper.create(temp, paginator);
         return rs;

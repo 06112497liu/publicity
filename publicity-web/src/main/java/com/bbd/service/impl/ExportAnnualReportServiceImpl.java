@@ -323,6 +323,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         } else if(5 == property) {
             BaseInfoGT info;
             info = BeanMapperUtil.map(baseInfo, BaseInfoGT.class);
+            info.setAmountMon(baseInfo.getAmountMon() != null ? baseInfo.getAmountMon() + "万元" : "");
             info.setCode(getRegnoCode(code, regno));
             info.setEmpnum(baseInfo.getEmpnum() + "人");
             list.add(info);
@@ -492,17 +493,8 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
         List<BranchInfo> rs = Lists.newArrayList();
         for (AnnualBranch info : dbList) {
             BranchInfo vo = new BranchInfo();
-            String nb = info.getNbxh();
-            Optional<PubCompanyInfo> op = getOneByNbxh(nb);
-            String re = null;
-            String co = null;
-            if(op.isPresent()) {
-                PubCompanyInfo companyInfo = op.get();
-                re = companyInfo.getRegno();
-                co = companyInfo.getCreditCode();
-            }
             vo.setName(info.getName());
-            vo.setCode(getRegnoCode(re, co));
+            vo.setCode(info.getRegno());
             rs.add(vo);
         }
         return rs;

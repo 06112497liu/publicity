@@ -24,7 +24,7 @@ public class BaseInfoGT extends BaseInfo {
     private String phones;
     
     /** 资金数额   */
-    private Double amountMon;
+    private String amountMon;
     
     /** 从业人数   */
     private String empnum;
@@ -53,10 +53,12 @@ public class BaseInfoGT extends BaseInfo {
     public void setPhones(String phones) {
         this.phones = phones;
     }
-    public Double getAmountMon() {
+
+    public String getAmountMon() {
         return amountMon;
     }
-    public void setAmountMon(Double amountMon) {
+
+    public void setAmountMon(String amountMon) {
         this.amountMon = amountMon;
     }
 

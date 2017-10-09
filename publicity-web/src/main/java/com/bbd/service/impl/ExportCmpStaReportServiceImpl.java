@@ -132,16 +132,14 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
     private List<CmpStaReportVo> getDistrictReport(int type) {
         List<CmpStaReportVo> rs = Lists.newArrayList();
         List<CompareReportVo> ds = reportService.queryDistrictExInfos();
-        sortList(ds, 1);
+        if (type == 1) sortList(ds, 1);
+        if (type == 2) sortList(ds, 2);
         CompareReportVo whole = reportService.queryWholeCity();
-        ds.add(0, whole);
         ds.forEach(p -> {
             CmpStaReportVo vo = new CmpStaReportVo();
             vo.setItem(p.getItemDesc());
-            if (type == 1)
-                vo.setItemvalue(p.getTotal());
-            if (type == 2)
-                vo.setItemvalue(NumUtils.trimPer(p.getPercent()));
+            if (type == 1) vo.setItemvalue(p.getTotal());
+            if (type == 2) vo.setItemvalue(NumUtils.trimPer(p.getPercent()));
             rs.add(vo);
         });
         return rs;
@@ -162,7 +160,7 @@ public class ExportCmpStaReportServiceImpl implements IExportCmpStaReportService
                     info.setItem("年报异常企业" + StringUtils.fmtMicrometer(String.valueOf(v.getAnnualNum())) + "户");
                     info.setItemvalue(NumUtils.trimPer(v.getAnnualPer()));
                 } else if (s.equals("ins")) {
-                    info.setItem("及时信息异常企业" + StringUtils.fmtMicrometer(String.valueOf(v.getInsNum())) + "户");
+                    info.setItem("即时信息异常企业" + StringUtils.fmtMicrometer(String.valueOf(v.getInsNum())) + "户");
                     info.setItemvalue(NumUtils.trimPer(v.getInsPer()));
                 } else if (s.equals("both")) {
                     info.setItem("两者均异常企业" + StringUtils.fmtMicrometer(String.valueOf(v.getBothNum())) + "户");

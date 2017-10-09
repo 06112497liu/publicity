@@ -33,7 +33,7 @@ public class AdminLicVo {
     private String licenseNameDesc;
 
     @ApiModelProperty(value = "有效期至", required = false)
-    @JsonFormat(pattern = "yyyy年MM月dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy年MM月dd日", timezone = "GMT+8")
     private Date validityTo;
 
     public String getSerialNo() {
