@@ -198,18 +198,6 @@ public class ReprotController extends AbstractController {
      private OutputStream buildResponse(String fileName, 
                                         HttpServletRequest request, 
                                         HttpServletResponse response) throws IOException {
-//         String agent = request.getHeader("USER-AGENT"); //处理IE乱码的问题
-//         if(agent != null) {
-//             if(agent.indexOf("MSIE") != -1 || agent.indexOf("like Gecko")>0) {
-//                 fileName = URLEncoder.encode(fileName, "UTF-8");
-//                 fileName = fileName.replaceAll("\\+", "%20");
-//             } else {
-//                 fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
-//             }
-//         } else {
-//             fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
-//         }
-         //response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName,"UTF-8"));
          response.addHeader("Content-disposition","attachment;filename="+URLEncoder.encode(fileName,"UTF-8")+";filename*=UTF-8''"+URLEncoder.encode(fileName,"UTF-8"));
          response.setContentType("application/x-msdownload;");
          return response.getOutputStream();
