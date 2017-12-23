@@ -432,20 +432,9 @@ public class AnnualServiceImpl implements IAnnualService {
         example.createCriteria().andSerialNoEqualTo(serialNo);
         List<AnnualAdminLicense> dbList = adminLicenseDao.selectByExampleWithPageBounds(example, pb);
         List<AdminLicVo> temp = BeanMapperUtil.mapList(dbList, AdminLicVo.class);
-        convertLicName(temp);
         Paginator paginator = PageListHelper.getPaginator(dbList);
         PageList<AdminLicVo> rs = PageListHelper.create(temp, paginator);
         return rs;
-    }
-
-    // 将行政许可文件名称转换为描述
-    private void convertLicName(List<AdminLicVo> datas) {
-        Map<String, String> typeMap = dictionaryService.getFileTypeItem();
-        datas.forEach(p -> {
-            String key = p.getLicenseName();
-            String val = typeMap.get(key);
-            p.setLicenseNameDesc(val);
-        });
     }
 
     /**
