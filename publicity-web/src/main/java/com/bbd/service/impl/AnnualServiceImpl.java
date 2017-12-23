@@ -279,7 +279,7 @@ public class AnnualServiceImpl implements IAnnualService {
     // 构建企业年报基本信息中，页面需要显示的其它信息
     private void buildOtherInfo(AnnualBaseInfoVo rs) {
         String serialNo = rs.getSerialNo();
-        if (StringUtils.isEmail(serialNo))
+        if (StringUtils.isBlank(serialNo))
             return;
         // 1.是否有投资信息或购买其它公司股权
         boolean flag1 = getIsInvestment(serialNo);
