@@ -98,6 +98,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         sortExcel(annualList);
         // 2.查询某个企业的 即时 信息对比详情
         List<ExDetailVo> insList = compareExceptionService.getCompanyInstantlyExDetails(nbxh);
+        sortExcel(insList);
         // 3.导出报告
         generatExport(resource, annualList, insList, out, null);
     }
@@ -110,6 +111,8 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         String nbxh;
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
+        sortExcel(annualList);
+        sortExcel(insList);
         if(exType == 1) { //年报信息异常详情
             for (int i = 0; i < nbxhs.length; i++) {
                 nbxh = nbxhs[i];
@@ -361,6 +364,7 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
                     .compare(x.getNbxh(), y.getNbxh())
                     .compare(x.getSubmodule(), y.getSubmodule())
                     .compare(x.getPropName(), y.getPropName())
+                    .compare(x.getSubmodule(), y.getSubmodule())
                     .result();
         });
     }

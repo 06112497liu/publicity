@@ -55,11 +55,6 @@ public class CompareReportController {
         return RestResult.ok(ds);
     }
 
-    public RestResult exportCompareReport() {
-        String result = "";
-        return RestResult.ok(result);
-    }
-
     // 结果按百分比排序
     private void sortList(List<CompareReportVo> data) {
         data.sort((x, y) -> {
