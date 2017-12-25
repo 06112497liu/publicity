@@ -61,7 +61,7 @@ public class AdminLicVo {
     }    
 
     public String getLicenseNameDesc() {
-        return licenseNameDesc;
+        return licenseName;
     }
 
     public void setLicenseNameDesc(String licenseNameDesc) {
