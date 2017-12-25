@@ -469,7 +469,6 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
     
     // 行政许可信息
     private List<AdminLicInfo> getadminLicInfo(String serialNo) {
-        Map<String, String> typeMap = dictionaryService.getFileTypeItem();
         List<AdminLicInfo> list = Lists.newArrayList();
         AnnualAdminLicenseExample exam = new AnnualAdminLicenseExample();
         exam.createCriteria().andSerialNoEqualTo(serialNo);
@@ -478,8 +477,7 @@ public class ExportAnnualReportServiceImpl implements IExportAnnualReportService
             AdminLicInfo info = new AdminLicInfo();
             AnnualAdminLicense vo = dbList.get(0);
             info.setValidityTo(DateUtil.formatDateByPatten(vo.getValidityTo(), "yyyy/MM/dd"));
-            String name = vo.getLicenseName();
-            info.setLicenseNameDesc(typeMap.get(name));
+            info.setLicenseNameDesc(vo.getLicenseName());
             list.add(info);
         }
         return list;
