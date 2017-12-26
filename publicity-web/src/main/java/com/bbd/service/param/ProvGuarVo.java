@@ -93,7 +93,7 @@ public class ProvGuarVo {
     }
 
     public Double getPriCalSecAm() {
-        return priCalSecAm;
+        return priCalSecAm == null ? 0 : priCalSecAm;
     }
 
     public void setPriCalSecAm(Double priCalSecAm) {

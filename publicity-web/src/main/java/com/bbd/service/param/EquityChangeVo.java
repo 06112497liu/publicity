@@ -64,7 +64,7 @@ public class EquityChangeVo {
     }
 
     public Double getPreEquityRatio() {
-        return preEquityRatio;
+        return preEquityRatio == null ? 0 : preEquityRatio;
     }
 
     public void setPreEquityRatio(Double preEquityRatio) {
@@ -72,7 +72,7 @@ public class EquityChangeVo {
     }
 
     public Double getAftEquityRatio() {
-        return aftEquityRatio;
+        return aftEquityRatio == null ? 0 : aftEquityRatio;
     }
 
     public void setAftEquityRatio(Double aftEquityRatio) {

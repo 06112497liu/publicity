@@ -234,7 +234,7 @@ public class AnnualBaseInfoVo {
     }
 
     public Double getAmountMon() {
-        return amountMon;
+        return amountMon == null ? 0 : amountMon;
     }
 
     public void setAmountMon(Double amountMon) {

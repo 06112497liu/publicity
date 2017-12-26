@@ -81,7 +81,7 @@ public class StockholderInfosVo {
     }
 
     public Double getSubCronCap() {
-        return subCronCap;
+        return subCronCap == null ? 0 : subCronCap;
     }
 
     public void setSubCronCap(Double subCronCap) {
@@ -105,7 +105,7 @@ public class StockholderInfosVo {
     }
 
     public Double getAcCronCap() {
-        return acCronCap;
+        return acCronCap == null ? 0 : acCronCap;
     }
 
     public void setAcCronCap(Double acCronCap) {

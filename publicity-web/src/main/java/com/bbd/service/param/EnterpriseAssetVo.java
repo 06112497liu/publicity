@@ -72,7 +72,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getAssTotal() {
-        return assTotal;
+        return assTotal == null ? 0 : assTotal;
     }
 
     public void setAssTotal(Double assTotal) {
@@ -80,7 +80,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getGrossRevenue() {
-        return grossRevenue;
+        return grossRevenue == null ? 0 : grossRevenue;
     }
 
     public void setGrossRevenue(Double grossRevenue) {
@@ -88,7 +88,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getMainGrossRevenue() {
-        return mainGrossRevenue;
+        return mainGrossRevenue == null ? 0 : mainGrossRevenue;
     }
 
     public void setMainGrossRevenue(Double mainGrossRevenue) {
@@ -96,7 +96,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getTaxTotal() {
-        return taxTotal;
+        return taxTotal == null ? 0 : taxTotal;
     }
 
     public void setTaxTotal(Double taxTotal) {
@@ -104,7 +104,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getOwnEquity() {
-        return ownEquity;
+        return ownEquity == null ? 0 : ownEquity;
     }
 
     public void setOwnEquity(Double ownEquity) {
@@ -112,7 +112,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getProTotal() {
-        return proTotal;
+        return proTotal == null ? 0 : proTotal;
     }
 
     public void setProTotal(Double proTotal) {
@@ -120,7 +120,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getProNet() {
-        return proNet;
+        return proNet == null ? 0 : proNet;
     }
 
     public void setProNet(Double proNet) {
@@ -128,7 +128,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getLiabTotal() {
-        return liabTotal;
+        return liabTotal == null ? 0 : liabTotal;
     }
 
     public void setLiabTotal(Double liabTotal) {
@@ -136,7 +136,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getProTotalNet() {
-        return proTotalNet;
+        return proTotalNet == null ? 0 : proTotalNet;
     }
 
     public void setProTotalNet(Double proTotalNet) {
@@ -144,7 +144,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getSupFund() {
-        return supFund;
+        return supFund == null ? 0 : supFund;
     }
 
     public void setSupFund(Double supFund) {
@@ -152,7 +152,7 @@ public class EnterpriseAssetVo {
     }
 
     public Double getLoan() {
-        return loan;
+        return loan == null ? 0 : loan;
     }
 
     public void setLoan(Double loan) {
