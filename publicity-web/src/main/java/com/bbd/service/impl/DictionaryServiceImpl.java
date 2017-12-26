@@ -112,7 +112,6 @@ public class DictionaryServiceImpl implements IDictionaryService {
 
     /**
      * 企业类型数据字典
-     * @see com.bbd.service.IDictionaryService#getCompanyItem() 
      */
     @Override
     public Map<String, String> getCompanyPropertyItem() {      
