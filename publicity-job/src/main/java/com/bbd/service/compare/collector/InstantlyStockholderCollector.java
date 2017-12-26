@@ -41,7 +41,7 @@ public class InstantlyStockholderCollector extends InstantlyPropertyCollector<In
     @Override
     protected boolean precheck(PubCompanyInfo c) {
         Integer cp = c.getCompanyProperty();
-        if (cp == null || !cp.equals(Constants.COMPANY_PROPERTY_ENTERPISE)) {
+        if (cp == null || !(cp <= 3)) {
             return false;
         }
         return true;
