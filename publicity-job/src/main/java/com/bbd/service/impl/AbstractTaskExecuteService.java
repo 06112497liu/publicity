@@ -31,7 +31,7 @@ public abstract class AbstractTaskExecuteService implements ITaskExecuteService 
     protected ICompareTaskService compareTaskService;
 
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(10);
+    private ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @Override
     public void excuteCompareTask(Long taskId) {
