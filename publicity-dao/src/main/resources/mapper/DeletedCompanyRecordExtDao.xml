@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbd.dao.RecordMsgDao">
+
+  <!-- 记录主题表中被删除的nbxh公司到bbd_deleted_company_record -->
+  <insert id="recordDeletedCompany">
+    INSERT INTO bbd_deleted_company_record (
+        nbxh,
+        gmt_create,
+        gmt_modified
+    ) (SELECT
+        nbxh,
+        NOW(),
+        NOW()
+    FROM
+        bbd_pub_company_ex_item a
+    WHERE
+        NOT EXISTS (
+            SELECT
+                1
+            FROM
+                bbd_pub_company_info b
+            WHERE
+                a.nbxh = b.nbxh
+        ))
+  </insert>
+
+  <!-- 截断表 -->
+  <delete id="truncateTable">
+    TRUNCATE TABLE ${tableName}
+  </delete>
+
+
+</mapper>

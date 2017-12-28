@@ -27,6 +27,11 @@ public class QuartzProperties {
      */
     private String insCmpJobExpression;
 
+    /**
+     * 记录被删除企业定时任务表达式
+     */
+    private String recordDeletedCompanyExpression;
+
     public String getInstanceName() {
         return instanceName;
     }
@@ -49,5 +54,13 @@ public class QuartzProperties {
 
     public void setInsCmpJobExpression(String insCmpJobExpression) {
         this.insCmpJobExpression = insCmpJobExpression;
+    }
+
+    public String getRecordDeletedCompanyExpression() {
+        return recordDeletedCompanyExpression;
+    }
+
+    public void setRecordDeletedCompanyExpression(String recordDeletedCompanyExpression) {
+        this.recordDeletedCompanyExpression = recordDeletedCompanyExpression;
     }
 }

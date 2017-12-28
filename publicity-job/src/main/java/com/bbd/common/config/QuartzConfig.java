@@ -8,6 +8,7 @@ import com.bbd.common.config.properties.QuartzProperties;
 import com.bbd.common.quartz.AutowiringSpringBeanJobFactory;
 import com.bbd.service.job.AnnualCompareJob;
 import com.bbd.service.job.InstantlyCompareJob;
+import com.bbd.service.job.RecordDeletedCompanyJob;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,17 @@ public class QuartzConfig {
     public CronTriggerFactoryBean instantlyCompareJobTrigger() {
         String cronExpression = quartzProperties.getInsCmpJobExpression();
         return createCronTriggerFactoryBean(instantlyCompareJob().getObject(), cronExpression, 5);
+    }
+
+    @Bean
+    public JobDetailFactoryBean recordDeletedCompanyJob() {
+        return createJobDetail(RecordDeletedCompanyJob.class);
+    }
+
+    @Bean
+    public CronTriggerFactoryBean recordDeletedCompanyJobTrigger() {
+        String cronExpression = quartzProperties.getRecordDeletedCompanyExpression();
+        return createCronTriggerFactoryBean(recordDeletedCompanyJob().getObject(), cronExpression, 5);
     }
 
     @Bean
