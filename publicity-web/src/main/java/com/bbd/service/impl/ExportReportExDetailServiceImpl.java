@@ -44,10 +44,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /** 
@@ -111,8 +108,6 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
         String nbxh;
         List<ExDetailVo> annualList = Lists.newLinkedList();
         List<ExDetailVo> insList = Lists.newLinkedList();
-        sortExcel(annualList);
-        sortExcel(insList);
         if(exType == 1) { //年报信息异常详情
             for (int i = 0; i < nbxhs.length; i++) {
                 nbxh = nbxhs[i];
@@ -130,6 +125,8 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
                 insList.addAll(compareExceptionService.getCompanyInstantlyExDetails(nbxh));
             } 
         }
+        sortExcel(annualList);
+        sortExcel(insList);
         generatExport(resource, annualList, insList, out, null);
     }
 
@@ -359,14 +356,12 @@ public class ExportReportExDetailServiceImpl implements IExportExDetailReportSer
     }
     
     private void sortExcel(List<ExDetailVo> list) {
-        list.sort((x, y) -> {
-            return ComparisonChain.start()
-                    .compare(x.getNbxh(), y.getNbxh())
-                    .compare(x.getSubmodule(), y.getSubmodule())
-                    .compare(x.getPropName(), y.getPropName())
-                    .compare(x.getSubmodule(), y.getSubmodule())
-                    .result();
-        });
+        list.sort((x, y) -> ComparisonChain.start()
+                .compare(x.getNbxh(), y.getNbxh())
+                .compare(x.getSubmodule(), y.getSubmodule())
+                .compare(x.getPropName(), y.getPropName())
+                .compare(x.getSubmodule(), y.getSubmodule())
+                .result());
     }
 }
 
