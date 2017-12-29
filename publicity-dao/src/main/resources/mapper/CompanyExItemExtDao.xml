@@ -37,33 +37,36 @@
     </update>
 
     <select id="queryAnnualByParam" resultType="java.lang.String">
-        select nbxh
-        from bbd_pub_company_ex_item
-        where annual_num &gt; 0
-        <if test="region != null">
-            and region = #{region}
-        </if>
-        <if test="primaryIndustry != null">
-            and primary_industry = #{primaryIndustry}
-        </if>
-        <if test="moduleType != 0">
-            and (annual_ex_modules div #{moduleType}) mod 2 = 1
-        </if>
-        <if test="exType != 0">
-            and (annual_ex_types div #{exType} mod 2 = 1)
-        </if>
-        order by
-        <if test="sortType == 1">
-            annual_num ${sort}, id ${sort}
-        </if>
-        <if test="sortType == 2">
-            annual_ex_modules_num ${sort}, id ${sort}
-        </if>
+		select a.nbxh
+		from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
+		on a.nbxh = b.nbxh
+		where a.annual_num &gt; 0
+		and b.nbxh is null
+		<if test="region != null">
+			and a.region = #{region}
+		</if>
+		<if test="primaryIndustry != null">
+			and a.primary_industry = #{primaryIndustry}
+		</if>
+		<if test="moduleType != 0">
+			and (a.annual_ex_modules div #{moduleType}) mod 2 = 1
+		</if>
+		<if test="exType != 0">
+			and (a.annual_ex_types div #{exType} mod 2 = 1)
+		</if>
+		order by
+		<if test="sortType == 1">
+			a.annual_num ${sort}, a.id ${sort}
+		</if>
+		<if test="sortType == 2">
+			a.annual_ex_modules_num ${sort}, a.id ${sort}
+		</if>
     </select>
 
     <select id="queryInstantlyByParam" resultType="java.lang.String">
-        select nbxh
-        from bbd_pub_company_ex_item
+        select a.nbxh
+        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
+		on a.nbxh = b.nbxh
         where instantly_num &gt; 0
         <if test="region != null">
             and region = #{region}
@@ -79,18 +82,19 @@
         </if>
         order by
         <if test="sortType == 1">
-            instantly_num ${sort}, id ${sort}
+            instantly_num ${sort}, a.id ${sort}
         </if>
         <if test="sortType == 2">
-            ins_ex_modules_num ${sort}, id ${sort}
+            ins_ex_modules_num ${sort}, a.id ${sort}
         </if>
     </select>
 
     <select id="queryAllByParam" resultType="java.lang.String">
-        select nbxh
-        from bbd_pub_company_ex_item
-        where 1 = 1
-        and num > 0
+        select a.nbxh
+        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
+		on a.nbxh = b.nbxh
+        where num > 0
+		and b.nbxh is null
         <if test="region != null">
             and region = #{region}
         </if>
@@ -102,10 +106,10 @@
         </if>
         order by
         <if test="sortType == 1">
-            num ${sort}, id ${sort}
+            num ${sort}, a.id ${sort}
         </if>
         <if test="sortType == 2">
-            ex_modules_num ${sort}, id ${sort}
+            ex_modules_num ${sort}, a.id ${sort}
         </if>
     </select>
 

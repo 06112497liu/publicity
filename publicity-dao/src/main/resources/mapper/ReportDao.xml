@@ -8,11 +8,15 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item_pre
-		WHERE 
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
+		WHERE
+			b.nbxh IS NULL
+		AND
 			(annual_num > 0 OR instantly_num > 0)
 		GROUP BY
-			region
+			region;
     </select>
 
     <!-- 按区域统计年报信息异常企业数量 -->
@@ -21,8 +25,12 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item_pre
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
 		WHERE
+			b.nbxh IS NULL
+		AND
 			annual_num > 0
 		GROUP BY
 			region
@@ -34,8 +42,12 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item_pre
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
 		WHERE
+			b.nbxh IS NULL
+		AND
 			instantly_num > 0
 		GROUP BY
 			region
@@ -47,10 +59,15 @@
 			region AS item,
 			count(1) AS total
 		FROM
-			bbd_pub_company_ex_item_pre
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
 		WHERE
+			b.nbxh IS NULL
+		AND
 			instantly_num > 0
-		AND annual_num > 0
+		AND
+			annual_num > 0
 		GROUP BY
 			region;    
     </select>
@@ -61,9 +78,11 @@
         primary_industry AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item_pre
+        bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+        ON a.nbxh = b.nbxh
         WHERE
-        (annual_num > 0 OR instantly_num > 0)
+        b.nbxh IS NULL
+        AND (annual_num > 0 OR instantly_num > 0)
         GROUP BY
         primary_industry
     </select>
@@ -74,9 +93,13 @@
         primary_industry AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item_pre
-        WHERE
-        annual_num > 0
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
+		WHERE
+			b.nbxh IS NULL
+		AND
+        	annual_num > 0
         GROUP BY
         primary_industry
     </select>
@@ -84,14 +107,18 @@
     <!-- 按行业统计年报信息异常企业数量 -->
     <select id="queryIndustryInsExStatistics" resultType="java.util.Map">
         SELECT
-        primary_industry AS item,
-        count(1) AS total
+        	primary_industry AS item,
+        	count(1) AS total
         FROM
-        bbd_pub_company_ex_item_pre
-        WHERE
-        instantly_num > 0
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
+		WHERE
+			b.nbxh IS NULL
+		AND
+        	instantly_num > 0
         GROUP BY
-        primary_industry
+        	primary_industry
     </select>
     
     <!-- 按行业统计两者都异常的企业数量 -->
@@ -99,11 +126,16 @@
 		SELECT
 			primary_industry AS item,
 			count(1) AS total
-		FROM
-			bbd_pub_company_ex_item_pre
+        FROM
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
 		WHERE
+			b.nbxh IS NULL
+		AND
 			instantly_num > 0
-		AND annual_num > 0
+		AND
+			annual_num > 0
 		GROUP BY
 			primary_industry;    
     </select>
@@ -111,27 +143,35 @@
     <!-- 按企业性质统计地图数据 -->
     <select id="queryCompanyPropertyExStatistics" resultType="java.util.Map">
         SELECT
-        CONCAT(company_property) AS item,
-        count(1) AS total
+        	CONCAT(company_property) AS item,
+        	count(1) AS total
         FROM
-        bbd_pub_company_ex_item_pre
-        WHERE
-        (annual_num > 0 OR instantly_num > 0)
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
+		WHERE
+			b.nbxh IS NULL
+		AND
+        	(annual_num > 0 OR instantly_num > 0)
         GROUP BY
-        company_property
+        	company_property
     </select>
 
     <!-- 按企业性质统计年报信息异常企业数量 -->
     <select id="queryCompanyPropertyAnnualExStatistics" resultType="java.util.Map">
         SELECT
-        CONCAT(company_property) AS item,
-        count(1) AS total
+        	CONCAT(company_property) AS item,
+        	count(1) AS total
         FROM
-        bbd_pub_company_ex_item_pre
-        WHERE
-        annual_num > 0
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
+		WHERE
+			b.nbxh IS NULL
+		AND
+        	annual_num > 0
         GROUP BY
-        company_property
+        	company_property
     </select>
 
     <!-- 按企业性质统计年报信息异常企业数量 -->
@@ -140,11 +180,15 @@
         CONCAT(company_property) AS item,
         count(1) AS total
         FROM
-        bbd_pub_company_ex_item_pre
-        WHERE
-        instantly_num > 0
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
+		WHERE
+			b.nbxh IS NULL
+		AND
+        	instantly_num > 0
         GROUP BY
-        company_property
+        	company_property
     </select>
     
     <!-- 按企业性质统计两者都异常的企业数量 -->
@@ -152,11 +196,16 @@
 		SELECT
 			company_property AS item,
 			count(1) AS total
-		FROM
-			bbd_pub_company_ex_item_pre
+        FROM
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
 		WHERE
+			b.nbxh IS NULL
+		AND
 			instantly_num > 0
-		AND annual_num > 0
+		AND
+			annual_num > 0
 		GROUP BY
 			company_property;    	
     </select>
@@ -166,8 +215,12 @@
 		SELECT
 			region item,
 			count(1) total
-		FROM
-			bbd_pub_company_ex_item_pre
+        FROM
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
+		WHERE
+			b.nbxh IS NULL
 		GROUP BY
 			region
     </select>
@@ -177,35 +230,39 @@
 		SELECT
 			primary_industry item,
 			count(1) total
-		FROM
-			bbd_pub_company_ex_item_pre
+        FROM
+			bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b
+		ON
+			a.nbxh = b.nbxh
+		WHERE
+			b.nbxh IS NULL
 		GROUP BY
 			primary_industry		
 	</select>
 	
 	<!-- 查询贵阳市企业总量 -->
 	<select id="queryWholeCount" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b ON a.nbxh = b.nbxh WHERE b.nbxh IS NULL
 	</select>
 	
 	<!-- 查询贵阳市年报异常企业数量 -->
 	<select id="queryWholeAnnualExNum" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE annual_num > 0
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b ON a.nbxh = b.nbxh WHERE b.nbxh IS NULL AND annual_num > 0
 	</select>
 	
 	<!-- 查询贵阳市即时信息异常企业数量 -->
 	<select id="queryWholeInsExNum" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE instantly_num > 0
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b ON a.nbxh = b.nbxh WHERE b.nbxh IS NULL AND instantly_num > 0
 	</select>	
 	
 	<!-- 查询贵阳市两者都异常的企业数量 -->
 	<select id="queryWholeBothExNum" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE instantly_num > 0 AND annual_num > 0
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b ON a.nbxh = b.nbxh WHERE b.nbxh IS NULL AND instantly_num > 0 AND annual_num > 0
 	</select>
 
 	<!-- 查询归贵阳市异常企业总量 -->
 	<select id="queryWholeExNum" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre WHERE num > 0
+		SELECT COUNT(1) FROM bbd_pub_company_ex_item_pre a LEFT JOIN bbd_deleted_company_record b ON a.nbxh = b.nbxh WHERE b.nbxh IS NULL AND num > 0
 	</select>
 </mapper>
 

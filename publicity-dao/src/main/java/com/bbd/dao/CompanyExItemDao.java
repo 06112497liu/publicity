@@ -15,6 +15,9 @@ public interface CompanyExItemDao {
 
     List<CompanyExItem> selectByExampleWithPageBounds(CompanyExItemExample example, PageBounds pageBounds);
 
+    // 新添加的方法
+    List<CompanyExItem> selectByExampleWithPageBounds2(CompanyExItemExample example, PageBounds pageBounds);
+
     List<CompanyExItem> selectByExample(CompanyExItemExample example);
 
     CompanyExItem selectByPrimaryKey(Long id);

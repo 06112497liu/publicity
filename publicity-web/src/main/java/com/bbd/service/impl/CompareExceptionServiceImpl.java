@@ -93,7 +93,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         else 
             exam.createCriteria().andAnnualNumGreaterThan(count);
 
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
         if (ds.size() == 0) {
             return rs;
         }
@@ -118,7 +118,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         if (!StringUtils.isEmpty(companyName)) {
             criteria.andCompanyNameLike("%" + companyName + "%");
         }
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
         if (ds.size() == 0) {
             return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
         }
@@ -161,7 +161,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         else 
             exam.createCriteria().andInstantlyNumGreaterThan(count);
 
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
         if (ds.size() == 0) {
             return rs;
         }
@@ -183,7 +183,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         if(!StringUtils.isEmpty(companyName)) {
             criteria.andCompanyNameLike("%" + companyName + "%");            
         }
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
         if (ds.size() == 0) {
             return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
         }
@@ -224,7 +224,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         else 
             exam.createCriteria().andNumGreaterThan(count);
 
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
         if (ds.size() == 0) {
             return rs;
         }
@@ -248,7 +248,7 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
             criteria.andCompanyNameLike("%" + companyName + "%");          
         }
 
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
         if (ds.size() == 0) {
             return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
         }

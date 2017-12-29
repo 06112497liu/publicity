@@ -16,14 +16,17 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, nbxh, company_name, annual_num, instantly_num, annual_ex_modules, annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num, ex_modules_num, num
+        company_name, annual_num, instantly_num, annual_ex_modules, annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num, ex_modules_num, num
     </sql>
 
     <select id="queryAnnualExByParam" resultMap="BaseResultMap">
         select
+        a.id, a.nbxh,
         <include refid="Base_Column_List"/>
-        from bbd_pub_company_ex_item
+        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
+        on a.nbxh = b.nbxh
         where annual_num &gt; 0
+        and b.nbxh is null
         <if test="region != null">
             and region = #{region}
         </if>
@@ -38,19 +41,22 @@
         </if>
         order by
         <if test="sortType == 1">
-            annual_num ${sort}, id ${sort}
+            annual_num ${sort}, a.id ${sort}
         </if>
         <if test="sortType == 2">
-            annual_ex_modules_num ${sort}, id ${sort}
+            annual_ex_modules_num ${sort}, a.id ${sort}
         </if>
         limit 2000
     </select>
 
     <select id="queryInsExByParam" resultMap="BaseResultMap">
         select
+        a.id, a.nbxh,
         <include refid="Base_Column_List"/>
-        from bbd_pub_company_ex_item
+        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
+        on a.nbxh = b.nbxh
         where instantly_num &gt; 0
+        and b.nbxh is null
         <if test="region != null">
             and region = #{region}
         </if>
@@ -65,19 +71,22 @@
         </if>
         order by
         <if test="sortType == 1">
-            instantly_num ${sort}, id ${sort}
+            instantly_num ${sort}, a.id ${sort}
         </if>
         <if test="sortType == 2">
-            ins_ex_modules_num ${sort}, id ${sort}
+            ins_ex_modules_num ${sort}, a.id ${sort}
         </if>
         limit 2000
     </select>
 
     <select id="queryAllExByParam" resultMap="BaseResultMap">
         select
+        a.id, a.nbxh,
         <include refid="Base_Column_List"/>
-        from bbd_pub_company_ex_item
+        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
+        on a.nbxh = b.nbxh
         where num > 0
+        and b.nbxh is null
         <if test="region != null">
             and region = #{region}
         </if>
@@ -89,62 +98,66 @@
         </if>
         order by
         <if test="sortType == 1">
-            num ${sort}, id ${sort}
+            num ${sort}, a.id ${sort}
         </if>
         <if test="sortType == 2">
-            ex_modules_num ${sort}, id ${sort}
+            ex_modules_num ${sort}, a.id ${sort}
         </if>
         limit 2000
     </select>
 
     <select id="queryExceptionByNum" resultMap="BaseResultMap">
-      select
+        select
+        a.id, a.nbxh,
         <include refid="Base_Column_List"/>
-      from
-        bbd_pub_company_ex_item
+        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
+        on a.nbxh = b.nbxh
       where
         <if test="type == 1"> annual_num > ${num} </if>
         <if test="type == 2"> instantly_num &gt; ${num} </if>
         <if test="type == 3"> num > ${num} </if>
+        and b.nbxh is null
       order by
         <if test="type == 1">
-            <if test="sortType == 1"> annual_num ${sort}, id ${sort} </if>
-            <if test="sortType == 2"> annual_ex_modules_num ${sort}, id ${sort} </if>
+            <if test="sortType == 1"> annual_num ${sort}, a.id ${sort} </if>
+            <if test="sortType == 2"> annual_ex_modules_num ${sort}, a.id ${sort} </if>
         </if>
         <if test="type == 2">
-            <if test="sortType == 1"> instantly_num ${sort}, id ${sort} </if>
-            <if test="sortType == 2"> ins_ex_modules_num ${sort}, id ${sort} </if>
+            <if test="sortType == 1"> instantly_num ${sort}, a.id ${sort} </if>
+            <if test="sortType == 2"> ins_ex_modules_num ${sort}, a.id ${sort} </if>
         </if>
         <if test="type == 3">
-            <if test="sortType == 1"> num ${sort}, id ${sort} </if>
-            <if test="sortType == 2"> ex_modules_num ${sort}, id ${sort} </if>
+            <if test="sortType == 1"> num ${sort}, a.id ${sort} </if>
+            <if test="sortType == 2"> ex_modules_num ${sort}, a.id ${sort} </if>
         </if>
         limit 2000
     </select>
 
     <select id="queryExceptionByName" resultMap="BaseResultMap">
         select
-          <include refid="Base_Column_List"/>
-        from
-          bbd_pub_company_ex_item
+        a.id, a.nbxh,
+        <include refid="Base_Column_List"/>
+        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
+        on a.nbxh = b.nbxh
         where
           <if test="type == 1"> annual_num > 0 </if>
           <if test="type == 2"> instantly_num &gt; 0 </if>
           <if test="type == 3"> num > 0 </if>
         and
           company_name like ${companyName}
+        and b.nbxh is null
         order by
           <if test="type == 1">
-              <if test="sortType == 1"> annual_num ${sort}, id ${sort} </if>
-              <if test="sortType == 2"> annual_ex_modules_num ${sort}, id ${sort} </if>
+              <if test="sortType == 1"> annual_num ${sort}, a.id ${sort} </if>
+              <if test="sortType == 2"> annual_ex_modules_num ${sort}, a.id ${sort} </if>
           </if>
           <if test="type == 2">
-              <if test="sortType == 1"> instantly_num ${sort}, id ${sort} </if>
-              <if test="sortType == 2"> ins_ex_modules_num ${sort}, id ${sort} </if>
+              <if test="sortType == 1"> instantly_num ${sort}, a.id ${sort} </if>
+              <if test="sortType == 2"> ins_ex_modules_num ${sort}, a.id ${sort} </if>
           </if>
           <if test="type == 3">
-              <if test="sortType == 1"> num ${sort}, id ${sort} </if>
-              <if test="sortType == 2"> ex_modules_num ${sort}, id ${sort} </if>
+              <if test="sortType == 1"> num ${sort}, a.id ${sort} </if>
+              <if test="sortType == 2"> ex_modules_num ${sort}, a.id ${sort} </if>
           </if>
         limit 2000
     </select>

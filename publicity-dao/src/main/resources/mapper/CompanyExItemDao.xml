@@ -87,6 +87,12 @@
     ex_modules_num, num, annual_cmp_time, instantly_cmp_time, gmt_create, gmt_modified, 
     region, primary_industry
   </sql>
+  <sql id="Base_Column_List2">
+    a.id, a.nbxh, company_name, company_property, annual_num, instantly_num, annual_ex_types,
+    ins_ex_types, annual_ex_modules, annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num,
+    ex_modules_num, num, annual_cmp_time, instantly_cmp_time, a.gmt_create, a.gmt_modified,
+    region, primary_industry
+  </sql>
   <select id="selectByExample" parameterType="com.bbd.domain.CompanyExItemExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -446,6 +452,22 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithPageBounds2" parameterType="com.bbd.domain.CompanyExItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List2" />
+    from bbd_pub_company_ex_item a left join bbd_deleted_company_record b on a.nbxh = b.nbxh
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    and b.nbxh is null 
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
