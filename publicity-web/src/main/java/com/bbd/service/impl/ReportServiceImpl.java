@@ -107,7 +107,7 @@ public class ReportServiceImpl implements IReportService {
         return rs;
     }
     
-    @Autowired
+    @Override
     public CompareReportVo queryWholeCity() {
         CompareReportVo rs = new CompareReportVo();
         int total = reportDao.queryWholeCount();
