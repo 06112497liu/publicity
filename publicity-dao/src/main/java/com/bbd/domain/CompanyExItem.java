@@ -9,6 +9,8 @@ public class CompanyExItem {
 
     private String companyName;
 
+    private Integer delFlag;
+
     private Integer companyProperty;
 
     private Integer annualNum;
@@ -35,13 +37,13 @@ public class CompanyExItem {
 
     private Date instantlyCmpTime;
 
-    private Date gmtCreate;
-
-    private Date gmtModified;
-
     private String region;
 
     private String primaryIndustry;
+
+    private Date gmtCreate;
+
+    private Date gmtModified;
 
     public Long getId() {
         return id;
@@ -65,6 +67,14 @@ public class CompanyExItem {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
     }
 
     public Integer getCompanyProperty() {
@@ -171,22 +181,6 @@ public class CompanyExItem {
         this.instantlyCmpTime = instantlyCmpTime;
     }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
     public String getRegion() {
         return region;
     }
@@ -201,5 +195,21 @@ public class CompanyExItem {
 
     public void setPrimaryIndustry(String primaryIndustry) {
         this.primaryIndustry = primaryIndustry;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
     }
 }

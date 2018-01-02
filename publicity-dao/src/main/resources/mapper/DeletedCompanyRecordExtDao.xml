@@ -3,32 +3,58 @@
 <mapper namespace="com.bbd.dao.RecordMsgDao">
 
   <!-- 记录主题表中被删除的nbxh公司到bbd_deleted_company_record -->
-  <insert id="recordDeletedCompany">
-    INSERT INTO bbd_deleted_company_record (
-        nbxh,
-        gmt_create,
-        gmt_modified
-    ) (SELECT
-        nbxh,
-        NOW(),
-        NOW()
-    FROM
-        bbd_pub_company_ex_item a
-    WHERE
-        NOT EXISTS (
-            SELECT
-                1
-            FROM
-                bbd_pub_company_info b
-            WHERE
-                a.nbxh = b.nbxh
-        ))
-  </insert>
+      <insert id="recordDeletedCompany">
+        INSERT INTO bbd_deleted_company_record (
+            nbxh,
+            gmt_create,
+            gmt_modified
+        ) (SELECT
+            nbxh,
+            NOW(),
+            NOW()
+        FROM
+            bbd_pub_company_ex_item a
+        WHERE
+            NOT EXISTS (
+                SELECT
+                    1
+                FROM
+                    bbd_pub_company_info b
+                WHERE
+                    a.nbxh = b.nbxh
+            ))
+      </insert>
+    <!-- 截断表 -->
+    <delete id="truncateTable">
+      TRUNCATE TABLE ${tableName}
+    </delete>
 
-  <!-- 截断表 -->
-  <delete id="truncateTable">
-    TRUNCATE TABLE ${tableName}
-  </delete>
 
+
+    <!-- 更新bbd_pub_company_ex_item的del_flag字段 -->
+    <update id="updateExItemDelFlag">
+        UPDATE bbd_pub_company_ex_item a, bbd_deleted_company_record b
+        SET a.del_flag = 1
+        WHERE a.nbxh = b.nbxh
+    </update>
+
+    <!-- 更新bbd_pub_company_ex_item_pre的del_flag字段 -->
+    <update id="updateExItemPreDelFlag">
+        UPDATE bbd_pub_company_ex_item_pre a, bbd_deleted_company_record b
+        SET a.del_flag = 1
+        WHERE a.nbxh = b.nbxh
+    </update>
+
+    <!-- 初始化bbd_pub_company_ex_item表的del_flag字段的值：0 -->
+    <update id="initExItemDelFlag">
+        UPDATE bbd_pub_company_ex_item
+        SET del_flag = 0
+    </update>
+
+    <!-- 初始化bbd_pub_company_ex_item_pre表的del_flag字段的值：0 -->
+    <update id="initExItemPreDelFlag">
+        UPDATE bbd_pub_company_ex_item_pre
+        SET del_flag = 0
+    </update>
 
 </mapper>

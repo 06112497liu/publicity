@@ -9,6 +9,8 @@ public class CompanyExItemPre {
 
     private String companyName;
 
+    private Integer delFlag;
+
     private Integer companyProperty;
 
     private Integer annualNum;
@@ -65,6 +67,14 @@ public class CompanyExItemPre {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
     }
 
     public Integer getCompanyProperty() {

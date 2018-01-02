@@ -87,13 +87,17 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
             exam.setOrderByClause("annual_num " + str + ", id " + str);
         } else if(sortType == 2) {
             exam.setOrderByClause("annual_ex_modules_num " + str + ", id " + str);
-        }        
-        if(count > 0)
-            exam.createCriteria().andAnnualNumGreaterThanOrEqualTo(count);
-        else 
-            exam.createCriteria().andAnnualNumGreaterThan(count);
+        }
+        CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andDelFlagEqualTo(0);
+        if(count > 0) {
+            criteria.andAnnualNumGreaterThanOrEqualTo(count);
+        }
+        else {
+            criteria.andAnnualNumGreaterThan(count);
+        }
 
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
             return rs;
         }
@@ -114,11 +118,12 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
             exam.setOrderByClause("annual_ex_modules_num " + str + ", id " + str);
         }
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andDelFlagEqualTo(0);
         criteria.andAnnualNumGreaterThan(0);
         if (!StringUtils.isEmpty(companyName)) {
             criteria.andCompanyNameLike("%" + companyName + "%");
         }
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
             return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
         }
@@ -155,13 +160,15 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         CompanyExItemExample exam = new CompanyExItemExample();
         if(sortType == 1) exam.setOrderByClause("instantly_num " + str + ", id " + str);
         if(sortType == 2) exam.setOrderByClause("ins_ex_modules_num " + str + ", id " + str);
-        
-        if(count > 0)
-            exam.createCriteria().andInstantlyNumGreaterThanOrEqualTo(count);
-        else 
-            exam.createCriteria().andInstantlyNumGreaterThan(count);
-
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
+        CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andDelFlagEqualTo(0);
+        if(count > 0) {
+            criteria.andInstantlyNumGreaterThanOrEqualTo(count);
+        }
+        else {
+            criteria.andInstantlyNumGreaterThan(count);
+        }
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
             return rs;
         }
@@ -178,12 +185,12 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         if(sortType == 1) exam.setOrderByClause("instantly_num " + str + ", id " + str);
         if(sortType == 2) exam.setOrderByClause("ins_ex_modules_num " + str + ", id " + str);
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andDelFlagEqualTo(0);
         criteria.andInstantlyNumGreaterThan(0);
-        
         if(!StringUtils.isEmpty(companyName)) {
-            criteria.andCompanyNameLike("%" + companyName + "%");            
+            criteria.andCompanyNameLike("%" + companyName + "%");
         }
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
             return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
         }
@@ -219,12 +226,15 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         CompanyExItemExample exam = new CompanyExItemExample();
         if(sortType == 1) exam.setOrderByClause("num " + str + ", id " + str);
         if(sortType == 2) exam.setOrderByClause("ex_modules_num " + str + ", id " + str);
-        if(count > 0)
-            exam.createCriteria().andNumGreaterThanOrEqualTo(count);
-        else 
-            exam.createCriteria().andNumGreaterThan(count);
-
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
+        CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andDelFlagEqualTo(0);
+        if(count > 0) {
+            criteria.andNumGreaterThanOrEqualTo(count);
+        }
+        else {
+            criteria.andNumGreaterThan(count);
+        }
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
             return rs;
         }
@@ -243,12 +253,12 @@ public class CompareExceptionServiceImpl implements ICompareExceptionService {
         if(sortType == 1) exam.setOrderByClause("num " + str + ", id " + str);
         if(sortType == 2) exam.setOrderByClause("ex_modules_num " + str + ", id " + str);
         CompanyExItemExample.Criteria criteria = exam.createCriteria();
+        criteria.andDelFlagEqualTo(0);
         criteria.andNumGreaterThan(0);
         if(!StringUtils.isEmpty(companyName)) {
-            criteria.andCompanyNameLike("%" + companyName + "%");          
+            criteria.andCompanyNameLike("%" + companyName + "%");
         }
-
-        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds2(exam, pb);
+        List<CompanyExItem> ds = companyExItemDao.selectByExampleWithPageBounds(exam, pb);
         if (ds.size() == 0) {
             return PageListHelper.create(rs, PageListHelper.getPaginator(ds));
         }

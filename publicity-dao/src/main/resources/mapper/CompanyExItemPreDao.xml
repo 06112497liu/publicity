@@ -5,6 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="nbxh" jdbcType="VARCHAR" property="nbxh" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
     <result column="company_property" jdbcType="TINYINT" property="companyProperty" />
     <result column="annual_num" jdbcType="INTEGER" property="annualNum" />
     <result column="instantly_num" jdbcType="INTEGER" property="instantlyNum" />
@@ -82,7 +83,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, nbxh, company_name, company_property, annual_num, instantly_num, annual_ex_types, 
+    id, nbxh, company_name, del_flag, company_property, annual_num, instantly_num, annual_ex_types, 
     ins_ex_types, annual_ex_modules, annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num, 
     ex_modules_num, num, annual_cmp_time, instantly_cmp_time, region, primary_industry, 
     gmt_create, gmt_modified
@@ -116,20 +117,20 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into bbd_pub_company_ex_item_pre (nbxh, company_name, company_property, 
-      annual_num, instantly_num, annual_ex_types, 
-      ins_ex_types, annual_ex_modules, annual_ex_modules_num, 
-      ins_ex_modules, ins_ex_modules_num, ex_modules_num, 
-      num, annual_cmp_time, instantly_cmp_time, 
-      region, primary_industry, gmt_create, 
-      gmt_modified)
-    values (#{nbxh,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{companyProperty,jdbcType=TINYINT}, 
-      #{annualNum,jdbcType=INTEGER}, #{instantlyNum,jdbcType=INTEGER}, #{annualExTypes,jdbcType=INTEGER}, 
-      #{insExTypes,jdbcType=INTEGER}, #{annualExModules,jdbcType=INTEGER}, #{annualExModulesNum,jdbcType=INTEGER}, 
-      #{insExModules,jdbcType=INTEGER}, #{insExModulesNum,jdbcType=INTEGER}, #{exModulesNum,jdbcType=INTEGER}, 
-      #{num,jdbcType=INTEGER}, #{annualCmpTime,jdbcType=TIMESTAMP}, #{instantlyCmpTime,jdbcType=TIMESTAMP}, 
-      #{region,jdbcType=VARCHAR}, #{primaryIndustry,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP})
+    insert into bbd_pub_company_ex_item_pre (nbxh, company_name, del_flag, 
+      company_property, annual_num, instantly_num, 
+      annual_ex_types, ins_ex_types, annual_ex_modules, 
+      annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num, 
+      ex_modules_num, num, annual_cmp_time, 
+      instantly_cmp_time, region, primary_industry, 
+      gmt_create, gmt_modified)
+    values (#{nbxh,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{delFlag,jdbcType=TINYINT}, 
+      #{companyProperty,jdbcType=TINYINT}, #{annualNum,jdbcType=INTEGER}, #{instantlyNum,jdbcType=INTEGER}, 
+      #{annualExTypes,jdbcType=INTEGER}, #{insExTypes,jdbcType=INTEGER}, #{annualExModules,jdbcType=INTEGER}, 
+      #{annualExModulesNum,jdbcType=INTEGER}, #{insExModules,jdbcType=INTEGER}, #{insExModulesNum,jdbcType=INTEGER}, 
+      #{exModulesNum,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{annualCmpTime,jdbcType=TIMESTAMP}, 
+      #{instantlyCmpTime,jdbcType=TIMESTAMP}, #{region,jdbcType=VARCHAR}, #{primaryIndustry,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.bbd.domain.CompanyExItemPre">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -142,6 +143,9 @@
       </if>
       <if test="companyName != null">
         company_name,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
       </if>
       <if test="companyProperty != null">
         company_property,
@@ -201,6 +205,9 @@
       </if>
       <if test="companyName != null">
         #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="companyProperty != null">
         #{companyProperty,jdbcType=TINYINT},
@@ -267,6 +274,9 @@
       <if test="record.companyName != null">
         company_name = #{record.companyName,jdbcType=VARCHAR},
       </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=TINYINT},
+      </if>
       <if test="record.companyProperty != null">
         company_property = #{record.companyProperty,jdbcType=TINYINT},
       </if>
@@ -328,6 +338,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       nbxh = #{record.nbxh,jdbcType=VARCHAR},
       company_name = #{record.companyName,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=TINYINT},
       company_property = #{record.companyProperty,jdbcType=TINYINT},
       annual_num = #{record.annualNum,jdbcType=INTEGER},
       instantly_num = #{record.instantlyNum,jdbcType=INTEGER},
@@ -357,6 +368,9 @@
       </if>
       <if test="companyName != null">
         company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="companyProperty != null">
         company_property = #{companyProperty,jdbcType=TINYINT},
@@ -416,6 +430,7 @@
     update bbd_pub_company_ex_item_pre
     set nbxh = #{nbxh,jdbcType=VARCHAR},
       company_name = #{companyName,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=TINYINT},
       company_property = #{companyProperty,jdbcType=TINYINT},
       annual_num = #{annualNum,jdbcType=INTEGER},
       instantly_num = #{instantlyNum,jdbcType=INTEGER},

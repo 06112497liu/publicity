@@ -5,6 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="nbxh" jdbcType="VARCHAR" property="nbxh" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
     <result column="company_property" jdbcType="TINYINT" property="companyProperty" />
     <result column="annual_num" jdbcType="INTEGER" property="annualNum" />
     <result column="instantly_num" jdbcType="INTEGER" property="instantlyNum" />
@@ -18,10 +19,10 @@
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="annual_cmp_time" jdbcType="TIMESTAMP" property="annualCmpTime" />
     <result column="instantly_cmp_time" jdbcType="TIMESTAMP" property="instantlyCmpTime" />
-    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="region" jdbcType="VARCHAR" property="region" />
     <result column="primary_industry" jdbcType="VARCHAR" property="primaryIndustry" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,16 +83,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, nbxh, company_name, company_property, annual_num, instantly_num, annual_ex_types, 
+    id, nbxh, company_name, del_flag, company_property, annual_num, instantly_num, annual_ex_types, 
     ins_ex_types, annual_ex_modules, annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num, 
-    ex_modules_num, num, annual_cmp_time, instantly_cmp_time, gmt_create, gmt_modified, 
-    region, primary_industry
-  </sql>
-  <sql id="Base_Column_List2">
-    a.id, a.nbxh, company_name, company_property, annual_num, instantly_num, annual_ex_types,
-    ins_ex_types, annual_ex_modules, annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num,
-    ex_modules_num, num, annual_cmp_time, instantly_cmp_time, a.gmt_create, a.gmt_modified,
-    region, primary_industry
+    ex_modules_num, num, annual_cmp_time, instantly_cmp_time, region, primary_industry, 
+    gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.bbd.domain.CompanyExItemExample" resultMap="BaseResultMap">
     select
@@ -122,20 +117,20 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into bbd_pub_company_ex_item (nbxh, company_name, company_property, 
-      annual_num, instantly_num, annual_ex_types, 
-      ins_ex_types, annual_ex_modules, annual_ex_modules_num, 
-      ins_ex_modules, ins_ex_modules_num, ex_modules_num, 
-      num, annual_cmp_time, instantly_cmp_time, 
-      gmt_create, gmt_modified, region, 
-      primary_industry)
-    values (#{nbxh,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{companyProperty,jdbcType=TINYINT}, 
-      #{annualNum,jdbcType=INTEGER}, #{instantlyNum,jdbcType=INTEGER}, #{annualExTypes,jdbcType=INTEGER}, 
-      #{insExTypes,jdbcType=INTEGER}, #{annualExModules,jdbcType=INTEGER}, #{annualExModulesNum,jdbcType=INTEGER}, 
-      #{insExModules,jdbcType=INTEGER}, #{insExModulesNum,jdbcType=INTEGER}, #{exModulesNum,jdbcType=INTEGER}, 
-      #{num,jdbcType=INTEGER}, #{annualCmpTime,jdbcType=TIMESTAMP}, #{instantlyCmpTime,jdbcType=TIMESTAMP}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{region,jdbcType=VARCHAR}, 
-      #{primaryIndustry,jdbcType=VARCHAR})
+    insert into bbd_pub_company_ex_item (nbxh, company_name, del_flag, 
+      company_property, annual_num, instantly_num, 
+      annual_ex_types, ins_ex_types, annual_ex_modules, 
+      annual_ex_modules_num, ins_ex_modules, ins_ex_modules_num, 
+      ex_modules_num, num, annual_cmp_time, 
+      instantly_cmp_time, region, primary_industry, 
+      gmt_create, gmt_modified)
+    values (#{nbxh,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{delFlag,jdbcType=TINYINT}, 
+      #{companyProperty,jdbcType=TINYINT}, #{annualNum,jdbcType=INTEGER}, #{instantlyNum,jdbcType=INTEGER}, 
+      #{annualExTypes,jdbcType=INTEGER}, #{insExTypes,jdbcType=INTEGER}, #{annualExModules,jdbcType=INTEGER}, 
+      #{annualExModulesNum,jdbcType=INTEGER}, #{insExModules,jdbcType=INTEGER}, #{insExModulesNum,jdbcType=INTEGER}, 
+      #{exModulesNum,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{annualCmpTime,jdbcType=TIMESTAMP}, 
+      #{instantlyCmpTime,jdbcType=TIMESTAMP}, #{region,jdbcType=VARCHAR}, #{primaryIndustry,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.bbd.domain.CompanyExItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -148,6 +143,9 @@
       </if>
       <if test="companyName != null">
         company_name,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
       </if>
       <if test="companyProperty != null">
         company_property,
@@ -188,17 +186,17 @@
       <if test="instantlyCmpTime != null">
         instantly_cmp_time,
       </if>
-      <if test="gmtCreate != null">
-        gmt_create,
-      </if>
-      <if test="gmtModified != null">
-        gmt_modified,
-      </if>
       <if test="region != null">
         region,
       </if>
       <if test="primaryIndustry != null">
         primary_industry,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -207,6 +205,9 @@
       </if>
       <if test="companyName != null">
         #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="companyProperty != null">
         #{companyProperty,jdbcType=TINYINT},
@@ -247,17 +248,17 @@
       <if test="instantlyCmpTime != null">
         #{instantlyCmpTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtCreate != null">
-        #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null">
-        #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
       <if test="region != null">
         #{region,jdbcType=VARCHAR},
       </if>
       <if test="primaryIndustry != null">
         #{primaryIndustry,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -272,6 +273,9 @@
       </if>
       <if test="record.companyName != null">
         company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=TINYINT},
       </if>
       <if test="record.companyProperty != null">
         company_property = #{record.companyProperty,jdbcType=TINYINT},
@@ -312,17 +316,17 @@
       <if test="record.instantlyCmpTime != null">
         instantly_cmp_time = #{record.instantlyCmpTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.gmtCreate != null">
-        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.gmtModified != null">
-        gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.region != null">
         region = #{record.region,jdbcType=VARCHAR},
       </if>
       <if test="record.primaryIndustry != null">
         primary_industry = #{record.primaryIndustry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModified != null">
+        gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -334,6 +338,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       nbxh = #{record.nbxh,jdbcType=VARCHAR},
       company_name = #{record.companyName,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=TINYINT},
       company_property = #{record.companyProperty,jdbcType=TINYINT},
       annual_num = #{record.annualNum,jdbcType=INTEGER},
       instantly_num = #{record.instantlyNum,jdbcType=INTEGER},
@@ -347,10 +352,10 @@
       num = #{record.num,jdbcType=INTEGER},
       annual_cmp_time = #{record.annualCmpTime,jdbcType=TIMESTAMP},
       instantly_cmp_time = #{record.instantlyCmpTime,jdbcType=TIMESTAMP},
-      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
       region = #{record.region,jdbcType=VARCHAR},
-      primary_industry = #{record.primaryIndustry,jdbcType=VARCHAR}
+      primary_industry = #{record.primaryIndustry,jdbcType=VARCHAR},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -363,6 +368,9 @@
       </if>
       <if test="companyName != null">
         company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="companyProperty != null">
         company_property = #{companyProperty,jdbcType=TINYINT},
@@ -403,17 +411,17 @@
       <if test="instantlyCmpTime != null">
         instantly_cmp_time = #{instantlyCmpTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null">
-        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
       <if test="region != null">
         region = #{region,jdbcType=VARCHAR},
       </if>
       <if test="primaryIndustry != null">
         primary_industry = #{primaryIndustry,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -422,6 +430,7 @@
     update bbd_pub_company_ex_item
     set nbxh = #{nbxh,jdbcType=VARCHAR},
       company_name = #{companyName,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=TINYINT},
       company_property = #{companyProperty,jdbcType=TINYINT},
       annual_num = #{annualNum,jdbcType=INTEGER},
       instantly_num = #{instantlyNum,jdbcType=INTEGER},
@@ -435,10 +444,10 @@
       num = #{num,jdbcType=INTEGER},
       annual_cmp_time = #{annualCmpTime,jdbcType=TIMESTAMP},
       instantly_cmp_time = #{instantlyCmpTime,jdbcType=TIMESTAMP},
-      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       region = #{region,jdbcType=VARCHAR},
-      primary_industry = #{primaryIndustry,jdbcType=VARCHAR}
+      primary_industry = #{primaryIndustry,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByExampleWithPageBounds" parameterType="com.bbd.domain.CompanyExItemExample" resultMap="BaseResultMap">
@@ -452,22 +461,6 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExampleWithPageBounds2" parameterType="com.bbd.domain.CompanyExItemExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List2" />
-    from bbd_pub_company_ex_item a left join bbd_deleted_company_record b on a.nbxh = b.nbxh
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    and b.nbxh is null 
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>

@@ -25,7 +25,7 @@ public class RecordDeletedCompanyJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         logger.info("Execute RecordDeletedCompanyJob");
-        recordService.recordDeletedCompany();
+        recordService.updateDelFlag();
         logger.info("RecordDeletedCompanyJob end");
     }
 }

@@ -37,37 +37,36 @@
     </update>
 
     <select id="queryAnnualByParam" resultType="java.lang.String">
-		select a.nbxh
-		from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
-		on a.nbxh = b.nbxh
-		where a.annual_num &gt; 0
-		and b.nbxh is null
+		select nbxh
+		from bbd_pub_company_ex_item
+		where del_flag = 0
+		and annual_num &gt; 0
 		<if test="region != null">
-			and a.region = #{region}
+			and region = #{region}
 		</if>
 		<if test="primaryIndustry != null">
-			and a.primary_industry = #{primaryIndustry}
+			and primary_industry = #{primaryIndustry}
 		</if>
 		<if test="moduleType != 0">
-			and (a.annual_ex_modules div #{moduleType}) mod 2 = 1
+			and (annual_ex_modules div #{moduleType}) mod 2 = 1
 		</if>
 		<if test="exType != 0">
-			and (a.annual_ex_types div #{exType} mod 2 = 1)
+			and (annual_ex_types div #{exType} mod 2 = 1)
 		</if>
 		order by
 		<if test="sortType == 1">
-			a.annual_num ${sort}, a.id ${sort}
+			annual_num ${sort}, id ${sort}
 		</if>
 		<if test="sortType == 2">
-			a.annual_ex_modules_num ${sort}, a.id ${sort}
+			annual_ex_modules_num ${sort}, id ${sort}
 		</if>
     </select>
 
     <select id="queryInstantlyByParam" resultType="java.lang.String">
-        select a.nbxh
-        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
-		on a.nbxh = b.nbxh
-        where instantly_num &gt; 0
+        select nbxh
+        from bbd_pub_company_ex_item
+        where del_flag = 0
+		and instantly_num &gt; 0
         <if test="region != null">
             and region = #{region}
         </if>
@@ -82,19 +81,18 @@
         </if>
         order by
         <if test="sortType == 1">
-            instantly_num ${sort}, a.id ${sort}
+            instantly_num ${sort}, id ${sort}
         </if>
         <if test="sortType == 2">
-            ins_ex_modules_num ${sort}, a.id ${sort}
+            ins_ex_modules_num ${sort}, id ${sort}
         </if>
     </select>
 
     <select id="queryAllByParam" resultType="java.lang.String">
-        select a.nbxh
-        from bbd_pub_company_ex_item a left join bbd_deleted_company_record b
-		on a.nbxh = b.nbxh
-        where num > 0
-		and b.nbxh is null
+        select nbxh
+        from bbd_pub_company_ex_item
+        where del_flag = 0
+		and num > 0
         <if test="region != null">
             and region = #{region}
         </if>
@@ -106,10 +104,10 @@
         </if>
         order by
         <if test="sortType == 1">
-            num ${sort}, a.id ${sort}
+            num ${sort}, id ${sort}
         </if>
         <if test="sortType == 2">
-            ex_modules_num ${sort}, a.id ${sort}
+            ex_modules_num ${sort}, id ${sort}
         </if>
     </select>
 
