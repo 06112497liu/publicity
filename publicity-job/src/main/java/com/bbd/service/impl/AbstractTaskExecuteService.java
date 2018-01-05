@@ -9,6 +9,7 @@ import com.bbd.domain.PubCompanyInfo;
 import com.bbd.service.ICompanyService;
 import com.bbd.service.ICompareTaskService;
 import com.bbd.service.ITaskExecuteService;
+import com.bbd.util.RemoteConfigUtil;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,8 +31,11 @@ public abstract class AbstractTaskExecuteService implements ITaskExecuteService 
     @Autowired
     protected ICompareTaskService compareTaskService;
 
-
-    private ExecutorService executorService = Executors.newFixedThreadPool(4);
+    private static Integer corePoolSize;
+    static {
+        corePoolSize = Integer.parseInt(RemoteConfigUtil.get("thread.corePoolSize"));
+    }
+    private ExecutorService executorService = Executors.newFixedThreadPool(corePoolSize);
 
     @Override
     public void excuteCompareTask(Long taskId) {
